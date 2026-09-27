@@ -3,7 +3,12 @@ import { getHrThreshold, setHrThreshold } from '../db/repositories';
 import type { Contact, DailyLog, ListItem, Substance } from '../db/types';
 import { toDateKey } from './dates';
 
-export interface AnclaExport {
+/**
+ * Formato del archivo de respaldo (.json) que se descarga desde la app.
+ * Cambiar el nombre de un campo puede impedir que se importen los respaldos
+ * que la gente ya descargó.
+ */
+export interface BackupExport {
   version: 1;
   exportedAt: string;
   substances: Substance[];
@@ -14,7 +19,7 @@ export interface AnclaExport {
   hrThreshold: number;
 }
 
-function isValidExport(data: unknown): data is AnclaExport {
+function isValidExport(data: unknown): data is BackupExport {
   if (typeof data !== 'object' || data === null) return false;
   const candidate = data as Record<string, unknown>;
   return (
@@ -27,7 +32,7 @@ function isValidExport(data: unknown): data is AnclaExport {
   );
 }
 
-async function buildExport(): Promise<AnclaExport> {
+async function buildExport(): Promise<BackupExport> {
   const [substances, dailyLogs, contacts, habits, triggers, hrThreshold] = await Promise.all([
     db.substances.toArray(),
     db.dailyLogs.toArray(),
