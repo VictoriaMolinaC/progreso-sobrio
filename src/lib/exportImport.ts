@@ -3,6 +3,11 @@ import { getHrThreshold, setHrThreshold } from '../db/repositories';
 import type { Contact, DailyLog, ListItem, Substance } from '../db/types';
 import { toDateKey } from './dates';
 
+/**
+ * Formato del archivo de respaldo (.json) que se descarga desde la app.
+ * Cambiar el nombre de un campo puede impedir que se importen los respaldos
+ * que la gente ya descargó.
+ */
 export interface BackupExport {
   version: 1;
   exportedAt: string;
