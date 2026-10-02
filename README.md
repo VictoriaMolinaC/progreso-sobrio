@@ -1,10 +1,18 @@
 # Progreso Sobrio
 
+<p align="center">
+<img src=".github/banner.png" alt="Progreso Sobrio: app open source, 100% offline, para acompañar la abstinencia de sustancias">
+</p>
+
 Acompaña el día a día de una persona en proceso de abstinencia de sustancias, sin juzgar, sin dar diagnósticos, un día a la vez.
 
 > Progreso Sobrio es para personas mayores de 18 años y no reemplaza atención médica ni psicológica profesional. Si estás en crisis, comunícate con la línea **1412** de SENDA (Chile), gratuita y confidencial las 24 horas.
 
 **Demo:** [progreso-sobrio.vercel.app](https://progreso-sobrio.vercel.app) — al abrirla por primera vez ves datos de ejemplo, para que puedas explorar la app antes de cargar los tuyos.
+
+**¿Usas la app o acompañas a alguien en recuperación?** Tu opinión guía lo que viene. Cuéntanos en este [formulario anónimo](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform) (no pedimos nombre ni correo).
+
+[![Cuéntanos tu experiencia, anónimo](https://img.shields.io/badge/Cu%C3%A9ntanos_tu_experiencia-an%C3%B3nimo-5B8C73?style=for-the-badge)](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform)
 
 ## Privacidad primero
 
@@ -12,6 +20,12 @@ Acompaña el día a día de una persona en proceso de abstinencia de sustancias,
 - **Sin backend, sin servidor externo.** Todos los datos se guardan solo en tu navegador (IndexedDB).
 - **Sin analytics, sin llamadas de red con tus datos.** Nada sale de tu dispositivo.
 - Tus datos son tuyos: puedes exportarlos e importarlos cuando quieras.
+
+Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
+
+<p align="center">
+<img src=".github/screenshots/modo-avion.png" width="240" alt="La app funcionando en modo avión, sin conexión a internet">
+</p>
 
 ## Qué hace
 
@@ -30,6 +44,15 @@ Acompaña el día a día de una persona en proceso de abstinencia de sustancias,
 No encontramos una app chilena dedicada a esto. Lo más cercano es la línea/chat 1412 de SENDA y "PlanSobrio", una app de encuentro social para gente sobria en Latinoamérica, pero con otro propósito (no es un tracker diario).
 
 Progreso Sobrio se diferencia por ser open source, una PWA instalable que funciona sin conexión, con profundidad real de correlación entre LPM, sueño, craving y ánimo, soporte para varias sustancias en paralelo, e integración directa con la red de apoyo chilena.
+
+## Por qué no tiene IA
+
+Un contribuidor propuso agregar un agente de IA para resolver dudas y armar recordatorios ([discusión #47](https://github.com/VictoriaMolinaC/progreso-sobrio/discussions/47)). Decidimos que no, por dos razones:
+
+- **Privacidad:** un agente casi siempre envía lo que escribes a un servidor externo, y eso rompe la promesa de que nada sale de tu dispositivo.
+- **Seguridad:** quien usa la app puede estar en su peor día. Ahí la app no improvisa: deriva a la línea 1412 de SENDA.
+
+La parte de los recordatorios sí calzaba, así que la convertimos en el [issue #48](https://github.com/VictoriaMolinaC/progreso-sobrio/issues/48): un recordatorio diario 100% offline, con un texto discreto. ¿Tienes otra mirada? Súmate a la conversación en las [Discusiones](https://github.com/VictoriaMolinaC/progreso-sobrio/discussions).
 
 ## Capturas
 
@@ -97,6 +120,8 @@ Si Progreso Sobrio te sirve y puedes aportar, ayudas a sostener el proyecto. Bas
 ## Cuéntanos tu experiencia
 
 Si Progreso Sobrio te ayudó, puedes contarlo de forma **completamente anónima** (no pedimos nombre ni correo) en [este formulario](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform). Si prefieres escribir directamente, puedes hacerlo a **contacto.progresosobrio@gmail.com**.
+
+[![Cuéntanos tu experiencia, anónimo](https://img.shields.io/badge/Cu%C3%A9ntanos_tu_experiencia-an%C3%B3nimo-5B8C73?style=for-the-badge)](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform)
 
 ## Autora
 
