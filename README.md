@@ -56,43 +56,17 @@ La parte de los recordatorios sí calzaba, así que la convertimos en el [issue 
 
 ## Capturas
 
-Recorrido de 30 segundos por la app: puerta de edad, paneles, registros y gráficas.
-
-https://github.com/user-attachments/assets/80c0d663-ca59-4575-95fd-866ea09e65de
-
-
-Lo primero al abrir: confirmar mayoría de edad. A quien declara ser menor de edad se le muestra la línea 1412.
-
 <p align="center">
-<img src=".github/screenshots/puerta-edad.png" width="240" alt="Pantalla de confirmación de mayoría de edad, modo claro">
-<img src=".github/screenshots/puerta-edad-dark.png" width="240" alt="Pantalla de confirmación de mayoría de edad, modo oscuro">
+<img src=".github/screenshots/capturas-primera-vez.png" alt="Primera vez: puerta de edad, tour de bienvenida y pantalla de inicio con la racha">
 </p>
 
-Después, un tour de 4 tarjetas explica dónde está cada cosa antes de entrar a la app.
+<p align="center">
+<img src=".github/screenshots/capturas-dia-a-dia.png" alt="Día a día: registro diario, gráficas, calendario y red de apoyo">
+</p>
 
-<table>
-<tr>
-<td><img src=".github/screenshots/tour-bienvenida.png" width="240" alt="Tour de bienvenida, primera tarjeta"></td>
-<td><img src=".github/screenshots/tour-registro.png" width="240" alt="Tour de bienvenida, tarjeta de registro diario"></td>
-</tr>
-<tr>
-<td><img src=".github/screenshots/tour-progreso.png" width="240" alt="Tour de bienvenida, tarjeta de progreso"></td>
-<td><img src=".github/screenshots/tour-apoyo.png" width="240" alt="Tour de bienvenida, tarjeta de red de apoyo"></td>
-</tr>
-</table>
-
-<table>
-<tr>
-<td><img src=".github/screenshots/inicio.png" width="240" alt="Pantalla de inicio con la racha de sobriedad"></td>
-<td><img src=".github/screenshots/registro-diario.png" width="240" alt="Formulario de registro diario"></td>
-<td><img src=".github/screenshots/graficas.png" width="240" alt="Gráficas de LPM, sueño y actividad"></td>
-</tr>
-<tr>
-<td><img src=".github/screenshots/calendario.png" width="240" alt="Calendario con los días registrados"></td>
-<td><img src=".github/screenshots/red-de-apoyo.png" width="240" alt="Panel de red de apoyo con la línea 1412 de SENDA"></td>
-<td><img src=".github/screenshots/habitos-dark.png" width="240" alt="Rachas por hábito, modo oscuro"></td>
-</tr>
-</table>
+<p align="center">
+<img src=".github/screenshots/capturas-modo-oscuro.png" alt="Modo oscuro: puerta de edad, tour de red de apoyo y rachas por hábito">
+</p>
 
 ## Stack técnico
 
