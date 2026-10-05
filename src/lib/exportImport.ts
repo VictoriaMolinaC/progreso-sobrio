@@ -1,5 +1,5 @@
 import { db } from '../db/db';
-import { getHrThreshold, setHrThreshold } from '../db/repositories';
+import { clearDemoSubstanceId, getHrThreshold, setHrThreshold } from '../db/repositories';
 import type { Contact, DailyLog, ListItem, Substance } from '../db/types';
 import { toDateKey } from './dates';
 
@@ -168,6 +168,7 @@ export async function importJson(file: File): Promise<ImportSummary> {
         db.triggers.bulkAdd(data.triggers),
       ]);
       await setHrThreshold(data.hrThreshold ?? 100);
+      await clearDemoSubstanceId();
     },
   );
 

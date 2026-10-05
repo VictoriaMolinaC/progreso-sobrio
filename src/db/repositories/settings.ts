@@ -27,6 +27,13 @@ export const getDemoSubstanceId = () => getSetting<number | null>(DEMO_SUBSTANCE
 
 export const setDemoSubstanceId = (id: number) => setSetting(DEMO_SUBSTANCE_ID_KEY, id);
 
+/**
+ * Olvida cuál era la sustancia de ejemplo. Se usa al restaurar un respaldo:
+ * los ids del archivo se conservan, y si alguno coincide con el de la sustancia
+ * sembrada en este dispositivo, el aviso marcaría como "de ejemplo" datos reales.
+ */
+export const clearDemoSubstanceId = () => db.settings.delete(DEMO_SUBSTANCE_ID_KEY);
+
 export const isDemoBannerDismissed = () => getSetting<boolean>(DEMO_BANNER_DISMISSED_KEY, false);
 
 export const dismissDemoBanner = () => setSetting(DEMO_BANNER_DISMISSED_KEY, true);
