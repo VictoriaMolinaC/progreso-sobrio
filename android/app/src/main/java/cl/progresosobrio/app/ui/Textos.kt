@@ -38,10 +38,12 @@ object Textos {
     fun pulsoMinMaxProm(valor: String) = "Pulso mín / máx / promedio: $valor"
     fun ultimaMedicion(valor: String) = "Última medición: $valor"
     fun sueno(valor: String) = "Sueño: $valor"
+    fun pulsoSueno(valor: String) = "Pulso durante el sueño: $valor"
     fun fuente(valor: String) = "Fuente: $valor"
 
     // --- Unidades ---
     fun lpm(valor: String) = "$valor lpm"
     fun lpmALas(valor: String, hora: String) = "$valor lpm a las $hora"
+    fun minYPromedio(min: String, promedio: String) = "mín $min / promedio $promedio lpm"
     fun horas(valor: String) = "$valor h"
 }

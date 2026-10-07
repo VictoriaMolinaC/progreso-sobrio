@@ -209,6 +209,7 @@ private fun Resultado(data: DayHealthData) {
         Tarjeta(Textos.pulsoMinMaxProm(formatearMinMaxProm(data)))
         Tarjeta(Textos.ultimaMedicion(formatearUltimaMedicion(data)))
         Tarjeta(Textos.sueno(data.sleepMinutes?.let { formatearHoras(it) } ?: Textos.SIN_DATO))
+        Tarjeta(Textos.pulsoSueno(formatearPulsoSueno(data)))
         Tarjeta(Textos.fuente(if (fuentes.isEmpty()) Textos.SIN_DATO else fuentes.joinToString(", ")))
     }
 }
@@ -241,6 +242,13 @@ private fun formatearUltimaMedicion(data: DayHealthData): String {
     val momento = data.lastBpmTime ?: return Textos.lpm(bpm.toString())
     val hora = formatoHora.format(momento.atZone(ZoneId.systemDefault()))
     return Textos.lpmALas(bpm.toString(), hora)
+}
+
+// "mín 47 / promedio 55 lpm". Los dos salen de las mismas muestras: si falta uno, "sin dato".
+private fun formatearPulsoSueno(data: DayHealthData): String {
+    val min = data.sleepMinBpm ?: return Textos.SIN_DATO
+    val promedio = data.sleepAvgBpm ?: return Textos.SIN_DATO
+    return Textos.minYPromedio(min.toString(), promedio.toString())
 }
 
 // 372 minutos → "6,2 h" (con coma decimal).

@@ -16,10 +16,13 @@ data class DayHealthData(
     val lastBpm: Int?,          // última medición del día
     val lastBpmTime: Instant?,  // momento de esa última medición
     val sleepMinutes: Long?,    // minutos de sueño que terminaron ese día
+    val sleepMinBpm: Int?,      // pulso mínimo mientras dormía (muestras reales dentro de las sesiones)
+    val sleepAvgBpm: Int?,      // pulso promedio mientras dormía
     val sources: Set<String>,   // packageName de las apps que escribieron los datos
 ) {
     /** true si no llegó ningún dato de ese día. */
     val isEmpty: Boolean
         get() = restingBpm == null && minBpm == null && maxBpm == null &&
-            avgBpm == null && lastBpm == null && sleepMinutes == null
+            avgBpm == null && lastBpm == null && sleepMinutes == null &&
+            sleepMinBpm == null && sleepAvgBpm == null
 }

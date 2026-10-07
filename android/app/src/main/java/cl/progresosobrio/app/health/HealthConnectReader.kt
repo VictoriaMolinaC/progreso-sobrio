@@ -72,10 +72,29 @@ class HealthConnectReader(private val context: Context) {
         val previousNoon = date.minusDays(1).atTime(12, 0).atZone(zone).toInstant()
         val sleepSessions = readAll(SleepSessionRecord::class, TimeRangeFilter.between(previousNoon, end))
             .filter { it.endTime >= start && it.endTime < end }
-        val sleepMinutes = sleepMinutesEndingOn(sleepSessions.map { it.startTime to it.endTime }, date, zone)
+        val sessionRanges = sleepSessions.map { it.startTime to it.endTime }
+        val sleepMinutes = sleepMinutesEndingOn(sessionRanges, date, zone)
+
+        // 5) Pulso durante el sueño: una sola lectura desde el inicio de la primera sesión
+        //    hasta el fin de la última (la noche suele empezar el día anterior).
+        //    Ojo: Mi Fitness reescribe registros que se superponen, así que la misma muestra
+        //    puede llegar varias veces. sleepPulse quita las repetidas y se queda solo con
+        //    las muestras que caen dentro de alguna sesión.
+        val sleepHeartRateRecords = if (sessionRanges.isEmpty()) {
+            emptyList()
+        } else {
+            val from = sessionRanges.minOf { it.first }
+            val to = sessionRanges.maxOf { it.second }
+            readAll(HeartRateRecord::class, TimeRangeFilter.between(from, to))
+        }
+        val pulseWhileAsleep = sleepPulse(
+            samples = sleepHeartRateRecords.flatMap { it.samples }.map { it.time to it.beatsPerMinute.toInt() },
+            sessions = sessionRanges,
+        )
 
         // Apps que escribieron estos datos (por ejemplo, Mi Fitness).
-        val records: List<Record> = heartRateRecords + listOfNotNull(resting) + sleepSessions
+        val records: List<Record> =
+            heartRateRecords + listOfNotNull(resting) + sleepSessions + sleepHeartRateRecords
         val sources = records.map { it.metadata.dataOrigin.packageName }.toSet()
 
         return DayHealthData(
@@ -87,6 +106,8 @@ class HealthConnectReader(private val context: Context) {
             lastBpm = lastSample?.beatsPerMinute?.toInt(),
             lastBpmTime = lastSample?.time,
             sleepMinutes = sleepMinutes,
+            sleepMinBpm = pulseWhileAsleep?.minBpm,
+            sleepAvgBpm = pulseWhileAsleep?.avgBpm,
             sources = sources,
         )
     }
