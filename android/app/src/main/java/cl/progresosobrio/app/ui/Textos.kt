@@ -15,9 +15,12 @@ object Textos {
     const val TITULO = "Datos del reloj"
     const val DIA_ANTERIOR = "Día anterior"
     const val DIA_SIGUIENTE = "Día siguiente"
+    fun hoy(fecha: String) = "hoy · $fecha"
     const val BOTON_TRAER = "Traer datos del reloj"
+    const val LEYENDO = "Leyendo…"
 
     const val NECESITAS_HC = "Necesitas Health Connect"
+    const val HC_DESACTUALIZADO = "Health Connect necesita una actualización"
     const val BOTON_INSTALAR_HC = "Instalar Health Connect"
     const val BOTON_ACTUALIZAR_HC = "Actualizar Health Connect"
 
@@ -30,20 +33,26 @@ object Textos {
     const val ERROR_GENERICO = "No se pudieron leer los datos. Intenta de nuevo."
     const val ERROR_PLAY_STORE = "No se pudo abrir Play Store."
 
-    const val PIE = "Nada sale de tu teléfono. Esta app no tiene permiso de internet."
+    const val PRIVACIDAD_RESUMEN = "Nada sale de tu teléfono. Esta app no tiene permiso de internet."
 
     // --- Tarjetas de resultado ---
+    const val PULSO_DEL_DIA = "Pulso del día"
+    const val MIN = "mín"
+    const val MAX = "máx"
+    const val PROMEDIO = "promedio"
+    const val SUENO = "Sueño"
+    const val PULSO_EN_REPOSO = "Pulso en reposo"
+    const val NOTA_REPOSO = "No disponible desde tu pulsera"
     const val SIN_DATO = "sin dato"
-    fun pulsoReposo(valor: String) = "Pulso en reposo: $valor"
-    fun pulsoMinMaxProm(valor: String) = "Pulso mín / máx / promedio: $valor"
+    const val GUION = "—" // se ve en lugar de un número que falta; el lector de pantalla dice "sin dato"
     fun ultimaMedicion(valor: String) = "Última medición: $valor"
-    fun sueno(valor: String) = "Sueño: $valor"
     fun pulsoSueno(valor: String) = "Pulso durante el sueño: $valor"
     fun fuente(valor: String) = "Fuente: $valor"
 
     // --- Unidades ---
-    fun lpm(valor: String) = "$valor lpm"
-    fun lpmALas(valor: String, hora: String) = "$valor lpm a las $hora"
-    fun minYPromedio(min: String, promedio: String) = "mín $min / promedio $promedio lpm"
-    fun horas(valor: String) = "$valor h"
+    const val LPM = "lpm"
+    const val HORAS = "h"
+    fun lpm(valor: String) = "$valor $LPM"
+    fun lpmALas(valor: String, hora: String) = "$valor $LPM a las $hora"
+    fun minYPromedio(min: String, promedio: String) = "mín $min · promedio $promedio $LPM"
 }

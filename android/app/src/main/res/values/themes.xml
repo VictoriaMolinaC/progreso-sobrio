@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.ProgresoSobrio" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Fondo de la ventana mientras Compose aún no dibuja: el mismo crema de la app.
+         En modo oscuro se usa values-night/themes.xml, así no hay destello blanco al abrir. -->
+    <color name="fondo_ventana">#FAF6F0</color>
+
+    <style name="Theme.ProgresoSobrio" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/fondo_ventana</item>
+    </style>
 </resources>

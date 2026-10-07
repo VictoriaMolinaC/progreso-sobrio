@@ -7,21 +7,30 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,11 +40,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
+import cl.progresosobrio.app.R
 import cl.progresosobrio.app.health.DayHealthData
 import cl.progresosobrio.app.health.HealthConnectReader
 import kotlinx.coroutines.CancellationException
@@ -130,94 +146,308 @@ fun WatchTestScreen() {
         estado = Estado.Idle
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            Text(
-                Textos.PIE,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(16.dp),
-            )
-        },
-    ) { innerPadding ->
+    val cargando = estado == Estado.Loading
+
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            // --- Cabecera ---
             Text(Textos.TITULO, style = MaterialTheme.typography.headlineSmall)
+            SelectorDeDia(
+                dia = dia,
+                hoy = hoy,
+                habilitado = !cargando,
+                onCambiar = { cambiarDia(it) },
+            )
+            BotonTraer(cargando = cargando, onClick = { traerDatos() })
+            Spacer(Modifier.size(4.dp))
 
-            // Selector de día: hasta 7 días atrás, nunca el futuro.
-            val cargando = estado == Estado.Loading
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                TextButton(
-                    onClick = { cambiarDia(dia.minusDays(1)) },
-                    enabled = !cargando && dia.isAfter(hoy.minusDays(MAX_DIAS_ATRAS)),
-                    modifier = Modifier.semantics { contentDescription = Textos.DIA_ANTERIOR },
-                ) { Text("←", style = MaterialTheme.typography.titleLarge) }
-
-                Text(formatearDia(dia), style = MaterialTheme.typography.titleMedium)
-
-                TextButton(
-                    onClick = { cambiarDia(dia.plusDays(1)) },
-                    enabled = !cargando && dia.isBefore(hoy),
-                    modifier = Modifier.semantics { contentDescription = Textos.DIA_SIGUIENTE },
-                ) { Text("→", style = MaterialTheme.typography.titleLarge) }
-            }
-
-            Button(onClick = { traerDatos() }, enabled = !cargando) {
-                Text(Textos.BOTON_TRAER)
-            }
-
+            // --- Contenido según el estado ---
             when (val e = estado) {
-                Estado.Idle -> Unit
-                Estado.Loading -> CircularProgressIndicator()
-                Estado.HcNotInstalled -> {
-                    Text(Textos.NECESITAS_HC)
-                    OutlinedButton(onClick = { abrirPlayStore() }) { Text(Textos.BOTON_INSTALAR_HC) }
-                }
-                Estado.HcUpdateRequired -> {
-                    OutlinedButton(onClick = { abrirPlayStore() }) { Text(Textos.BOTON_ACTUALIZAR_HC) }
-                }
-                Estado.PermissionDenied -> {
-                    Text(Textos.SIN_PERMISO)
-                    OutlinedButton(onClick = { pedirPermisos.launch(reader.permissions) }) {
-                        Text(Textos.BOTON_PEDIR_PERMISOS)
-                    }
-                    Text(Textos.NOTA_PERMISOS, style = MaterialTheme.typography.bodySmall)
-                }
-                Estado.NoData -> Text(Textos.SIN_DATOS_DEL_DIA)
-                is Estado.Error -> Text(e.mensaje, color = MaterialTheme.colorScheme.error)
+                Estado.Idle, Estado.Loading -> Unit
+                Estado.HcNotInstalled -> TarjetaMensaje(
+                    texto = Textos.NECESITAS_HC,
+                    boton = Textos.BOTON_INSTALAR_HC,
+                    onBoton = { abrirPlayStore() },
+                )
+                Estado.HcUpdateRequired -> TarjetaMensaje(
+                    texto = Textos.HC_DESACTUALIZADO,
+                    boton = Textos.BOTON_ACTUALIZAR_HC,
+                    onBoton = { abrirPlayStore() },
+                )
+                Estado.PermissionDenied -> TarjetaMensaje(
+                    texto = Textos.SIN_PERMISO,
+                    boton = Textos.BOTON_PEDIR_PERMISOS,
+                    onBoton = { pedirPermisos.launch(reader.permissions) },
+                    nota = Textos.NOTA_PERMISOS,
+                )
+                Estado.NoData -> TarjetaMensaje(texto = Textos.SIN_DATOS_DEL_DIA)
+                is Estado.Error -> TarjetaMensaje(texto = e.mensaje) // sin rojo: no es una alarma
                 is Estado.Loaded -> Resultado(e.data)
             }
+
+            // --- Privacidad ---
+            Spacer(Modifier.size(4.dp))
+            BloquePrivacidad()
         }
     }
 }
 
-/** Las tarjetas con los datos del día. Todo lo que sea null se muestra como "sin dato". */
-@Composable
-private fun Resultado(data: DayHealthData) {
-    val context = LocalContext.current
-    val fuentes = data.sources.map { nombreDeApp(context, it) }.distinct().sorted()
+// --- Cabecera ---
 
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Tarjeta(Textos.pulsoReposo(data.restingBpm?.let { Textos.lpm(it.toString()) } ?: Textos.SIN_DATO))
-        Tarjeta(Textos.pulsoMinMaxProm(formatearMinMaxProm(data)))
-        Tarjeta(Textos.ultimaMedicion(formatearUltimaMedicion(data)))
-        Tarjeta(Textos.sueno(data.sleepMinutes?.let { formatearHoras(it) } ?: Textos.SIN_DATO))
-        Tarjeta(Textos.pulsoSueno(formatearPulsoSueno(data)))
-        Tarjeta(Textos.fuente(if (fuentes.isEmpty()) Textos.SIN_DATO else fuentes.joinToString(", ")))
+/** Flechas y fecha al medio. Hasta 7 días atrás, nunca el futuro. */
+@Composable
+private fun SelectorDeDia(
+    dia: LocalDate,
+    hoy: LocalDate,
+    habilitado: Boolean,
+    onCambiar: (LocalDate) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        IconButton(
+            onClick = { onCambiar(dia.minusDays(1)) },
+            enabled = habilitado && dia.isAfter(hoy.minusDays(MAX_DIAS_ATRAS)),
+        ) {
+            Icon(painterResource(R.drawable.ic_chevron_left), contentDescription = Textos.DIA_ANTERIOR)
+        }
+
+        // Ancho mínimo fijo para que las flechas no salten al cambiar el largo de la fecha.
+        Text(
+            text = if (dia == hoy) Textos.hoy(formatearDia(dia)) else formatearDia(dia),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.widthIn(min = 168.dp),
+        )
+
+        IconButton(
+            onClick = { onCambiar(dia.plusDays(1)) },
+            enabled = habilitado && dia.isBefore(hoy),
+        ) {
+            Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = Textos.DIA_SIGUIENTE)
+        }
     }
 }
 
+/** Acción principal, de ancho completo. Mientras lee dice "Leyendo…" y no se puede tocar. */
 @Composable
-private fun Tarjeta(texto: String) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Text(texto, modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.bodyLarge)
+private fun BotonTraer(cargando: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        enabled = !cargando,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp),
+        shape = MaterialTheme.shapes.medium,
+        colors = ButtonDefaults.buttonColors(
+            // Deshabilitado con colores legibles (los de Material por defecto son muy tenues).
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
+    ) {
+        if (cargando) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(18.dp),
+                strokeWidth = 2.dp,
+                color = LocalContentColor.current,
+            )
+            Spacer(Modifier.width(12.dp))
+            Text(Textos.LEYENDO)
+        } else {
+            Text(Textos.BOTON_TRAER)
+        }
+    }
+}
+
+// --- Tarjetas ---
+
+/** Tarjeta base: esquinas de 20 dp, levemente elevada. */
+@Composable
+private fun Tarjeta(contenido: @Composable ColumnScope.() -> Unit) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            content = contenido,
+        )
+    }
+}
+
+/** Estados sin datos / sin permiso / sin Health Connect / error: mensaje centrado y botón debajo. */
+@Composable
+private fun TarjetaMensaje(
+    texto: String,
+    boton: String? = null,
+    onBoton: () -> Unit = {},
+    nota: String? = null,
+) {
+    Tarjeta {
+        Text(
+            texto,
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        if (boton != null) {
+            FilledTonalButton(
+                onClick = onBoton,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .heightIn(min = 48.dp)
+                    .align(Alignment.CenterHorizontally),
+            ) { Text(boton) }
+        }
+        if (nota != null) {
+            Text(
+                nota,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+/** Los datos del día. Todo lo que sea null se muestra suave ("—" o "sin dato"), nunca como error. */
+@Composable
+private fun Resultado(data: DayHealthData) {
+    val context = LocalContext.current
+    val suave = MaterialTheme.colorScheme.onSurfaceVariant
+    val fuentes = data.sources.map { nombreDeApp(context, it) }.distinct().sorted()
+
+    // Pulso del día: mín / máx / promedio en tres columnas.
+    Tarjeta {
+        TituloTarjeta(Textos.PULSO_DEL_DIA)
+        Row(modifier = Modifier.fillMaxWidth()) {
+            ValorEnColumna(Textos.MIN, data.minBpm, Modifier.weight(1f))
+            ValorEnColumna(Textos.MAX, data.maxBpm, Modifier.weight(1f))
+            ValorEnColumna(Textos.PROMEDIO, data.avgBpm, Modifier.weight(1f))
+        }
+        Text(
+            Textos.ultimaMedicion(formatearUltimaMedicion(data)),
+            color = if (data.lastBpm == null) suave else MaterialTheme.colorScheme.onSurface,
+        )
+    }
+
+    // Sueño: horas en grande y el pulso durante el sueño debajo.
+    Tarjeta {
+        TituloTarjeta(Textos.SUENO)
+        val minutos = data.sleepMinutes
+        if (minutos != null) ValorGrande(formatearHoras(minutos), Textos.HORAS) else SinDato()
+        Text(
+            Textos.pulsoSueno(formatearPulsoSueno(data)),
+            color = if (data.sleepMinBpm == null) suave else MaterialTheme.colorScheme.onSurface,
+        )
+    }
+
+    // Pulso en reposo: dato distinto, no se mezcla con el del sueño.
+    Tarjeta {
+        TituloTarjeta(Textos.PULSO_EN_REPOSO)
+        val reposo = data.restingBpm
+        if (reposo != null) {
+            ValorGrande(reposo.toString(), Textos.LPM)
+        } else {
+            SinDato()
+            Text(Textos.NOTA_REPOSO, color = suave)
+        }
+    }
+
+    // Fuente: línea discreta.
+    Text(
+        Textos.fuente(if (fuentes.isEmpty()) Textos.SIN_DATO else fuentes.joinToString(", ")),
+        style = MaterialTheme.typography.labelMedium,
+        color = suave,
+        modifier = Modifier.padding(horizontal = 4.dp),
+    )
+}
+
+@Composable
+private fun TituloTarjeta(texto: String) {
+    Text(texto, style = MaterialTheme.typography.titleMedium)
+}
+
+/** Nombre pequeño arriba y valor grande abajo. Si falta, un guion suave. */
+@Composable
+private fun ValorEnColumna(etiqueta: String, valor: Int?, modifier: Modifier) {
+    // mergeDescendants: el lector de pantalla lee la columna completa, por ejemplo "mín, 47 lpm".
+    Column(modifier = modifier.semantics(mergeDescendants = true) {}) {
+        Text(
+            etiqueta,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        if (valor != null) {
+            ValorGrande(valor.toString(), Textos.LPM)
+        } else {
+            Text(
+                Textos.GUION,
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.semantics { contentDescription = Textos.SIN_DATO },
+            )
+        }
+    }
+}
+
+/** Valor grande con la unidad pequeña al lado: "47 lpm", "9,6 h". */
+@Composable
+private fun ValorGrande(valor: String, unidad: String) {
+    val colorUnidad = MaterialTheme.colorScheme.onSurfaceVariant
+    val tamanoUnidad = MaterialTheme.typography.labelLarge.fontSize
+    Text(
+        buildAnnotatedString {
+            append(valor)
+            withStyle(SpanStyle(fontSize = tamanoUnidad, fontWeight = FontWeight.Normal, color = colorUnidad)) {
+                append(" $unidad")
+            }
+        },
+        style = MaterialTheme.typography.headlineLarge,
+    )
+}
+
+/** "sin dato" suave, en el lugar del valor grande. */
+@Composable
+private fun SinDato() {
+    Text(
+        Textos.SIN_DATO,
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+}
+
+/** Bloque de privacidad al final: candado y texto legible, no letra chica. */
+@Composable
+private fun BloquePrivacidad() {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+    ) {
+        Row(
+            modifier = Modifier.padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Icon(
+                painterResource(R.drawable.ic_lock),
+                contentDescription = null, // decorativo: el texto ya lo dice todo
+                tint = MaterialTheme.colorScheme.primary,
+            )
+            Text(Textos.PRIVACIDAD_RESUMEN, style = MaterialTheme.typography.bodyLarge)
+        }
     }
 }
 
@@ -229,13 +459,6 @@ private val formatoHora = DateTimeFormatter.ofPattern("HH:mm", ESPANOL)
 // "mar 6 oct". Java escribe "mar. 6 oct." en español, así que se quitan los puntos.
 private fun formatearDia(dia: LocalDate): String = formatoDia.format(dia).replace(".", "")
 
-// "53 / 115 / 66 lpm". Si falta uno, ese lugar dice "sin dato"; si faltan todos, solo "sin dato".
-private fun formatearMinMaxProm(data: DayHealthData): String {
-    val valores = listOf(data.minBpm, data.maxBpm, data.avgBpm)
-    if (valores.all { it == null }) return Textos.SIN_DATO
-    return Textos.lpm(valores.joinToString(" / ") { it?.toString() ?: Textos.SIN_DATO })
-}
-
 // "96 lpm a las 10:45", en hora local.
 private fun formatearUltimaMedicion(data: DayHealthData): String {
     val bpm = data.lastBpm ?: return Textos.SIN_DATO
@@ -244,16 +467,15 @@ private fun formatearUltimaMedicion(data: DayHealthData): String {
     return Textos.lpmALas(bpm.toString(), hora)
 }
 
-// "mín 47 / promedio 55 lpm". Los dos salen de las mismas muestras: si falta uno, "sin dato".
+// "mín 47 · promedio 55 lpm". Los dos salen de las mismas muestras: si falta uno, "sin dato".
 private fun formatearPulsoSueno(data: DayHealthData): String {
     val min = data.sleepMinBpm ?: return Textos.SIN_DATO
     val promedio = data.sleepAvgBpm ?: return Textos.SIN_DATO
     return Textos.minYPromedio(min.toString(), promedio.toString())
 }
 
-// 372 minutos → "6,2 h" (con coma decimal).
-private fun formatearHoras(minutos: Long): String =
-    Textos.horas(String.format(ESPANOL, "%.1f", minutos / 60.0))
+// 372 minutos → "6,2" (con coma decimal; la unidad "h" se dibuja aparte).
+private fun formatearHoras(minutos: Long): String = String.format(ESPANOL, "%.1f", minutos / 60.0)
 
 // --- Nombre de la app que escribió los datos ---
 
