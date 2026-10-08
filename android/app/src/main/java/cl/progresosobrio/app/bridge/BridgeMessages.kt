@@ -1,7 +1,10 @@
 package cl.progresosobrio.app.bridge
 
+import cl.progresosobrio.app.health.DayHealthData
+import org.json.JSONArray
 import org.json.JSONObject
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeParseException
 
 // Protocolo del puente PWA ↔ Android (v1). Contrato completo en android/PLAN.md, sección 6.
@@ -27,7 +30,12 @@ sealed class BridgeRequest {
     /** Formato correcto pero algún campo inválido: se responde bad_request para que la PWA no quede esperando. */
     data class BadRequest(override val id: String, val type: String) : BridgeRequest()
 
-    enum class Screen(val code: String) { WATCH_TEST("watchTest"), PRIVACY("privacy") }
+    /** Pantallas que la PWA puede abrir. HEALTH_CONNECT abre Play Store para instalarlo o actualizarlo. */
+    enum class Screen(val code: String) {
+        WATCH_TEST("watchTest"),
+        PRIVACY("privacy"),
+        HEALTH_CONNECT("healthConnect"),
+    }
 }
 
 /** Códigos de error hacia la PWA. Nunca se envían mensajes ni trazas. */
@@ -103,6 +111,31 @@ fun capabilitiesResult(id: String, appVersion: String, pwaBuild: String): String
         .put("pwaBuild", pwaBuild)
         .put("protocol", BRIDGE_PROTOCOL_VERSION)
         .toString()
+
+/**
+ * Respuesta a readDay con los datos del día (WatchDayData en la PWA).
+ * Lo que falta viaja como null explícito: nunca se omite ni se estima.
+ * [label] convierte el packageName de cada fuente en un nombre legible ("Mi Fitness").
+ */
+fun readDayOk(id: String, data: DayHealthData, zone: ZoneId, label: (String) -> String): String {
+    val watchDay = JSONObject()
+        .put("date", data.date.toString())
+        .put("restingBpm", data.restingBpm.orJsonNull())
+        .put("minBpm", data.minBpm.orJsonNull())
+        .put("maxBpm", data.maxBpm.orJsonNull())
+        .put("avgBpm", data.avgBpm.orJsonNull())
+        .put("lastBpm", data.lastBpm.orJsonNull())
+        // ISO 8601 con la zona del teléfono, ej. "2026-10-08T15:08-03:00".
+        .put("lastBpmTime", data.lastBpmTime?.atZone(zone)?.toOffsetDateTime()?.toString().orJsonNull())
+        .put("sleepMinutes", data.sleepMinutes.orJsonNull())
+        .put("sleepMinBpm", data.sleepMinBpm.orJsonNull())
+        .put("sleepAvgBpm", data.sleepAvgBpm.orJsonNull())
+        .put("sources", JSONArray(data.sources.map(label).distinct().sorted()))
+    return response(id, "readDayResult", ok = true).put("data", watchDay).toString()
+}
+
+// org.json borra la clave si se le pasa null; JSONObject.NULL la deja presente con valor null.
+private fun Any?.orJsonNull(): Any = this ?: JSONObject.NULL
 
 /** Respuesta a openScreen. */
 fun openScreenResult(id: String, ok: Boolean): String =

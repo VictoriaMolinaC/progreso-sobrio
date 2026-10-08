@@ -1,21 +1,28 @@
 package cl.progresosobrio.app.bridge
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.util.Log
 import android.webkit.WebView
 import androidx.activity.ComponentActivity
+import androidx.health.connect.client.HealthConnectClient
 import androidx.lifecycle.lifecycleScope
 import androidx.webkit.WebMessageCompat
 import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
 import cl.progresosobrio.app.PrivacyActivity
 import cl.progresosobrio.app.WatchTestActivity
+import cl.progresosobrio.app.health.HealthConnectReader
+import cl.progresosobrio.app.health.sourceLabel
 import cl.progresosobrio.app.web.PwaWebView
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.json.JSONObject
+import java.time.ZoneId
 
-// Los logs solo dicen estados, nunca el contenido de los mensajes (un respaldo lleva datos de salud).
+// Los logs solo dicen estados, nunca el contenido de los mensajes ni valores de salud.
 private const val TAG = "Bridge"
 
 /** Nombre del objeto que ve la PWA: window.ProgresoSobrioAndroid. */
@@ -26,9 +33,19 @@ private const val JS_OBJECT_NAME = "ProgresoSobrioAndroid"
  * La PWA envía JSON con window.ProgresoSobrioAndroid.postMessage(...) y recibe la respuesta
  * como evento "message". Solo se aceptan mensajes del origen propio y del marco principal.
  *
- * Por ahora atiende getCapabilities y openScreen; readDay llega en el CP5 y saveFile en el CP6.
+ * Atiende getCapabilities, openScreen y readDay; saveFile llega en el CP6.
+ *
+ * @param requestPermissions abre el diálogo de permisos de Health Connect y devuelve si
+ *   quedaron concedidos los tres.
  */
-class Bridge(private val activity: ComponentActivity) {
+class Bridge(
+    private val activity: ComponentActivity,
+    private val reader: HealthConnectReader,
+    private val requestPermissions: suspend () -> Boolean,
+) {
+
+    // readDay se atiende de a uno: nunca dos diálogos de permisos encima.
+    private val readDayMutex = Mutex()
 
     /**
      * Instala el puente. Debe llamarse antes de loadUrl: el objeto se inyecta al crear la página.
@@ -68,24 +85,56 @@ class Bridge(private val activity: ComponentActivity) {
         reply(respuesta)
     }
 
-    private fun respond(request: BridgeRequest): String = when (request) {
+    private suspend fun respond(request: BridgeRequest): String = when (request) {
         is BridgeRequest.GetCapabilities -> capabilitiesResult(request.id, appVersion(), pwaBuild())
-        is BridgeRequest.OpenScreen -> {
-            openScreen(request.screen)
-            openScreenResult(request.id, ok = true)
-        }
+        is BridgeRequest.OpenScreen -> openScreenResult(request.id, ok = openScreen(request.screen))
+        is BridgeRequest.ReadDay -> readDay(request)
         is BridgeRequest.BadRequest -> errorResult(request.id, request.type, BridgeError.BAD_REQUEST)
-        // Todavía no disponibles: readDay llega en el CP5 y saveFile en el CP6.
-        is BridgeRequest.ReadDay, is BridgeRequest.SaveFile ->
-            errorResult(request.id, request.requestType, BridgeError.UNKNOWN)
+        // Todavía no disponible: saveFile llega en el CP6.
+        is BridgeRequest.SaveFile -> errorResult(request.id, request.requestType, BridgeError.UNKNOWN)
     }
 
-    private fun openScreen(screen: BridgeRequest.Screen) {
-        val destino = when (screen) {
-            BridgeRequest.Screen.WATCH_TEST -> WatchTestActivity::class.java
-            BridgeRequest.Screen.PRIVACY -> PrivacyActivity::class.java
+    /**
+     * Lee un día de Health Connect, en primer plano y a pedido de la persona.
+     * Revisa que Health Connect esté, pide permisos si faltan y responde los datos o un código.
+     */
+    private suspend fun readDay(request: BridgeRequest.ReadDay): String = readDayMutex.withLock {
+        fun error(code: BridgeError) = errorResult(request.id, request.requestType, code)
+
+        when (reader.sdkStatus()) {
+            HealthConnectClient.SDK_AVAILABLE -> Unit
+            HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED -> return@withLock error(BridgeError.HC_UPDATE_REQUIRED)
+            else -> return@withLock error(BridgeError.HC_UNAVAILABLE)
         }
-        activity.startActivity(Intent(activity, destino))
+
+        if (!reader.hasAllPermissions() && !requestPermissions()) {
+            Log.i(TAG, "readDay: sin permiso")
+            return@withLock error(BridgeError.NO_PERMISSION)
+        }
+
+        val data = reader.readDay(request.date)
+        if (data.isEmpty) {
+            Log.i(TAG, "readDay: sin datos")
+            error(BridgeError.NO_DATA)
+        } else {
+            Log.i(TAG, "readDay: datos enviados")
+            readDayOk(request.id, data, ZoneId.systemDefault()) { sourceLabel(activity, it) }
+        }
+    }
+
+    // true si se abrió la pantalla.
+    private fun openScreen(screen: BridgeRequest.Screen): Boolean {
+        val intent = when (screen) {
+            BridgeRequest.Screen.WATCH_TEST -> Intent(activity, WatchTestActivity::class.java)
+            BridgeRequest.Screen.PRIVACY -> Intent(activity, PrivacyActivity::class.java)
+            BridgeRequest.Screen.HEALTH_CONNECT -> reader.playStoreIntent() // instalar o actualizar
+        }
+        return try {
+            activity.startActivity(intent)
+            true
+        } catch (e: ActivityNotFoundException) {
+            false
+        }
     }
 
     @Suppress("DEPRECATION") // getPackageInfo(String, Int) sigue funcionando en todas las versiones

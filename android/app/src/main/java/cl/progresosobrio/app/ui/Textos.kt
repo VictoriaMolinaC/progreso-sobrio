@@ -42,7 +42,7 @@ object Textos {
     const val PULSO_DEL_DIA = "Pulso del día"
     const val MIN = "mín"
     const val MAX = "máx"
-    const val PROMEDIO = "promedio"
+    const val PROMEDIO = "promedio de las mediciones"
     const val SUENO = "Sueño"
     const val PULSO_EN_REPOSO = "Pulso en reposo"
     const val NOTA_REPOSO = "No disponible desde tu pulsera"

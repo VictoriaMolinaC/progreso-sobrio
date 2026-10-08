@@ -4,6 +4,7 @@ import { CheckboxGroup } from '../components/forms/CheckboxGroup';
 import { DateField } from '../components/forms/DateField';
 import { ScaleSelector } from '../components/forms/ScaleSelector';
 import { TextField } from '../components/forms/TextField';
+import { WatchDataPreview } from '../components/registro/WatchDataPreview';
 import { getFirstUsedDate } from '../db/init';
 import {
   getDailyLogByDate,
@@ -14,7 +15,9 @@ import {
   upsertDailyLog,
 } from '../db/repositories';
 import type { DailyLog, Scale1to5 } from '../db/types';
+import { isAndroidBridgeAvailable, type WatchDayData } from '../lib/androidBridge';
 import { toDateKey } from '../lib/dates';
+import { mapWatchDayToForm } from '../lib/watchDayMapping';
 
 interface FormState {
   restingHeartRate: string;
@@ -127,6 +130,14 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
     setIsDirty(true);
   };
 
+  // "Usar estos datos" (solo en la app Android): completa los campos y deja el formulario con
+  // cambios sin guardar. Nada se guarda hasta "Guardar registro".
+  const applyWatchData = (data: WatchDayData) => {
+    setForm((prev) => ({ ...prev, ...mapWatchDayToForm(data, prev) }));
+    setSavedForDate(null);
+    setIsDirty(true);
+  };
+
   const handleDateChange = (newDate: string) => {
     if (isDirty) {
       const confirmed = window.confirm(
@@ -188,6 +199,9 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
           <p className="-mt-2 text-sm text-secondary">Ya existe un registro para este día, se va a actualizar.</p>
         )}
 
+        {/* key={date}: al cambiar de fecha, la vista previa vuelve a empezar (nunca muestra datos de otro día). */}
+        {isAndroidBridgeAvailable() && <WatchDataPreview key={date} date={date} onUse={applyWatchData} />}
+
         <div className="grid grid-cols-3 gap-2">
           <TextField
             label="LPM reposo"
@@ -232,7 +246,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
           <TextField
             label="Horas de sueño"
             type="number"
-            step="0.5"
+            step="0.1"
             min="0"
             value={form.sleepHours}
             onChange={(value) => updateField('sleepHours', value)}

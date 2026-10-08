@@ -1,8 +1,6 @@
 package cl.progresosobrio.app.ui
 
 import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.pm.PackageManager
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
@@ -54,6 +52,7 @@ import androidx.health.connect.client.PermissionController
 import cl.progresosobrio.app.R
 import cl.progresosobrio.app.health.DayHealthData
 import cl.progresosobrio.app.health.HealthConnectReader
+import cl.progresosobrio.app.health.sourceLabel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -325,12 +324,13 @@ private fun TarjetaMensaje(
 private fun Resultado(data: DayHealthData) {
     val context = LocalContext.current
     val suave = MaterialTheme.colorScheme.onSurfaceVariant
-    val fuentes = data.sources.map { nombreDeApp(context, it) }.distinct().sorted()
+    val fuentes = data.sources.map { sourceLabel(context, it) }.distinct().sorted()
 
     // Pulso del día: mín / máx / promedio en tres columnas.
     Tarjeta {
         TituloTarjeta(Textos.PULSO_DEL_DIA)
-        Row(modifier = Modifier.fillMaxWidth()) {
+        // Alineadas por abajo: si una etiqueta ocupa dos líneas, los números quedan a la misma altura.
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
             ValorEnColumna(Textos.MIN, data.minBpm, Modifier.weight(1f))
             ValorEnColumna(Textos.MAX, data.maxBpm, Modifier.weight(1f))
             ValorEnColumna(Textos.PROMEDIO, data.avgBpm, Modifier.weight(1f))
@@ -476,18 +476,3 @@ private fun formatearPulsoSueno(data: DayHealthData): String {
 
 // 372 minutos → "6,2" (con coma decimal; la unidad "h" se dibuja aparte).
 private fun formatearHoras(minutos: Long): String = String.format(ESPANOL, "%.1f", minutos / 60.0)
-
-// --- Nombre de la app que escribió los datos ---
-
-// Nombres conocidos, por si Android no deja ver el nombre de la app.
-private val nombresConocidos = mapOf("com.xiaomi.wearable" to "Mi Fitness")
-
-// Intenta el nombre real de la app; si no, el mapa; si tampoco, el packageName.
-@Suppress("DEPRECATION") // getApplicationInfo(String, Int) sigue funcionando en todas las versiones
-private fun nombreDeApp(context: Context, packageName: String): String =
-    try {
-        val pm = context.packageManager
-        pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString()
-    } catch (e: PackageManager.NameNotFoundException) {
-        nombresConocidos[packageName] ?: packageName
-    }

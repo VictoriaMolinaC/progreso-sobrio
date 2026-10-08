@@ -11,8 +11,11 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.health.connect.client.PermissionController
 import cl.progresosobrio.app.bridge.Bridge
+import cl.progresosobrio.app.health.HealthConnectReader
 import cl.progresosobrio.app.web.PwaWebView
+import kotlinx.coroutines.CompletableDeferred
 
 /**
  * Pantalla principal: la PWA empaquetada en el APK, dentro de un WebView.
@@ -21,6 +24,25 @@ import cl.progresosobrio.app.web.PwaWebView
 class MainActivity : ComponentActivity() {
 
     private var webView: WebView? = null
+
+    private val reader by lazy { HealthConnectReader(applicationContext) }
+
+    // Diálogo de permisos de Health Connect para el puente. Se registra al crear la actividad
+    // (Android lo exige antes de que la pantalla arranque); el puente espera su resultado.
+    private var esperaPermisos: CompletableDeferred<Unit>? = null
+    private val pedirPermisos = registerForActivityResult(
+        PermissionController.createRequestPermissionResultContract()
+    ) { esperaPermisos?.complete(Unit) }
+
+    /** Abre el diálogo de permisos y devuelve si quedaron concedidos los tres. */
+    private suspend fun pedirPermisosDeSalud(): Boolean {
+        val espera = CompletableDeferred<Unit>()
+        esperaPermisos = espera
+        pedirPermisos.launch(reader.permissions)
+        espera.await()
+        esperaPermisos = null
+        return reader.hasAllPermissions()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +90,7 @@ class MainActivity : ComponentActivity() {
         webView = web
 
         // El puente se instala antes de cargar la PWA: el objeto se inyecta al crear la página.
-        Bridge(this).attach(web)
+        Bridge(this, reader, ::pedirPermisosDeSalud).attach(web)
         web.loadUrl(PwaWebView.START_URL)
     }
 

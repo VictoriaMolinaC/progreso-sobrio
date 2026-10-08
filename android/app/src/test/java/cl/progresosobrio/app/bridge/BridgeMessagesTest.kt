@@ -42,7 +42,7 @@ class BridgeMessagesTest {
     }
 
     @Test
-    fun `openScreen válido para las dos pantallas`() {
+    fun `openScreen válido para las tres pantallas`() {
         assertEquals(
             BridgeRequest.OpenScreen("a1", BridgeRequest.Screen.WATCH_TEST),
             parseBridgeRequest(mensaje(""""type":"openScreen","screen":"watchTest"""")),
@@ -50,6 +50,10 @@ class BridgeMessagesTest {
         assertEquals(
             BridgeRequest.OpenScreen("a1", BridgeRequest.Screen.PRIVACY),
             parseBridgeRequest(mensaje(""""type":"openScreen","screen":"privacy"""")),
+        )
+        assertEquals(
+            BridgeRequest.OpenScreen("a1", BridgeRequest.Screen.HEALTH_CONNECT),
+            parseBridgeRequest(mensaje(""""type":"openScreen","screen":"healthConnect"""")),
         )
     }
 

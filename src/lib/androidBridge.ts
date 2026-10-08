@@ -8,7 +8,8 @@
 
 export const BRIDGE_PROTOCOL_VERSION = 1 as const;
 
-export type NativeScreen = 'watchTest' | 'privacy';
+// healthConnect abre Play Store para instalar o actualizar Health Connect.
+export type NativeScreen = 'watchTest' | 'privacy' | 'healthConnect';
 
 // Peticiones PWA → Android
 export type BridgeRequest =
@@ -91,7 +92,18 @@ export async function getCapabilities(): Promise<Capabilities> {
   return { appVersion: response.appVersion, pwaBuild: response.pwaBuild, protocol: response.protocol };
 }
 
-/** Abre una pantalla nativa: diagnóstico del reloj o privacidad de la app. */
+/**
+ * Lee un día desde Health Connect ('YYYY-MM-DD', hora local del teléfono).
+ * Sin tiempo límite: Android puede abrir el diálogo de permisos y esperar a la persona.
+ * Rechaza con AndroidBridgeError (hc_unavailable, no_permission, no_data…).
+ */
+export async function readWatchDay(date: string): Promise<WatchDayData> {
+  const response = await send({ type: 'readDay', date });
+  if (response.type === 'readDayResult' && response.ok) return response.data;
+  throw new AndroidBridgeError('unknown');
+}
+
+/** Abre una pantalla nativa: diagnóstico del reloj, privacidad o Health Connect en Play Store. */
 export async function openNativeScreen(screen: NativeScreen): Promise<void> {
   await send({ type: 'openScreen', screen }, 5000);
 }
