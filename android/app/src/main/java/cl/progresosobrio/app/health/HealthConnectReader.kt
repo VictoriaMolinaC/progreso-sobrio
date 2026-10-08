@@ -73,12 +73,13 @@ class HealthConnectReader(private val context: Context) {
         val resting = readAll(RestingHeartRateRecord::class, dayFilter).maxByOrNull { it.time }
 
         // 4) Sueño: se busca desde el mediodía del día anterior para alcanzar la noche que
-        //    cruza la medianoche. Solo cuentan las sesiones que terminan este día.
+        //    cruza la medianoche. Solo cuentan las sesiones que terminan este día; si traen
+        //    etapas, los tramos despierto no suman.
         val previousNoon = date.minusDays(1).atTime(12, 0).atZone(zone).toInstant()
         val sleepSessions = readAll(SleepSessionRecord::class, TimeRangeFilter.between(previousNoon, end))
             .filter { it.endTime >= start && it.endTime < end }
         val sessionRanges = sleepSessions.map { it.startTime to it.endTime }
-        val sleepMinutes = sleepMinutesEndingOn(sessionRanges, date, zone)
+        val sleepMinutes = sleepMinutesEndingOn(sleepSessions.map { it.toSleepSession() }, date, zone)
 
         // 5) Pulso durante el sueño: una sola lectura desde el inicio de la primera sesión
         //    hasta el fin de la última (la noche suele empezar el día anterior).
@@ -128,6 +129,14 @@ class HealthConnectReader(private val context: Context) {
             putExtra("callerId", context.packageName)
         }
 
+    // Sesión de Health Connect → modelo de SleepMath. Despierto, despierto en cama y fuera de
+    // la cama no cuentan como sueño; las demás etapas (ligero, profundo, REM, sin detalle) sí.
+    private fun SleepSessionRecord.toSleepSession() = SleepSession(
+        start = startTime,
+        end = endTime,
+        stages = stages.map { SleepStage(it.startTime, it.endTime, awake = it.stage in AWAKE_STAGES) },
+    )
+
     // Lee todos los registros de un tipo, página por página.
     private suspend fun <T : Record> readAll(type: KClass<T>, filter: TimeRangeFilter): List<T> {
         val result = mutableListOf<T>()
@@ -144,5 +153,11 @@ class HealthConnectReader(private val context: Context) {
 
     companion object {
         const val HEALTH_CONNECT_PACKAGE = "com.google.android.apps.healthdata"
+
+        private val AWAKE_STAGES = setOf(
+            SleepSessionRecord.STAGE_TYPE_AWAKE,
+            SleepSessionRecord.STAGE_TYPE_AWAKE_IN_BED,
+            SleepSessionRecord.STAGE_TYPE_OUT_OF_BED,
+        )
     }
 }
