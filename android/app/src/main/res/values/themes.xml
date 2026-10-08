@@ -8,4 +8,13 @@
     <style name="Theme.ProgresoSobrio" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/fondo_ventana</item>
     </style>
+
+    <!-- Pantalla principal (PWA en el WebView): siempre clara, como el tema por defecto de la PWA.
+         Sin variante de noche: no hay destello café al abrir, el WebView le informa "modo claro"
+         a la PWA y los diálogos de confirm() salen claros. -->
+    <color name="fondo_web">#FAF6F0</color>
+
+    <style name="Theme.ProgresoSobrio.Web" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/fondo_web</item>
+    </style>
 </resources>

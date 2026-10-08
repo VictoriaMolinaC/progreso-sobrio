@@ -11,6 +11,9 @@ object Textos {
     const val PRIVACIDAD_SIN_INTERNET =
         "Esta app no tiene permiso de internet. Solo lee pulso y sueño desde Health Connect cuando tú lo pides."
 
+    // --- App principal (PWA en el WebView) ---
+    const val SIN_APP_PARA_ENLACE = "No hay una app para abrir este enlace"
+
     // --- Pantalla "Datos del reloj" ---
     const val TITULO = "Datos del reloj"
     const val DIA_ANTERIOR = "Día anterior"

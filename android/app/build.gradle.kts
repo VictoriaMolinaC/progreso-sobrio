@@ -39,7 +39,7 @@ android {
 // La PWA compilada vive en src/main/assets/www/ (ignorada en Git). Si falta, el APK saldría
 // sin la app: se falla antes de empaquetar los assets, con un mensaje claro.
 // Va enganchada a merge*Assets (no a preBuild) para que testDebugUnitTest no la necesite.
-val checkPwaAssets by tasks.registering {
+val checkPwaAssets = tasks.register("checkPwaAssets") {
     description = "Verifica que la PWA compilada esté en src/main/assets/www/."
     val indexHtml = layout.projectDirectory.file("src/main/assets/www/index.html")
     doLast {
@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.health.connect.client)
+    implementation(libs.androidx.webkit)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

@@ -12,20 +12,36 @@
         <package android:name="com.google.android.apps.healthdata" />
     </queries>
 
+    <!-- allowBackup="false" y reglas de extracción que excluyen todo: los datos de la PWA
+         (IndexedDB del WebView) no se copian a la nube ni a otro teléfono.
+         Sin fullBackupContent: en Android 11 o inferior allowBackup="false" ya apaga todo
+         respaldo y transferencia (por eso se ignora el aviso DataExtractionRules de lint). -->
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
+        tools:ignore="DataExtractionRules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProgresoSobrio">
+
+        <!-- El WebView no envía estadísticas de uso ni consulta Safe Browsing: eso lo haría
+             la app "Android System WebView" (que sí tiene internet), no esta app. -->
+        <meta-data
+            android:name="android.webkit.WebView.MetricsOptOut"
+            android:value="true" />
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="false" />
+
+        <!-- Launcher: la PWA dentro de un WebView. Girar o cambiar el modo del sistema
+             no recarga la PWA (no se pierde un formulario a medias). -->
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ProgresoSobrio"
+            android:theme="@style/Theme.ProgresoSobrio.Web"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +49,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Pantalla de prueba / diagnóstico "Datos del reloj": solo desde dentro de la app.
+             En la versión debug tiene además su propio icono (src/debug/AndroidManifest.xml). -->
+        <activity
+            android:name=".WatchTestActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ProgresoSobrio" />
 
         <!-- Pantalla de privacidad que Health Connect muestra al pedir permisos.
              Android 13 o inferior: Health Connect la abre con esta acción. -->
