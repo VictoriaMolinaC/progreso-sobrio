@@ -36,6 +36,25 @@ android {
     }
 }
 
+// La PWA compilada vive en src/main/assets/www/ (ignorada en Git). Si falta, el APK saldría
+// sin la app: se falla antes de empaquetar los assets, con un mensaje claro.
+// Va enganchada a merge*Assets (no a preBuild) para que testDebugUnitTest no la necesite.
+val checkPwaAssets by tasks.registering {
+    description = "Verifica que la PWA compilada esté en src/main/assets/www/."
+    val indexHtml = layout.projectDirectory.file("src/main/assets/www/index.html")
+    doLast {
+        if (!indexHtml.asFile.exists()) {
+            throw GradleException(
+                "Falta la PWA en app/src/main/assets/www/. " +
+                    "Desde la raíz del repo: pnpm build:android; pnpm copy:android"
+            )
+        }
+    }
+}
+tasks.named { it.startsWith("merge") && it.endsWith("Assets") }.configureEach {
+    dependsOn(checkPwaAssets)
+}
+
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
