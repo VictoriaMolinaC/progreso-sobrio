@@ -1,3 +1,4 @@
+import { AndroidSection } from '../components/ajustes/AndroidSection';
 import { ContactsSection } from '../components/ajustes/ContactsSection';
 import { ExportImportSection } from '../components/ajustes/ExportImportSection';
 import { HrThresholdSection } from '../components/ajustes/HrThresholdSection';
@@ -15,6 +16,7 @@ export function AjustesScreen() {
       <ContactsSection />
       <HrThresholdSection />
       <ExportImportSection />
+      <AndroidSection />
       <ResetDataSection />
     </div>
   );

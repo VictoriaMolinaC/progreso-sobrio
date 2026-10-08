@@ -27,8 +27,11 @@ object PwaWebView {
     private const val HOST = "appassets.androidplatform.net"
     private const val PWA_PATH = "/www/"
 
+    /** Origen de la PWA: el único al que el puente le acepta mensajes. */
+    const val ORIGIN = "https://$HOST"
+
     /** Dirección de inicio de la PWA. */
-    const val START_URL = "https://$HOST${PWA_PATH}index.html"
+    const val START_URL = "$ORIGIN${PWA_PATH}index.html"
 
     @SuppressLint("SetJavaScriptEnabled") // la PWA es una app React: sin JavaScript no funciona
     fun create(

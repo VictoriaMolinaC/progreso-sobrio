@@ -11,6 +11,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import cl.progresosobrio.app.bridge.Bridge
 import cl.progresosobrio.app.web.PwaWebView
 
 /**
@@ -65,6 +66,9 @@ class MainActivity : ComponentActivity() {
 
         setContentView(contenedor)
         webView = web
+
+        // El puente se instala antes de cargar la PWA: el objeto se inyecta al crear la página.
+        Bridge(this).attach(web)
         web.loadUrl(PwaWebView.START_URL)
     }
 
