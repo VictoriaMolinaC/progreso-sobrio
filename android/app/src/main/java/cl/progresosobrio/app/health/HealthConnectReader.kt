@@ -9,9 +9,9 @@ import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.RestingHeartRateRecord
 import androidx.health.connect.client.records.SleepSessionRecord
-import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import java.time.Duration
 import java.time.LocalDate
 import java.time.ZoneId
 import kotlin.reflect.KClass
@@ -48,21 +48,26 @@ class HealthConnectReader(private val context: Context) {
         val (start, end) = dayBounds(date, zone)
         val dayFilter = TimeRangeFilter.between(start, end)
 
-        // 1) Pulso mín / máx / promedio: los calcula Health Connect. Sin datos → null.
-        val aggregate = client.aggregate(
-            AggregateRequest(
-                metrics = setOf(HeartRateRecord.BPM_MIN, HeartRateRecord.BPM_MAX, HeartRateRecord.BPM_AVG),
-                timeRangeFilter = dayFilter,
-            )
+        // 1) Pulso del día (mín / máx / promedio). Se lee desde 24 h antes del inicio del día:
+        //    Mi Fitness escribe registros que empiezan la noche anterior (ej. 9:30 p. m. → 1:29 p. m.)
+        //    y además los repite superpuestos. dayPulse usa solo las muestras del día, cada una
+        //    una vez. No se usa el promedio de Health Connect porque cuenta las repetidas.
+        val heartRateRecords = readAll(
+            HeartRateRecord::class,
+            TimeRangeFilter.between(start.minus(Duration.ofHours(24)), end),
         )
+        val samples = heartRateRecords.flatMap { it.samples }.map { it.time to it.beatsPerMinute.toInt() }
+        val pulse = dayPulse(samples, start, end)
 
         // 2) Última medición: la muestra más reciente dentro del día.
-        //    Mi Fitness guarda bloques de ~30 min, cada uno con varias muestras.
-        val heartRateRecords = readAll(HeartRateRecord::class, dayFilter)
-        val lastSample = heartRateRecords
-            .flatMap { it.samples }
-            .filter { it.time >= start && it.time < end }
-            .maxByOrNull { it.time }
+        val lastSample = samples
+            .filter { (time, _) -> time >= start && time < end }
+            .maxByOrNull { (time, _) -> time }
+
+        // Para "Fuente": solo los registros de pulso con alguna muestra dentro del día.
+        val dayHeartRateRecords = heartRateRecords.filter { record ->
+            record.samples.any { it.time >= start && it.time < end }
+        }
 
         // 3) Pulso en reposo: el último registro del día, o null (Mi Fitness hoy no lo escribe).
         val resting = readAll(RestingHeartRateRecord::class, dayFilter).maxByOrNull { it.time }
@@ -94,17 +99,17 @@ class HealthConnectReader(private val context: Context) {
 
         // Apps que escribieron estos datos (por ejemplo, Mi Fitness).
         val records: List<Record> =
-            heartRateRecords + listOfNotNull(resting) + sleepSessions + sleepHeartRateRecords
+            dayHeartRateRecords + listOfNotNull(resting) + sleepSessions + sleepHeartRateRecords
         val sources = records.map { it.metadata.dataOrigin.packageName }.toSet()
 
         return DayHealthData(
             date = date,
             restingBpm = resting?.beatsPerMinute?.toInt(),
-            minBpm = aggregate[HeartRateRecord.BPM_MIN]?.toInt(),
-            maxBpm = aggregate[HeartRateRecord.BPM_MAX]?.toInt(),
-            avgBpm = aggregate[HeartRateRecord.BPM_AVG]?.toInt(),
-            lastBpm = lastSample?.beatsPerMinute?.toInt(),
-            lastBpmTime = lastSample?.time,
+            minBpm = pulse?.minBpm,
+            maxBpm = pulse?.maxBpm,
+            avgBpm = pulse?.avgBpm,
+            lastBpm = lastSample?.second,
+            lastBpmTime = lastSample?.first,
             sleepMinutes = sleepMinutes,
             sleepMinBpm = pulseWhileAsleep?.minBpm,
             sleepAvgBpm = pulseWhileAsleep?.avgBpm,
