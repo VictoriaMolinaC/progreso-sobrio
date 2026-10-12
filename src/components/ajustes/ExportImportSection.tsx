@@ -1,25 +1,12 @@
 import { type ChangeEvent, useRef, useState } from 'react';
-import { exportCsv, exportJson, importJson } from '../../lib/exportImport';
+import { exportCsv, exportJson, exportWithMessage, readBackup, restoreBackup } from '../../lib/exportImport';
 
 export function ExportImportSection() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  /**
-   * Sin este wrapper, un fallo al exportar se perdía como promesa rechazada sin
-   * capturar: la persona apretaba el botón y no pasaba absolutamente nada, sin
-   * forma de distinguir un error del código de una descarga bloqueada por el
-   * navegador.
-   */
   const handleExport = async (run: () => Promise<string>) => {
-    try {
-      const filename = await run();
-      setMessage(`Respaldo generado: ${filename}. Si no aparece en tus descargas, tu navegador la bloqueó.`);
-    } catch (error) {
-      setMessage(
-        error instanceof Error ? `No se pudo generar el respaldo: ${error.message}` : 'No se pudo generar el respaldo.',
-      );
-    }
+    setMessage(await exportWithMessage(run));
   };
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,18 +14,19 @@ export function ExportImportSection() {
     const file = input.files?.[0];
     if (!file) return;
 
-    const confirmed = window.confirm(
-      `Restaurar "${file.name}" va a REEMPLAZAR todos tus datos actuales (sustancias, registros, contactos, listas) por los del respaldo. Esto no se puede deshacer. ¿Continuar?`,
-    );
-
-    if (!confirmed) {
-      setMessage('Restauración cancelada — no se cambió nada.');
-      input.value = '';
-      return;
-    }
-
     try {
-      const summary = await importJson(file);
+      // Primero se revisa el archivo: si no es un respaldo, se avisa sin preguntar por reemplazar nada.
+      const backup = await readBackup(file);
+
+      const confirmed = window.confirm(
+        `Restaurar "${file.name}" va a REEMPLAZAR todos tus datos actuales (sustancias, registros, contactos, listas) por los del respaldo. Esto no se puede deshacer. ¿Continuar?`,
+      );
+      if (!confirmed) {
+        setMessage('Restauración cancelada — no se cambió nada.');
+        return;
+      }
+
+      const summary = await restoreBackup(backup);
       setMessage(
         `Restaurado desde "${file.name}": ${summary.substances} sustancia(s), ${summary.dailyLogs} registro(s) diario(s), ${summary.contacts} contacto(s), ${summary.habits} hábito(s) y ${summary.triggers} disparador(es).`,
       );
@@ -54,7 +42,7 @@ export function ExportImportSection() {
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Respaldar y restaurar mis datos</h2>
       <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
-        Tus datos viven solo en este navegador. Descargá un respaldo seguido, así no los perdés.
+        Tus datos viven solo en este navegador. Descarga un respaldo seguido para no perderlos.
       </p>
 
       <div className="flex flex-wrap gap-2">
@@ -82,7 +70,7 @@ export function ExportImportSection() {
         <input
           ref={fileInputRef}
           type="file"
-          accept="application/json"
+          accept="application/json,.json"
           onChange={handleFileChange}
           className="hidden"
         />

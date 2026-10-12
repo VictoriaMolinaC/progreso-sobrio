@@ -19,16 +19,75 @@ export interface BackupExport {
   hrThreshold: number;
 }
 
+// --- Validación al importar ---
+// Se revisa el archivo completo antes de tocar la base: si algo no calza, no se cambia nada.
+// Sin esto, un respaldo con un campo dañado se guardaba igual y podía romper pantallas después.
+
+const DATE_KEY = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+const isId = (value: unknown) => Number.isInteger(value) && (value as number) > 0;
+const isText = (value: unknown) => typeof value === 'string';
+const isDateKey = (value: unknown) => typeof value === 'string' && DATE_KEY.test(value);
+const isScale = (value: unknown) => Number.isInteger(value) && (value as number) >= 1 && (value as number) <= 5;
+const isOptionalNumber = (value: unknown) => value === undefined || (typeof value === 'number' && Number.isFinite(value));
+const isOptionalText = (value: unknown) => value === undefined || typeof value === 'string';
+const isIdList = (value: unknown) => Array.isArray(value) && value.every(isId);
+
+const isSubstance = (value: unknown) =>
+  isObject(value) &&
+  isId(value.id) &&
+  isText(value.name) &&
+  isDateKey(value.lastUseDate) &&
+  isOptionalText(value.color) &&
+  isText(value.createdAt);
+
+const isDailyLog = (value: unknown) =>
+  isObject(value) &&
+  isId(value.id) &&
+  isDateKey(value.date) &&
+  [value.craving, value.sleepQuality, value.energy, value.mood].every(isScale) &&
+  isIdList(value.triggerIds) &&
+  isIdList(value.habitIds) &&
+  [value.restingHeartRate, value.minHeartRate, value.maxHeartRate, value.sleepHours, value.activityMinutes].every(
+    isOptionalNumber,
+  ) &&
+  [value.deviceUsed, value.activityType, value.notes].every(isOptionalText) &&
+  isText(value.createdAt) &&
+  isText(value.updatedAt);
+
+const isContact = (value: unknown) =>
+  isObject(value) &&
+  isId(value.id) &&
+  isText(value.name) &&
+  isOptionalText(value.phone) &&
+  isOptionalText(value.relationship) &&
+  isText(value.createdAt);
+
+const isListItem = (value: unknown) =>
+  isObject(value) && isId(value.id) && isText(value.name) && typeof value.active === 'boolean' && isText(value.createdAt);
+
+// Un id (o una fecha de registro) repetido haría fallar la importación a mitad de camino.
+const allDifferent = (items: Record<string, unknown>[], key: string) =>
+  new Set(items.map((item) => item[key])).size === items.length;
+
+function isTable(value: unknown, isItem: (item: unknown) => boolean): value is Record<string, unknown>[] {
+  return Array.isArray(value) && value.every(isItem) && allDifferent(value, 'id');
+}
+
 function isValidExport(data: unknown): data is BackupExport {
-  if (typeof data !== 'object' || data === null) return false;
-  const candidate = data as Record<string, unknown>;
+  if (!isObject(data) || data.version !== 1) return false;
+  const { hrThreshold } = data;
   return (
-    candidate.version === 1 &&
-    Array.isArray(candidate.substances) &&
-    Array.isArray(candidate.dailyLogs) &&
-    Array.isArray(candidate.contacts) &&
-    Array.isArray(candidate.habits) &&
-    Array.isArray(candidate.triggers)
+    isTable(data.substances, isSubstance) &&
+    isTable(data.dailyLogs, isDailyLog) &&
+    allDifferent(data.dailyLogs, 'date') &&
+    isTable(data.contacts, isContact) &&
+    isTable(data.habits, isListItem) &&
+    isTable(data.triggers, isListItem) &&
+    // Si falta, al importar se usa el valor por defecto (100).
+    (hrThreshold === undefined || (typeof hrThreshold === 'number' && Number.isFinite(hrThreshold) && hrThreshold > 0))
   );
 }
 
@@ -62,17 +121,37 @@ function downloadBlob(content: string, filename: string, mimeType: string) {
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
+/**
+ * Exporta y devuelve el mensaje para mostrar. Nunca rechaza: sin esto, un fallo al exportar se
+ * perdía como promesa rechazada sin capturar y el botón no hacía nada, sin forma de distinguir
+ * un error del código de una descarga bloqueada por el navegador.
+ */
+export async function exportWithMessage(run: () => Promise<string>): Promise<string> {
+  try {
+    const filename = await run();
+    return `Respaldo generado: ${filename}. Si no aparece en tus descargas, tu navegador la bloqueó.`;
+  } catch {
+    return 'No se pudo guardar el respaldo. Intenta de nuevo.';
+  }
+}
+
 /** Devuelve el nombre del archivo generado, para poder confirmarlo en la UI. */
 export async function exportJson(): Promise<string> {
   const data = await buildExport();
-  const filename = `progreso-sobrio-datos-${data.exportedAt.slice(0, 10)}.json`;
+  // Fecha local en el nombre: exportedAt va en UTC y en Chile, de noche, ya marcaba el día siguiente.
+  const filename = `progreso-sobrio-datos-${toDateKey(new Date())}.json`;
   downloadBlob(JSON.stringify(data, null, 2), filename, 'application/json');
   return filename;
 }
 
+// Excel en Chile separa columnas con ";" y usa coma decimal: con "," todo quedaba en una
+// sola columna, y un 9.6 podía convertirse en fecha.
+const CSV_SEPARATOR = ';';
+
 function csvEscape(value: unknown): string {
-  const str = value === undefined || value === null ? '' : String(value);
-  return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+  if (value === undefined || value === null) return '';
+  const str = typeof value === 'number' ? String(value).replace('.', ',') : String(value);
+  return /[";\n\r]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
 }
 
 const CSV_COLUMNS = [
@@ -116,12 +195,13 @@ export async function exportCsv(): Promise<string> {
     log.activityType ?? '',
     log.energy,
     log.mood,
-    log.triggerIds.map((id) => triggerNames.get(id)).filter(Boolean).join('; '),
-    log.habitIds.map((id) => habitNames.get(id)).filter(Boolean).join('; '),
+    log.triggerIds.map((id) => triggerNames.get(id)).filter(Boolean).join(', '),
+    log.habitIds.map((id) => habitNames.get(id)).filter(Boolean).join(', '),
     log.notes ?? '',
   ]);
 
-  const csv = [CSV_COLUMNS, ...rows].map((row) => row.map(csvEscape).join(',')).join('\n');
+  // El BOM (U+FEFF) le avisa a Excel que el archivo es UTF-8: sin él, los tildes y la ñ se ven mal.
+  const csv = '\uFEFF' + [CSV_COLUMNS, ...rows].map((row) => row.map(csvEscape).join(CSV_SEPARATOR)).join('\n');
   const filename = `progreso-sobrio-registros-${toDateKey(new Date())}.csv`;
   downloadBlob(csv, filename, 'text/csv');
   return filename;
@@ -135,20 +215,25 @@ export interface ImportSummary {
   triggers: number;
 }
 
-/** Reemplaza TODOS los datos actuales por los del archivo — es una restauración, no un merge. */
-export async function importJson(file: File): Promise<ImportSummary> {
+/** Lee y revisa un archivo de respaldo sin tocar la base. Si no es un respaldo, rechaza con un mensaje para la persona. */
+export async function readBackup(file: File): Promise<BackupExport> {
+  const invalid = 'Este archivo no es un respaldo de Progreso Sobrio. No se cambió nada.';
   const text = await file.text();
   let data: unknown;
   try {
     data = JSON.parse(text);
   } catch {
-    throw new Error('El archivo no es un JSON válido.');
+    throw new Error(invalid);
   }
 
   if (!isValidExport(data)) {
-    throw new Error('El archivo no tiene el formato esperado de un respaldo de Progreso Sobrio.');
+    throw new Error(invalid);
   }
+  return data;
+}
 
+/** Reemplaza TODOS los datos actuales por los del respaldo — es una restauración, no un merge. */
+export async function restoreBackup(data: BackupExport): Promise<ImportSummary> {
   await db.transaction(
     'rw',
     [db.substances, db.dailyLogs, db.contacts, db.habits, db.triggers, db.settings],
