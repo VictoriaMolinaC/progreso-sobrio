@@ -23,7 +23,7 @@ export function HrThresholdSection() {
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Umbral de LPM en reposo</h2>
       <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
         Al guardar un registro diario, Progreso Sobrio compara tu LPM en reposo contra este valor y te avisa si lo superaste. No
-        es un valor médico, es una referencia que elegís vos.
+        es un valor médico, es una referencia que eliges tú.
       </p>
 
       <form onSubmit={handleSubmit} className="flex gap-2">

@@ -42,7 +42,7 @@ const CARDS: TourCard[] = [
   },
   {
     title: 'Registro diario',
-    body: 'En menos de 30 segundos anotás cómo estuvo tu día: LPM en reposo, sueño, craving, ánimo y los hábitos que cumpliste. Se accede desde "Registrar hoy" en Inicio, o desde el ítem "Registro" del menú.',
+    body: 'En menos de 30 segundos anotas cómo estuvo tu día: LPM en reposo, sueño, craving, ánimo y los hábitos que cumpliste. Se accede desde "Registrar hoy" en Inicio, o desde el ítem "Registro" del menú.',
     color: 'bg-accent',
     icon: (
       <Icon>
@@ -53,7 +53,7 @@ const CARDS: TourCard[] = [
   },
   {
     title: 'Progreso',
-    body: 'Ahí vive todo lo que registrás con el tiempo: historial, calendario, gráficas y observaciones simples sobre qué parece ayudarte más.',
+    body: 'Ahí vive todo lo que registras con el tiempo: historial, calendario, gráficas y observaciones simples sobre qué parece ayudarte más.',
     color: 'bg-success',
     icon: (
       <Icon>

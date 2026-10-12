@@ -13,7 +13,7 @@ export function CorrelacionesView() {
   if (insights.length === 0) {
     return (
       <p className="text-center text-ink/60 dark:text-ink-dark/60">
-        Todavía no hay suficientes registros variados para mostrar patrones. Seguí registrando y volvé más adelante.
+        Todavía no hay suficientes registros variados para mostrar patrones. Sigue registrando y vuelve más adelante.
       </p>
     );
   }

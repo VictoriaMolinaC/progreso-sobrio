@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { exportJson } from '../../lib/exportImport';
+import { exportJson, exportWithMessage } from '../../lib/exportImport';
 import { deleteAllData } from '../../lib/resetData';
 
 const CONFIRM_WORD = 'BORRAR';
@@ -7,6 +7,7 @@ const CONFIRM_WORD = 'BORRAR';
 export function ResetDataSection() {
   const [confirmText, setConfirmText] = useState('');
   const [deleted, setDeleted] = useState(false);
+  const [exportMessage, setExportMessage] = useState<string | null>(null);
 
   const canDelete = confirmText.trim().toUpperCase() === CONFIRM_WORD;
 
@@ -31,14 +32,16 @@ export function ResetDataSection() {
 
       <button
         type="button"
-        onClick={() => exportJson()}
+        onClick={async () => setExportMessage(await exportWithMessage(exportJson))}
         className="mb-4 rounded-xl border border-ink/20 px-4 py-2 text-sm text-ink dark:border-ink-dark/15 dark:text-ink-dark"
       >
         Descargar un respaldo antes
       </button>
 
+      {exportMessage && <p className="-mt-2 mb-4 text-sm text-ink/70 dark:text-ink-dark/70">{exportMessage}</p>}
+
       <label className="mb-2 flex flex-col gap-1 text-sm text-ink/80 dark:text-ink-dark/80">
-        Para confirmar, escribí <strong>{CONFIRM_WORD}</strong>
+        Para confirmar, escribe <strong>{CONFIRM_WORD}</strong>
         <input
           type="text"
           value={confirmText}
