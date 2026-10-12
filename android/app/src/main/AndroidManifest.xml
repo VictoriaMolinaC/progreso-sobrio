@@ -79,6 +79,18 @@
                 <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
             </intent-filter>
         </activity-alias>
+
+        <!-- Copia del archivo elegido en "Restaurar un respaldo" (ver backup/ImportCopy.kt).
+             No exportado: solo esta app la lee. No agrega permisos. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.archivos"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/archivos_importados" />
+        </provider>
     </application>
 
 </manifest>

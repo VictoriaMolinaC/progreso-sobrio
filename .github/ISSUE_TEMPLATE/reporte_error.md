@@ -27,4 +27,5 @@ Si puedes, agrega una imagen o video.
 
 - Navegador (ej. Chrome, Firefox):
 - Dispositivo (ej. celular, notebook):
-- ¿La instalaste como app (PWA) o la usas desde el navegador?
+- ¿La instalaste como app (PWA), la usas desde el navegador o es la app Android?
+- Si es la app Android: versión (aparece en Ajustes → App Android) y modelo del teléfono:

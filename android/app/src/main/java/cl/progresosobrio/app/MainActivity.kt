@@ -16,11 +16,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.health.connect.client.PermissionController
+import androidx.lifecycle.lifecycleScope
+import cl.progresosobrio.app.backup.ImportCopy
 import cl.progresosobrio.app.backup.SaveFile
 import cl.progresosobrio.app.bridge.Bridge
 import cl.progresosobrio.app.health.HealthConnectReader
 import cl.progresosobrio.app.web.PwaWebView
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Pantalla principal: la PWA empaquetada en el APK, dentro de un WebView.
@@ -54,9 +59,18 @@ class MainActivity : ComponentActivity() {
 
     // Selector de archivos para "Restaurar un respaldo". Se muestran todos los archivos: con un filtro
     // por tipo, en algunos teléfonos los .json salen grises. La PWA revisa el archivo antes de usarlo.
+    // Se entrega una copia leída completa (ver ImportCopy): en algunos teléfonos el archivo llega
+    // con tamaño 0 y el WebView lo leería vacío.
     private var archivoPendiente: ValueCallback<Array<Uri>>? = null
     private val abrirArchivo = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        responderArchivo(uri?.let { arrayOf(it) })
+        if (uri == null) {
+            responderArchivo(null)
+        } else {
+            lifecycleScope.launch {
+                val copia = withContext(Dispatchers.IO) { ImportCopy.copy(applicationContext, uri) }
+                responderArchivo(arrayOf(copia))
+            }
+        }
     }
 
     private fun elegirArchivo(callback: ValueCallback<Array<Uri>>) {
@@ -80,6 +94,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Si quedó la copia de un respaldo de la vez anterior, se borra.
+        lifecycleScope.launch(Dispatchers.IO) { ImportCopy.clear(applicationContext) }
 
         // Barras del sistema con estilo claro fijo (iconos oscuros), como el tema por defecto de la PWA.
         enableEdgeToEdge(

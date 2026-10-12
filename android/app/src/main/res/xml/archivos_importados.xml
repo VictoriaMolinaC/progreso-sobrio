@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Única carpeta que FileProvider puede entregar: la copia del respaldo a restaurar,
+     dentro de la caché privada de la app (ver backup/ImportCopy.kt). -->
+<paths>
+    <cache-path name="importar" path="importar/" />
+</paths>
