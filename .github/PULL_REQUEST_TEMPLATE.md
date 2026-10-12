@@ -1,6 +1,6 @@
 ## Qué cambia
 
-Describí brevemente qué hace este PR.
+Describe brevemente qué hace este PR.
 
 ## Por qué
 
@@ -8,7 +8,7 @@ El motivo del cambio (issue relacionado, problema que resuelve).
 
 ## Cómo lo probaste
 
-Contá cómo verificaste que funciona (recordá: `pnpm dev` y probar en el navegador).
+Cuenta cómo verificaste que funciona (recuerda: `pnpm dev` y probar en el navegador).
 
 ## Checklist
 

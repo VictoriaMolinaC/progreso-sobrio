@@ -1,17 +1,17 @@
 ---
 name: Nueva función o mejora
-about: Proponé una idea para el proyecto
+about: Propón una idea para el proyecto
 title: "[Idea]: "
 labels: mejora
 ---
 
 > Progreso Sobrio es 100% offline: sin backend, sin llamadas de red con datos
-> personales. Si tu idea necesita eso, abrí igual el issue y lo conversamos,
+> personales. Si tu idea necesita eso, abre igual el issue y lo conversamos,
 > pero puede que no encaje con el proyecto tal como está planteado.
 
-## Qué proponés
+## Qué propones
 
-Describí la función o mejora.
+Describe la función o mejora.
 
 ## Qué problema resuelve
 
