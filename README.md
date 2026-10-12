@@ -39,6 +39,47 @@ Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
 - **Exportar e importar** todos tus datos en JSON y CSV.
 - **Red de apoyo** siempre a un toque: tus propios contactos + la línea 1412 de SENDA.
 
+## App Android
+
+Además de la versión web, hay una app para Android 9 o superior. Es la misma app, empaquetada para funcionar sin internet, y además puede traer el pulso y el sueño de tu reloj desde Health Connect. Se descarga desde [GitHub Releases](https://github.com/VictoriaMolinaC/progreso-sobrio/releases) (versión `android-v0.1.0`).
+
+**Instalar**
+
+1. Descarga el archivo `.apk` de la versión en tu teléfono.
+2. Ábrelo. Android te va a pedir que permitas instalar apps desde esa fuente (tu navegador o el gestor de archivos).
+3. Para traer datos del reloj necesitas Health Connect: desde Android 14 viene incluido; en Android 13 o inferior se instala desde Play Store.
+
+**Privacidad**
+
+- **No tiene permiso de internet:** Android no la deja conectarse a nada.
+- Solo lee tres datos de Health Connect (pulso, pulso en reposo y sueño), y solo cuando tocas «Traer datos del reloj». Primero ves una vista previa; nada se guarda hasta que tú lo decides.
+- No se copia a la nube de Google ni a otro teléfono: la copia de seguridad del sistema y el traspaso entre teléfonos están desactivados.
+- Los datos de tu pulsera llegan a Health Connect a través de la app del fabricante, con sus propias reglas, y según la marca pueden pasar por su nube. Por ejemplo, Mi Fitness (pulseras Xiaomi) necesita tu cuenta Xiaomi y usa la nube de Xiaomi para entregarlos a Health Connect. Sin pulsera, la app funciona igual.
+
+**Respaldo: importante**
+
+Tus datos viven solo en el teléfono. **Si desinstalas la app o borras sus datos, se pierden.** Guarda un respaldo seguido en Ajustes → «Descargar respaldo completo» y, si cambias de teléfono o reinstalas, recupéralo con «Restaurar un respaldo». El mismo archivo sirve en la versión web.
+
+**Verificar el APK (opcional)**
+
+El APK oficial está firmado con esta huella SHA-256:
+
+```
+61:DB:E2:B9:43:4C:1F:46:10:99:D4:86:CD:7E:4A:4B:88:88:61:F1:1D:12:8F:25:3A:78:31:FC:A4:D9:91:FC
+```
+
+Puedes revisarla con `apksigner verify --print-certs <archivo.apk>` (viene con el SDK de Android). Si no coincide, no lo instales.
+
+**Compilarla tú**
+
+```bash
+pnpm build:android && pnpm copy:android
+cd android
+./gradlew assembleDebug   # en Windows: .\gradlew.bat assembleDebug
+```
+
+Una app que compiles tú queda con otra firma: Android no la deja instalarse encima de la oficial (habría que desinstalar, y eso borra los datos).
+
 ## Por qué existe
 
 No encontramos una app chilena dedicada a esto. Lo más cercano es la línea/chat 1412 de SENDA y "PlanSobrio", una app de encuentro social para gente sobria en Latinoamérica, pero con otro propósito (no es un tracker diario).
