@@ -103,6 +103,17 @@ export async function readWatchDay(date: string): Promise<WatchDayData> {
   throw new AndroidBridgeError('unknown');
 }
 
+/**
+ * Guarda un archivo con el "Guardar como" de Android y devuelve el nombre con que quedó
+ * (la persona puede cambiarlo). Sin tiempo límite: espera a que elija dónde guardar.
+ * Rechaza con AndroidBridgeError (cancelled, write_failed…).
+ */
+export async function saveFileViaBridge(filename: string, mime: string, content: string): Promise<string> {
+  const response = await send({ type: 'saveFile', filename, mime, content });
+  if (response.type === 'saveFileResult' && response.ok) return response.filename;
+  throw new AndroidBridgeError('unknown');
+}
+
 /** Abre una pantalla nativa: diagnóstico del reloj, privacidad o Health Connect en Play Store. */
 export async function openNativeScreen(screen: NativeScreen): Promise<void> {
   await send({ type: 'openScreen', screen }, 5000);

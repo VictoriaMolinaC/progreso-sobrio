@@ -1,4 +1,5 @@
 import { type ChangeEvent, useRef, useState } from 'react';
+import { isAndroidBridgeAvailable } from '../../lib/androidBridge';
 import { exportCsv, exportJson, exportWithMessage, readBackup, restoreBackup } from '../../lib/exportImport';
 
 export function ExportImportSection() {
@@ -42,7 +43,9 @@ export function ExportImportSection() {
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Respaldar y restaurar mis datos</h2>
       <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
-        Tus datos viven solo en este navegador. Descarga un respaldo seguido para no perderlos.
+        {isAndroidBridgeAvailable()
+          ? 'Tus datos viven solo en este teléfono. Guarda un respaldo seguido: si desinstalas la app o borras sus datos, se pierden.'
+          : 'Tus datos viven solo en este navegador. Descarga un respaldo seguido para no perderlos.'}
       </p>
 
       <div className="flex flex-wrap gap-2">

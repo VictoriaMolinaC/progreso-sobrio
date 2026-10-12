@@ -13,6 +13,9 @@ import java.time.format.DateTimeParseException
 /** Versión del protocolo. Un mensaje con otra versión se ignora. */
 const val BRIDGE_PROTOCOL_VERSION = 1
 
+/** Tipos de archivo que saveFile acepta: los dos respaldos de la PWA (JSON completo y CSV de registros). */
+val SAVE_FILE_MIME_TYPES = setOf("application/json", "text/csv")
+
 /** Peticiones de la PWA a Android. */
 sealed class BridgeRequest {
     abstract val id: String
@@ -81,7 +84,7 @@ fun parseBridgeRequest(json: String): BridgeRequest? = try {
                 val filename = obj.opt("filename") as? String
                 val mime = obj.opt("mime") as? String
                 val content = obj.opt("content") as? String
-                if (filename.isNullOrBlank() || mime.isNullOrBlank() || content == null) {
+                if (filename.isNullOrBlank() || mime == null || mime !in SAVE_FILE_MIME_TYPES || content == null) {
                     BridgeRequest.BadRequest(id, type)
                 } else {
                     BridgeRequest.SaveFile(id, filename, mime, content)
@@ -136,6 +139,12 @@ fun readDayOk(id: String, data: DayHealthData, zone: ZoneId, label: (String) -> 
 
 // org.json borra la clave si se le pasa null; JSONObject.NULL la deja presente con valor null.
 private fun Any?.orJsonNull(): Any = this ?: JSONObject.NULL
+
+/** Respuesta a saveFile cuando el archivo quedó guardado. [filename] es el nombre final (la persona puede cambiarlo). */
+fun saveFileOk(id: String, filename: String): String =
+    response(id, "saveFileResult", ok = true)
+        .put("filename", filename)
+        .toString()
 
 /** Respuesta a openScreen. */
 fun openScreenResult(id: String, ok: Boolean): String =

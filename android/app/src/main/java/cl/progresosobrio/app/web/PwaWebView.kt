@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.webkit.JsResult
 import android.webkit.RenderProcessGoneDetail
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -33,11 +34,16 @@ object PwaWebView {
     /** Dirección de inicio de la PWA. */
     const val START_URL = "$ORIGIN${PWA_PATH}index.html"
 
+    /**
+     * @param onFileChooser abre el selector de archivos del sistema para un `<input type="file">`
+     *   de la PWA (restaurar un respaldo). Debe responder siempre al callback, también con null.
+     */
     @SuppressLint("SetJavaScriptEnabled") // la PWA es una app React: sin JavaScript no funciona
     fun create(
         activity: Activity,
         onHistoryChanged: (canGoBack: Boolean) -> Unit,
         onRendererGone: () -> Unit,
+        onFileChooser: (ValueCallback<Array<Uri>>) -> Unit,
     ): WebView {
         // Inspeccionar el WebView desde chrome://inspect: solo en la versión debug.
         val depurable = (activity.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
@@ -60,7 +66,7 @@ object PwaWebView {
                 setGeolocationEnabled(false)
             }
             webViewClient = Cliente(activity, loader, onHistoryChanged, onRendererGone)
-            webChromeClient = Dialogos(activity)
+            webChromeClient = Dialogos(activity, onFileChooser)
         }
     }
 
@@ -105,7 +111,20 @@ object PwaWebView {
 
     // confirm() y alert() con un diálogo nativo, sin la dirección interna en el título
     // (el diálogo por defecto dice "La página en https://appassets.androidplatform.net dice:").
-    private class Dialogos(private val activity: Activity) : WebChromeClient() {
+    // Y el selector de archivos: sin esto, "Restaurar un respaldo" no abre nada.
+    private class Dialogos(
+        private val activity: Activity,
+        private val onFileChooser: (ValueCallback<Array<Uri>>) -> Unit,
+    ) : WebChromeClient() {
+
+        override fun onShowFileChooser(
+            webView: WebView,
+            filePathCallback: ValueCallback<Array<Uri>>,
+            fileChooserParams: FileChooserParams,
+        ): Boolean {
+            onFileChooser(filePathCallback)
+            return true
+        }
 
         override fun onJsAlert(view: WebView, url: String?, message: String?, result: JsResult): Boolean {
             if (activity.isFinishing) { result.cancel(); return true }
