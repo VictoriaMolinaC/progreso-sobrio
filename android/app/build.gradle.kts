@@ -47,8 +47,11 @@ android {
             if (keystorePropsFile.exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
+            // Optimización (R8) apagada: con ella la release se cerraba al abrir (IllegalAccessError
+            // en kotlin.collections, 12 oct 2026). Así la release lleva el mismo código que debug,
+            // firmado y sin modo depuración. Si se vuelve a activar, probar la release completa.
             optimization {
-                enable = true
+                enable = false
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
             }
         }
