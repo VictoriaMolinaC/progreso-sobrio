@@ -141,7 +141,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
   const handleDateChange = (newDate: string) => {
     if (isDirty) {
       const confirmed = window.confirm(
-        'Tienes cambios sin guardar en este registro. Si cambiás de fecha se van a perder. ¿Continuar igual?',
+        'Tienes cambios sin guardar en este registro. Si cambias de fecha se van a perder. ¿Continuar igual?',
       );
       if (!confirmed) return;
     }

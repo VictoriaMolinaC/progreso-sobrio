@@ -99,14 +99,14 @@ export function WatchDataPreview({ date, onUse }: WatchDataPreviewProps) {
             )}
           </div>
           <p className="mt-2 text-sm text-ink/60 dark:text-ink-dark/60">
-            Se leen pulso y sueño desde Health Connect solo cuando tocás este botón. Nada se guarda hasta que toques
+            Se leen pulso y sueño desde Health Connect solo cuando tocas este botón. Nada se guarda hasta que toques
             Guardar registro.
           </p>
         </>
       )}
 
       {state.kind === 'used' && (
-        <p className="mt-2 text-sm text-success">Listo: completamos los campos. Revisalos y guarda el registro.</p>
+        <p className="mt-2 text-sm text-success">Listo: completamos los campos. Revísalos y guarda el registro.</p>
       )}
 
       {state.kind === 'error' && <ErrorMessage code={state.code} />}
@@ -176,7 +176,7 @@ function ErrorMessage({ code }: { code: BridgeError }) {
     case 'hc_unavailable':
       return (
         <>
-          {text('Para traer datos del reloj necesitás la app Health Connect.')}
+          {text('Para traer datos del reloj necesitas la app Health Connect.')}
           {storeButton('Instalar Health Connect')}
         </>
       );
@@ -189,11 +189,11 @@ function ErrorMessage({ code }: { code: BridgeError }) {
       );
     case 'no_permission':
       return text(
-        'Sin permiso para leer el reloj. Podés volver a intentarlo, o activarlo en Health Connect → Permisos de apps.',
+        'Sin permiso para leer el reloj. Puedes volver a intentarlo o activarlo en Health Connect → Permisos de apps.',
       );
     case 'no_data':
-      return text('No hay datos de este día. Abrí Mi Fitness para sincronizar tu pulsera y volvé a intentar.');
+      return text('No hay datos de este día. Abre Mi Fitness para sincronizar tu pulsera y vuelve a intentar.');
     default:
-      return text('No se pudieron leer los datos. Probá de nuevo.');
+      return text('No se pudieron leer los datos. Inténtalo de nuevo.');
   }
 }

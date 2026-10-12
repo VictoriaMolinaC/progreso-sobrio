@@ -31,7 +31,7 @@ export function AndroidSection() {
     try {
       await openNativeScreen(screen);
     } catch {
-      setMessage('No se pudo abrir esa pantalla. Probá de nuevo.');
+      setMessage('No se pudo abrir esa pantalla. Inténtalo de nuevo.');
     }
   };
 
@@ -39,7 +39,7 @@ export function AndroidSection() {
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">App Android</h2>
       <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
-        Estás usando la app para Android. Acá podés ver qué datos llegan de tu reloj y cómo se cuida tu privacidad.
+        Estás usando la app para Android. Aquí puedes ver qué datos llegan de tu reloj y cómo se cuida tu privacidad.
       </p>
 
       <div className="flex flex-wrap gap-2">
