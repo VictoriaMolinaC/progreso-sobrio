@@ -17,7 +17,7 @@ export function StreakCard({ substanceName, streakDays }: StreakCardProps) {
       <p className="text-3xl font-bold text-ink dark:text-ink-dark">
         {streakDays} {streakDays === 1 ? 'día' : 'días'} de racha
       </p>
-      <p className="mt-1 text-success">Seguís firme. Un día a la vez.</p>
+      <p className="mt-1 text-success">Sigues firme. Un día a la vez.</p>
     </div>
   );
 }

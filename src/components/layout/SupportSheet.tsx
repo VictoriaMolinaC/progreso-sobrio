@@ -70,7 +70,7 @@ export function SupportSheet({ open, onClose }: SupportSheetProps) {
           </ul>
         ) : (
           <p className="text-sm text-ink/60 dark:text-ink-dark/60">
-            Tus propios contactos de apoyo van a aparecer acá una vez que los agregues en Ajustes.
+            Tus propios contactos de apoyo van a aparecer aquí una vez que los agregues en Ajustes.
           </p>
         )}
 

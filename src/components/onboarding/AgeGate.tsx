@@ -57,7 +57,7 @@ export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
             </Icon>
             <h2 className="text-center text-lg font-semibold text-ink dark:text-ink-dark">Esta app es para mayores de 18</h2>
             <p className="mt-3 text-sm text-ink/80 dark:text-ink-dark/80">
-              Que seas menor de edad no significa que no haya ayuda para vos. La línea 1412 de SENDA es gratuita,
+              Que seas menor de edad no significa que no haya ayuda para ti. La línea 1412 de SENDA es gratuita,
               confidencial y atiende a cualquier edad, las 24 horas.
             </p>
 
