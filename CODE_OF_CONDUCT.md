@@ -62,7 +62,7 @@ cuando una persona representa a la comunidad en espacios públicos.
 
 ## Cómo reportar
 
-Si sufrís o presenciás una conducta abusiva, de acoso o inaceptable, podés
+Si sufres o presencias una conducta abusiva, de acoso o inaceptable, puedes
 reportarla a la persona responsable del proyecto a través de:
 
 **contacto.progresosobrio@gmail.com**

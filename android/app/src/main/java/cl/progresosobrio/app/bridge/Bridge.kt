@@ -12,6 +12,7 @@ import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
 import cl.progresosobrio.app.PrivacyActivity
 import cl.progresosobrio.app.WatchTestActivity
+import cl.progresosobrio.app.backup.SaveFile
 import cl.progresosobrio.app.health.HealthConnectReader
 import cl.progresosobrio.app.health.sourceLabel
 import cl.progresosobrio.app.web.PwaWebView
@@ -33,19 +34,24 @@ private const val JS_OBJECT_NAME = "ProgresoSobrioAndroid"
  * La PWA envía JSON con window.ProgresoSobrioAndroid.postMessage(...) y recibe la respuesta
  * como evento "message". Solo se aceptan mensajes del origen propio y del marco principal.
  *
- * Atiende getCapabilities, openScreen y readDay; saveFile llega en el CP6.
+ * Atiende getCapabilities, openScreen, readDay y saveFile.
  *
  * @param requestPermissions abre el diálogo de permisos de Health Connect y devuelve si
  *   quedaron concedidos los tres.
+ * @param saveFile "Guardar como" del sistema, para los respaldos.
  */
 class Bridge(
     private val activity: ComponentActivity,
     private val reader: HealthConnectReader,
     private val requestPermissions: suspend () -> Boolean,
+    private val saveFile: SaveFile,
 ) {
 
     // readDay se atiende de a uno: nunca dos diálogos de permisos encima.
     private val readDayMutex = Mutex()
+
+    // Un solo "Guardar como" abierto a la vez.
+    private val saveFileMutex = Mutex()
 
     /**
      * Instala el puente. Debe llamarse antes de loadUrl: el objeto se inyecta al crear la página.
@@ -90,8 +96,36 @@ class Bridge(
         is BridgeRequest.OpenScreen -> openScreenResult(request.id, ok = openScreen(request.screen))
         is BridgeRequest.ReadDay -> readDay(request)
         is BridgeRequest.BadRequest -> errorResult(request.id, request.type, BridgeError.BAD_REQUEST)
-        // Todavía no disponible: saveFile llega en el CP6.
-        is BridgeRequest.SaveFile -> errorResult(request.id, request.requestType, BridgeError.UNKNOWN)
+        is BridgeRequest.SaveFile -> save(request)
+    }
+
+    /**
+     * Guarda un respaldo donde la persona elija. Si ya hay un "Guardar como" abierto (doble toque),
+     * el segundo pedido se responde como cancelado en vez de abrir otro selector.
+     * Los logs dicen solo el resultado: nunca el nombre ni el contenido del archivo.
+     */
+    private suspend fun save(request: BridgeRequest.SaveFile): String {
+        fun error(code: BridgeError) = errorResult(request.id, request.requestType, code)
+
+        if (!saveFileMutex.tryLock()) return error(BridgeError.CANCELLED)
+        return try {
+            when (val resultado = saveFile.save(request.filename, request.mime, request.content)) {
+                is SaveFile.Resultado.Guardado -> {
+                    Log.i(TAG, "saveFile: guardado")
+                    saveFileOk(request.id, resultado.nombre)
+                }
+                SaveFile.Resultado.Cancelado -> {
+                    Log.i(TAG, "saveFile: cancelado")
+                    error(BridgeError.CANCELLED)
+                }
+                SaveFile.Resultado.Fallo -> {
+                    Log.w(TAG, "saveFile: no se pudo escribir")
+                    error(BridgeError.WRITE_FAILED)
+                }
+            }
+        } finally {
+            saveFileMutex.unlock()
+        }
     }
 
     /**

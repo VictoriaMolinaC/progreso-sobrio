@@ -1,17 +1,22 @@
 package cl.progresosobrio.app
 
+import android.content.ActivityNotFoundException
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
+import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.health.connect.client.PermissionController
+import cl.progresosobrio.app.backup.SaveFile
 import cl.progresosobrio.app.bridge.Bridge
 import cl.progresosobrio.app.health.HealthConnectReader
 import cl.progresosobrio.app.web.PwaWebView
@@ -44,6 +49,35 @@ class MainActivity : ComponentActivity() {
         return reader.hasAllPermissions()
     }
 
+    // "Guardar como" para exportar respaldos desde la PWA (también se registra al crear la actividad).
+    private val guardarArchivo = SaveFile(this)
+
+    // Selector de archivos para "Restaurar un respaldo". Se muestran todos los archivos: con un filtro
+    // por tipo, en algunos teléfonos los .json salen grises. La PWA revisa el archivo antes de usarlo.
+    private var archivoPendiente: ValueCallback<Array<Uri>>? = null
+    private val abrirArchivo = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        responderArchivo(uri?.let { arrayOf(it) })
+    }
+
+    private fun elegirArchivo(callback: ValueCallback<Array<Uri>>) {
+        if (archivoPendiente != null) { // ya hay un selector abierto (doble toque)
+            callback.onReceiveValue(null)
+            return
+        }
+        archivoPendiente = callback
+        try {
+            abrirArchivo.launch(arrayOf("*/*"))
+        } catch (e: ActivityNotFoundException) {
+            responderArchivo(null)
+        }
+    }
+
+    // El WebView exige una respuesta siempre, también al cancelar (null): si no, el botón deja de funcionar.
+    private fun responderArchivo(archivos: Array<Uri>?) {
+        archivoPendiente?.onReceiveValue(archivos)
+        archivoPendiente = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,6 +100,7 @@ class MainActivity : ComponentActivity() {
             activity = this,
             onHistoryChanged = { puedeVolver -> volverEnWeb.isEnabled = puedeVolver },
             onRendererGone = { recreate() }, // si el motor del WebView se cae, se rearma la pantalla
+            onFileChooser = ::elegirArchivo,
         )
 
         // El fondo crema queda detrás de las barras del sistema.
@@ -90,11 +125,12 @@ class MainActivity : ComponentActivity() {
         webView = web
 
         // El puente se instala antes de cargar la PWA: el objeto se inyecta al crear la página.
-        Bridge(this, reader, ::pedirPermisosDeSalud).attach(web)
+        Bridge(this, reader, ::pedirPermisosDeSalud, guardarArchivo).attach(web)
         web.loadUrl(PwaWebView.START_URL)
     }
 
     override fun onDestroy() {
+        responderArchivo(null)
         webView?.let { web ->
             (web.parent as? ViewGroup)?.removeView(web)
             web.destroy()

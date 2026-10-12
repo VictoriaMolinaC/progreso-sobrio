@@ -1,6 +1,7 @@
 import { db } from '../db/db';
 import { clearDemoSubstanceId, getHrThreshold, setHrThreshold } from '../db/repositories';
 import type { Contact, DailyLog, ListItem, Substance } from '../db/types';
+import { AndroidBridgeError, isAndroidBridgeAvailable, saveFileViaBridge } from './androidBridge';
 import { toDateKey } from './dates';
 
 /**
@@ -122,6 +123,16 @@ function downloadBlob(content: string, filename: string, mimeType: string) {
 }
 
 /**
+ * Guarda un respaldo y devuelve el nombre final del archivo. En la app Android abre "Guardar
+ * como" (en el WebView las descargas de blob no funcionan); en el navegador, descarga como siempre.
+ */
+async function saveExport(content: string, filename: string, mimeType: string): Promise<string> {
+  if (isAndroidBridgeAvailable()) return saveFileViaBridge(filename, mimeType, content);
+  downloadBlob(content, filename, mimeType);
+  return filename;
+}
+
+/**
  * Exporta y devuelve el mensaje para mostrar. Nunca rechaza: sin esto, un fallo al exportar se
  * perdía como promesa rechazada sin capturar y el botón no hacía nada, sin forma de distinguir
  * un error del código de una descarga bloqueada por el navegador.
@@ -129,8 +140,11 @@ function downloadBlob(content: string, filename: string, mimeType: string) {
 export async function exportWithMessage(run: () => Promise<string>): Promise<string> {
   try {
     const filename = await run();
-    return `Respaldo generado: ${filename}. Si no aparece en tus descargas, tu navegador la bloqueó.`;
-  } catch {
+    return isAndroidBridgeAvailable()
+      ? `Respaldo guardado: ${filename}.`
+      : `Respaldo generado: ${filename}. Si no aparece en tus descargas, tu navegador la bloqueó.`;
+  } catch (error) {
+    if (error instanceof AndroidBridgeError && error.code === 'cancelled') return 'No se guardó ningún archivo.';
     return 'No se pudo guardar el respaldo. Intenta de nuevo.';
   }
 }
@@ -140,8 +154,7 @@ export async function exportJson(): Promise<string> {
   const data = await buildExport();
   // Fecha local en el nombre: exportedAt va en UTC y en Chile, de noche, ya marcaba el día siguiente.
   const filename = `progreso-sobrio-datos-${toDateKey(new Date())}.json`;
-  downloadBlob(JSON.stringify(data, null, 2), filename, 'application/json');
-  return filename;
+  return saveExport(JSON.stringify(data, null, 2), filename, 'application/json');
 }
 
 // Excel en Chile separa columnas con ";" y usa coma decimal: con "," todo quedaba en una
@@ -203,8 +216,7 @@ export async function exportCsv(): Promise<string> {
   // El BOM (U+FEFF) le avisa a Excel que el archivo es UTF-8: sin él, los tildes y la ñ se ven mal.
   const csv = '\uFEFF' + [CSV_COLUMNS, ...rows].map((row) => row.map(csvEscape).join(CSV_SEPARATOR)).join('\n');
   const filename = `progreso-sobrio-registros-${toDateKey(new Date())}.csv`;
-  downloadBlob(csv, filename, 'text/csv');
-  return filename;
+  return saveExport(csv, filename, 'text/csv');
 }
 
 export interface ImportSummary {

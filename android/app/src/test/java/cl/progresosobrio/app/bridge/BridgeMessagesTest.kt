@@ -113,7 +113,33 @@ class BridgeMessagesTest {
         )
     }
 
+    @Test
+    fun `saveFile acepta CSV y rechaza otros tipos de archivo`() {
+        assertEquals(
+            BridgeRequest.SaveFile("a1", "registros.csv", "text/csv", "a;b"),
+            parseBridgeRequest(mensaje(""""type":"saveFile","filename":"registros.csv","mime":"text/csv","content":"a;b"""")),
+        )
+        assertEquals(
+            BridgeRequest.BadRequest("a1", "saveFile"),
+            parseBridgeRequest(mensaje(""""type":"saveFile","filename":"x.html","mime":"text/html","content":"<p>"""")),
+        )
+        assertEquals(
+            BridgeRequest.BadRequest("a1", "saveFile"),
+            parseBridgeRequest(mensaje(""""type":"saveFile","filename":"x.json","content":"{}"""")),
+        )
+    }
+
     // --- Respuestas ---
+
+    @Test
+    fun `saveFileOk lleva el nombre con que quedó el archivo`() {
+        val json = JSONObject(saveFileOk("a1", "progreso-sobrio-datos-2026-10-12 (1).json"))
+
+        assertEquals("a1", json.getString("id"))
+        assertEquals("saveFileResult", json.getString("type"))
+        assertTrue(json.getBoolean("ok"))
+        assertEquals("progreso-sobrio-datos-2026-10-12 (1).json", json.getString("filename"))
+    }
 
     @Test
     fun `capabilitiesResult lleva todos sus campos`() {
