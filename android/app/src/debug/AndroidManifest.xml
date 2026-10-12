@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Solo en la versión debug: un segundo icono "Datos del reloj" que abre la pantalla de
+     prueba / diagnóstico. La versión release no lo tiene (ahí la pantalla es interna). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <activity
+            android:name=".WatchTestActivity"
+            android:exported="true"
+            android:label="@string/datos_del_reloj"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

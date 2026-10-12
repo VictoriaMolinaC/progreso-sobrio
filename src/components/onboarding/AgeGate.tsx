@@ -43,7 +43,7 @@ export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
       <img
-        src="/favicon.svg"
+        src={`${import.meta.env.BASE_URL}favicon.svg`}
         alt=""
         className="h-20 w-20 rounded-2xl shadow-[0_4px_16px_rgba(62,58,54,0.16)] dark:shadow-none"
       />

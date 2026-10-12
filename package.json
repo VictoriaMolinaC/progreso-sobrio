@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:android": "tsc -b && vite build --mode android",
+    "copy:android": "node scripts/copy-pwa-to-android.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },

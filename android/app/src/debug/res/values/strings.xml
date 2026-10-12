@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nombre del icono de diagnóstico (solo versión debug). -->
+    <string name="datos_del_reloj">Datos del reloj</string>
+</resources>

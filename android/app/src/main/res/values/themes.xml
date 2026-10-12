@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Fondo de la ventana mientras Compose aún no dibuja: el mismo crema de la app.
+         En modo oscuro se usa values-night/themes.xml, así no hay destello blanco al abrir. -->
+    <color name="fondo_ventana">#FAF6F0</color>
+
+    <style name="Theme.ProgresoSobrio" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/fondo_ventana</item>
+    </style>
+
+    <!-- Pantalla principal (PWA en el WebView): siempre clara, como el tema por defecto de la PWA.
+         Sin variante de noche: no hay destello café al abrir, el WebView le informa "modo claro"
+         a la PWA y los diálogos de confirm() salen claros. -->
+    <color name="fondo_web">#FAF6F0</color>
+
+    <style name="Theme.ProgresoSobrio.Web" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/fondo_web</item>
+    </style>
+</resources>

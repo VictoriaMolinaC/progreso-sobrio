@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Modo oscuro: fondo café de la app desde el primer instante (sin destello blanco). -->
+    <color name="fondo_ventana">#221E1A</color>
+
+    <style name="Theme.ProgresoSobrio" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/fondo_ventana</item>
+    </style>
+</resources>
