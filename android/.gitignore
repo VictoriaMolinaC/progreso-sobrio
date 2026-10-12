@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Firma de release: la llave y sus contraseñas nunca van a Git
+keystore.properties
+*.jks
+*.keystore

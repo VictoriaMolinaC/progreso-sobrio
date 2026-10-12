@@ -1,7 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
+// Firma de release: rutas y contraseñas en android/keystore.properties (ignorado en Git; la llave
+// .jks vive fuera del repo). Si el archivo no existe, debug y los tests funcionan igual y la
+// release sale sin firmar.
+val keystorePropsFile = rootProject.file("keystore.properties")
+val keystoreProps = Properties().apply {
+    if (keystorePropsFile.exists()) keystorePropsFile.inputStream().use { load(it) }
+}
+fun keystoreProp(name: String): String =
+    keystoreProps.getProperty(name) ?: throw GradleException("Falta '$name' en keystore.properties")
 
 android {
     namespace = "cl.progresosobrio.app"
@@ -14,13 +26,27 @@ android {
         minSdk = 28
         targetSdk = 37
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (keystorePropsFile.exists()) {
+            create("release") {
+                storeFile = file(keystoreProp("storeFile"))
+                storePassword = keystoreProp("storePassword")
+                keyAlias = keystoreProp("keyAlias")
+                keyPassword = keystoreProp("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (keystorePropsFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             optimization {
                 enable = true
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
