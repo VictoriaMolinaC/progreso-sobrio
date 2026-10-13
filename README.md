@@ -1,7 +1,7 @@
 # Progreso Sobrio
 
 <p align="center">
-<img src=".github/banner.png" alt="Progreso Sobrio: app open source, 100% offline, para acompañar la abstinencia de sustancias">
+<img src=".github/banner.png" alt="Progreso Sobrio: app open source, web y Android, 100% offline, para acompañar la abstinencia de sustancias">
 </p>
 
 Acompaña el día a día de una persona en proceso de abstinencia de sustancias, sin juzgar, sin dar diagnósticos, un día a la vez.
@@ -17,8 +17,8 @@ Acompaña el día a día de una persona en proceso de abstinencia de sustancias,
 ## Privacidad primero
 
 - **100% offline** una vez cargada, funciona sin conexión a internet.
-- **Sin backend, sin servidor externo.** Todos los datos se guardan solo en tu navegador (IndexedDB).
-- **Sin analytics, sin llamadas de red con tus datos.** Nada sale de tu dispositivo.
+- **Sin backend, sin servidor externo.** Todos los datos se guardan solo en tu dispositivo: en tu navegador (IndexedDB) o dentro de la app Android.
+- **Sin analytics, sin llamadas de red con tus datos.** Nada sale de tu dispositivo. La app Android ni siquiera tiene permiso de internet.
 - Tus datos son tuyos: puedes exportarlos e importarlos cuando quieras.
 
 Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
@@ -36,12 +36,13 @@ Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
 - **Gráficas** de LPM en reposo, sueño y actividad a lo largo del tiempo.
 - **Panel "Qué te ayuda"**: correlaciones simples en lenguaje llano, nunca un diagnóstico.
 - **Rachas de cumplimiento por hábito.**
-- **Exportar e importar** todos tus datos en JSON y CSV.
+- **Respaldo completo** en un archivo JSON que puedes restaurar cuando quieras, y **tus registros en CSV** para abrirlos en Excel o Sheets.
 - **Red de apoyo** siempre a un toque: tus propios contactos + la línea 1412 de SENDA.
+- **Traer datos del reloj** (solo en la app Android): pulso y sueño desde Health Connect, con una vista previa antes de usarlos en tu registro.
 
 ## App Android
 
-Además de la versión web, hay una app para Android 9 o superior. Es la misma app, empaquetada para funcionar sin internet, y además puede traer el pulso y el sueño de tu reloj desde Health Connect. Se descarga desde [GitHub Releases](https://github.com/VictoriaMolinaC/progreso-sobrio/releases) (versión `android-v0.1.0`).
+Además de la versión web, hay una app para Android 9 o superior. Es la misma app, empaquetada para funcionar sin internet, y además puede traer el pulso y el sueño de tu reloj desde Health Connect. Descarga el APK desde la [última versión en GitHub Releases](https://github.com/VictoriaMolinaC/progreso-sobrio/releases/latest).
 
 **Instalar**
 
@@ -84,7 +85,7 @@ Una app que compiles tú queda con otra firma: Android no la deja instalarse enc
 
 No encontramos una app chilena dedicada a esto. Lo más cercano es la línea/chat 1412 de SENDA y "PlanSobrio", una app de encuentro social para gente sobria en Latinoamérica, pero con otro propósito (no es un tracker diario).
 
-Progreso Sobrio se diferencia por ser open source, una PWA instalable que funciona sin conexión, con profundidad real de correlación entre LPM, sueño, craving y ánimo, soporte para varias sustancias en paralelo, e integración directa con la red de apoyo chilena.
+Progreso Sobrio se diferencia por ser open source, una PWA instalable y una app Android que funcionan sin conexión, con profundidad real de correlación entre LPM, sueño, craving y ánimo, soporte para varias sustancias en paralelo, e integración directa con la red de apoyo chilena.
 
 ## Por qué no tiene IA
 
@@ -109,9 +110,17 @@ La parte de los recordatorios sí calzaba, así que la convertimos en el [issue 
 <img src=".github/screenshots/capturas-modo-oscuro.png" alt="Modo oscuro: puerta de edad, tour de red de apoyo y rachas por hábito">
 </p>
 
+<p align="center">
+<img src=".github/screenshots/capturas-app-android.png" alt="App Android: permiso de Health Connect, vista previa de los datos del reloj, campos completados y pantalla de privacidad">
+</p>
+
 ## Stack técnico
 
 Vite + React + TypeScript, Tailwind CSS, [Dexie.js](https://dexie.org/) sobre IndexedDB para todo el almacenamiento local, y Recharts para las gráficas. Gestor de paquetes: pnpm.
+
+La app Android (carpeta `android/`) es un envoltorio nativo en Kotlin: muestra la misma PWA en un WebView, sin permiso de internet, y lee pulso y sueño desde [Health Connect](https://developer.android.com/health-and-fitness/guides/health-connect).
+
+Las imágenes de este README se generan con las plantillas de [`.github/imagenes/`](./.github/imagenes/COMO-GENERAR.md).
 
 ## Correr el proyecto localmente
 
