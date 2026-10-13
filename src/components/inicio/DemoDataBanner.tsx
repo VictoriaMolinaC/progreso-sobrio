@@ -23,7 +23,7 @@ export function DemoDataBanner({ onGoToAjustes }: DemoDataBannerProps) {
   return (
     <div className="w-full max-w-sm rounded-xl bg-ink/[0.04] p-4 text-left shadow-[0_2px_8px_rgba(62,58,54,0.08)] dark:bg-ink-dark/[0.06] dark:shadow-none">
       <p className="text-sm text-ink/80 dark:text-ink-dark/80">
-        Estos son datos de ejemplo para que veas cómo funciona la app. Cuando quieras empezar con los tuyos, borralos
+        Estos son datos de ejemplo para que veas cómo funciona la app. Cuando quieras empezar con los tuyos, bórralos
         desde Ajustes.
       </p>
       <div className="mt-3 flex items-center gap-3">

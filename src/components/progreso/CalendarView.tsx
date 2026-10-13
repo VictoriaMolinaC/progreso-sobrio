@@ -104,7 +104,7 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
       </div>
 
       <p className="mt-3 text-center text-sm text-ink/50 dark:text-ink-dark/50">
-        Los días marcados tienen un registro tocalos para verlo.
+        Los días marcados tienen un registro: tócalos para verlo.
       </p>
     </div>
   );

@@ -1,0 +1,164 @@
+/* Estilos compartidos del banner y los collages del README.
+   Colores tomados de src/index.css; fuentes en ./fuentes (licencia SIL OFL 1.1). */
+
+@font-face {
+  font-family: 'Lora';
+  font-weight: 600;
+  font-display: block;
+  src: url('fuentes/lora-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-display: block;
+  src: url('fuentes/poppins-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-display: block;
+  src: url('fuentes/poppins-500.woff2') format('woff2');
+}
+
+:root {
+  --crema: #faf6f0;
+  --tinta: #3e3a36;
+  --tinta-suave: #6b655e;
+  --salvia: #5b9279;
+  --terracota: #c97c5d;
+  --ambar: #e6a756;
+  --fondo-oscuro: #221e1a;
+  --tinta-oscura: #f5efe6;
+  --tinta-oscura-suave: #b9b0a5;
+  --marco: #2f2b27;
+  --marco-oscuro: #4a443e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Franja salvia a la izquierda, como en el banner */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 14px;
+  background: var(--salvia);
+}
+
+body.oscuro {
+  background: var(--fondo-oscuro);
+  color: var(--tinta-oscura);
+}
+
+/* --- Collages --- */
+.lamina {
+  padding: 72px 80px 64px 80px;
+}
+
+.ceja {
+  margin: 0;
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--salvia);
+}
+
+.titulo {
+  margin: 14px 0 10px;
+  font-family: 'Lora', serif;
+  font-weight: 600;
+  font-size: 58px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.bajada {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.35;
+  color: var(--tinta-suave);
+}
+
+.oscuro .bajada,
+.oscuro figcaption span {
+  color: var(--tinta-oscura-suave);
+}
+
+.fila {
+  display: flex;
+  justify-content: center;
+  gap: 72px;
+  margin-top: 56px;
+}
+
+.fila.cuatro {
+  gap: 48px;
+}
+
+figure {
+  margin: 0;
+  text-align: center;
+}
+
+figcaption strong {
+  display: block;
+  margin-top: 26px;
+  font-weight: 500;
+  font-size: 25px;
+}
+
+figcaption span {
+  display: block;
+  margin-top: 4px;
+  font-size: 20px;
+  color: var(--tinta-suave);
+}
+
+/* --- Teléfono --- */
+.telefono {
+  width: 330px;
+  height: 680px;
+  border: 10px solid var(--marco);
+  border-radius: 44px;
+  overflow: hidden;
+  background: var(--crema);
+  box-shadow: 0 24px 48px rgba(62, 58, 54, 0.18);
+}
+
+.cuatro .telefono {
+  width: 306px;
+  height: 632px;
+  border-radius: 42px;
+}
+
+.oscuro .telefono {
+  border-color: var(--marco-oscuro);
+  background: var(--fondo-oscuro);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+
+.telefono img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
