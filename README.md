@@ -1,4 +1,4 @@
-# Progreso Sobrio
+# ⚙️Progreso Sobrio
 
 <p align="center">
 <img src=".github/banner.png" alt="Progreso Sobrio: app open source, 100% offline, para acompañar la abstinencia de sustancias">
@@ -27,7 +27,7 @@ Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
 <img src=".github/screenshots/modo-avion.png" width="240" alt="La app funcionando en modo avión, sin conexión a internet">
 </p>
 
-## Qué hace
+## 📌Qué hace
 
 - **Tour de bienvenida**, una sola vez, antes de entrar por primera vez: te explica en 4 tarjetas cortas dónde está el registro diario, dónde ver tu progreso, y que tu red de apoyo está siempre a un toque en el ícono de corazón.
 - **Racha de sobriedad** por sustancia, lo primero que ves al abrir la app, y puedes tener varias en paralelo.
@@ -39,7 +39,7 @@ Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
 - **Exportar e importar** todos tus datos en JSON y CSV.
 - **Red de apoyo** siempre a un toque: tus propios contactos + la línea 1412 de SENDA.
 
-## App Android
+## 📌App Android
 
 Además de la versión web, hay una app para Android 9 o superior. Es la misma app, empaquetada para funcionar sin internet, y además puede traer el pulso y el sueño de tu reloj desde Health Connect. Se descarga desde [GitHub Releases](https://github.com/VictoriaMolinaC/progreso-sobrio/releases) (versión `android-v0.1.0`).
 
@@ -80,13 +80,13 @@ cd android
 
 Una app que compiles tú queda con otra firma: Android no la deja instalarse encima de la oficial (habría que desinstalar, y eso borra los datos).
 
-## Por qué existe
+## 📌Por qué existe
 
 No encontramos una app chilena dedicada a esto. Lo más cercano es la línea/chat 1412 de SENDA y "PlanSobrio", una app de encuentro social para gente sobria en Latinoamérica, pero con otro propósito (no es un tracker diario).
 
 Progreso Sobrio se diferencia por ser open source, una PWA instalable que funciona sin conexión, con profundidad real de correlación entre LPM, sueño, craving y ánimo, soporte para varias sustancias en paralelo, e integración directa con la red de apoyo chilena.
 
-## Por qué no tiene IA
+## 📌Por qué no tiene IA
 
 Un contribuidor propuso agregar un agente de IA para resolver dudas y armar recordatorios ([discusión #47](https://github.com/VictoriaMolinaC/progreso-sobrio/discussions/47)). Decidimos que no, por dos razones:
 
@@ -95,7 +95,7 @@ Un contribuidor propuso agregar un agente de IA para resolver dudas y armar reco
 
 La parte de los recordatorios sí calzaba, así que la convertimos en el [issue #48](https://github.com/VictoriaMolinaC/progreso-sobrio/issues/48): un recordatorio diario 100% offline, con un texto discreto. ¿Tienes otra mirada? Súmate a la conversación en las [Discusiones](https://github.com/VictoriaMolinaC/progreso-sobrio/discussions).
 
-## Capturas
+## 📌Capturas
 
 <p align="center">
 <img src=".github/screenshots/capturas-primera-vez.png" alt="Primera vez: puerta de edad, tour de bienvenida y pantalla de inicio con la racha">
@@ -109,11 +109,32 @@ La parte de los recordatorios sí calzaba, así que la convertimos en el [issue 
 <img src=".github/screenshots/capturas-modo-oscuro.png" alt="Modo oscuro: puerta de edad, tour de red de apoyo y rachas por hábito">
 </p>
 
-## Stack técnico
+## 📌Stack técnico
 
-Vite + React + TypeScript, Tailwind CSS, [Dexie.js](https://dexie.org/) sobre IndexedDB para todo el almacenamiento local, y Recharts para las gráficas. Gestor de paquetes: pnpm.
+<div align="left">
+  <img align="center" 
+    <img width="16" />
+    <img align="center" src="devicon-vite-original-wordmark" height="44" alt="vite logo"  />
+      <img width="16" />
+    <img align="center" src="devicon-react-original-wordmark colored" height="44" alt="react logo"  />
+      <img width="16" />
+    <img align="center" src="devicon-typescript-plain colored" height="44" alt="typescript logo"  />
+      <img width="16" />
+    <img align="center" src="devicon-tailwindcss-plain-wordmark colored" height="44" alt="tailwindcss logo"  />
 
-## Correr el proyecto localmente
+
+  ### Gestor de paquetes:
+
+   <div align="left">
+    <img align="center" 
+      <img width="16" />
+      <img align="center" src="devicon-pnpm-plain-wordmark colored" height="40" alt="pnpm logo"  />
+
+
+  [Dexie.js](https://dexie.org/) sobre IndexedDB para todo el almacenamiento local, y Recharts para las gráficas. 
+  
+
+## 📌Correr el proyecto localmente
 
 ```bash
 git clone https://github.com/VictoriaMolinaC/progreso-sobrio.git
@@ -122,23 +143,23 @@ pnpm install
 pnpm dev
 ```
 
-## Cómo contribuir
+## 📌Cómo contribuir
 
 Lee detalladamente el documento [CONTRIBUTING.md](./CONTRIBUTING.md) para el flujo de trabajo y cómo levantar el entorno.
 
 ¿Buscas tu primera contribución open source? Revisa los issues con la etiqueta [`good first issue`](https://github.com/VictoriaMolinaC/progreso-sobrio/issues?q=is%3Aopen+label%3A%22good+first+issue%22).
 
-## Apoyar el proyecto
+## 📌Apoyar el proyecto
 
 Si Progreso Sobrio te sirve y puedes aportar, ayudas a sostener el proyecto. Basta con dejar una estrella ⭐ o participar en las [Discusiones](https://github.com/VictoriaMolinaC/progreso-sobrio/discussions).
 
-## Cuéntanos tu experiencia
+## 📌Cuéntanos tu experiencia
 
 Si Progreso Sobrio te ayudó, puedes contarlo de forma **completamente anónima** (no pedimos nombre ni correo) en [este formulario](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform). Si prefieres escribir directamente, puedes hacerlo a **contacto.progresosobrio@gmail.com**.
 
 [![Cuéntanos tu experiencia, anónimo](https://img.shields.io/badge/Cu%C3%A9ntanos_tu_experiencia-an%C3%B3nimo-5B8C73?style=for-the-badge)](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform)
 
-## Autora
+## 📌Autora
 
 Proyecto creado por **Victoria Molina**, desarrolladora full stack en Chile.
 
