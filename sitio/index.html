@@ -97,10 +97,14 @@ nav.links a:hover { color: var(--ink); }
 .facts li { display: flex; align-items: center; gap: .4rem; }
 .facts li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--primary); }
 
-/* Captura real de la app (datos de ejemplo) dentro de un marco de teléfono */
-.shot { justify-self: center; margin: 0; width: min(100%, 290px); display: flex; flex-direction: column; gap: .8rem; }
-.shot-frame { border: 9px solid #2f2b27; border-radius: 38px; overflow: hidden; background: #faf6f0; box-shadow: 0 20px 40px rgba(62, 58, 54, .16); }
-.shot-frame img { display: block; width: 100%; height: auto; }
+/* Capturas reales de la app en dos teléfonos, como el banner: atrás los datos del reloj, adelante el inicio.
+   Las capturas miden 540 px de ancho y se muestran a menos de la mitad: se ven nítidas en pantallas de alta definición. */
+.shot { justify-self: center; margin: 0; width: min(100%, 400px); display: flex; flex-direction: column; gap: 1rem; }
+.shot-stage { position: relative; aspect-ratio: 400 / 560; }
+.shot-frame { position: absolute; width: 62%; aspect-ratio: 9 / 19; border: 9px solid #2f2b27; border-radius: 36px; overflow: hidden; background: #faf6f0; box-shadow: 0 20px 40px rgba(62, 58, 54, .16); }
+.shot-frame.back { left: 0; top: 0; transform: rotate(-4deg); box-shadow: 0 16px 32px rgba(62, 58, 54, .12); }
+.shot-frame.front { right: 0; bottom: 0; }
+.shot-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .shot figcaption { font-size: .82rem; color: var(--muted); text-align: center; }
 
 /* Nota para quien ya usaba la dirección anterior de la app */
@@ -203,10 +207,15 @@ footer .wrap { display: flex; flex-direction: column; gap: 1rem; }
     </div>
 
     <figure class="shot">
-      <div class="shot-frame">
-        <img src="img/inicio.jpg" width="540" height="1136" alt="Pantalla de inicio de Progreso Sobrio: racha de 15 días sin alcohol, el mensaje «Sigues firme. Un día a la vez.» y el botón «Registrar hoy».">
+      <div class="shot-stage">
+        <div class="shot-frame back">
+          <img src="img/datos-reloj.jpg" width="540" height="1088" alt="Vista previa «Datos del reloj» en la app Android: pulso mínimo y máximo, horas de sueño y la fuente Mi Fitness, con los botones «Usar estos datos» y «Descartar».">
+        </div>
+        <div class="shot-frame front">
+          <img src="img/inicio.jpg" width="540" height="1136" alt="Pantalla de inicio de Progreso Sobrio: racha de 15 días sin alcohol, el mensaje «Sigues firme. Un día a la vez.» y el botón «Registrar hoy».">
+        </div>
       </div>
-      <figcaption>Pantalla de inicio de la app, con datos de ejemplo.</figcaption>
+      <figcaption>El inicio (con datos de ejemplo) y los datos del reloj en la app Android.</figcaption>
     </figure>
   </div>
 
