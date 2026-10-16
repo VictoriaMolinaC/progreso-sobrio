@@ -64,7 +64,11 @@ export function SubstanceRow({ substance }: SubstanceRowProps) {
             </button>
           </div>
 
-          <button type="button" onClick={handleDelete} className="text-sm text-warning">
+          <button 
+            type="button"
+            onClick={handleDelete} 
+            className="mt-2 w-full rounded-xl border border-red-300 bg-transparent px-4 py-3 text-sm font-medium text-warning transition-colors hover:bg-warning/10 dark:border-red-400/40 dark:text-warning dark:hover:bg-warning/10"
+            >
             Eliminar sustancia
           </button>
         </form>
