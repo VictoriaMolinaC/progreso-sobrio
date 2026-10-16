@@ -64,7 +64,7 @@ export function SubstanceRow({ substance }: SubstanceRowProps) {
             </button>
           </div>
 
-          <button type="button" onClick={handleDelete} className="text-sm text-warning">
+          <button type="button" onClick={handleDelete} className="text-sm text-warning w-full border border-red-300 rounded-xl p-2 cursor-pointer">
             Eliminar sustancia
           </button>
         </form>
