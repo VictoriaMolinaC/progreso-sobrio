@@ -1,0 +1,42 @@
+/* Solo para componentes.html (la guía de componentes). La portada y las páginas legales no cargan este archivo. */
+.kit-intro { padding-block: var(--e-7) var(--e-5); }
+.kit-intro h1 { font-size: var(--t-portada); margin-block: var(--e-3); }
+.kit-section { padding-block: var(--e-7); border-top: 1px solid var(--linea); }
+.kit-section h2 { font-size: var(--t-titulo); margin-bottom: var(--e-2); }
+.kit-desc { max-width: 44rem; margin-bottom: var(--e-5); color: var(--tinta-suave); }
+.kit-desc code, .kit-intro code { padding: 0 .3rem; border-radius: 6px; background: var(--superficie); font-size: .9em; }
+.kit-demo { margin-bottom: var(--e-4); padding: var(--e-5); border: 1.5px dashed #d6cbbd; border-radius: var(--r); background: var(--crema); }
+.kit-demo-bruma { background: linear-gradient(var(--bruma), var(--crema)); }
+.kit-demo-flush { padding: 0; overflow: hidden; }
+.kit-demo-grid { display: grid; gap: var(--e-4); }
+@media (min-width: 760px) { .kit-demo-grid { grid-template-columns: 1fr 1fr; } }
+.kit-code { margin: 0; padding: var(--e-4) var(--e-5); overflow-x: auto; border-radius: var(--r-chico); background: var(--tinta); color: #f3ede4; font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+.kit-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: var(--e-4); margin: 0; padding: 0; list-style: none; }
+.kit-swatches li { display: flex; flex-direction: column; gap: .1rem; font-size: var(--t-chico); }
+.kit-swatches b { color: var(--tinta); }
+.kit-swatches span { color: var(--tinta-suave); }
+.chip { display: block; height: 64px; margin-bottom: var(--e-2); border: 1px solid var(--linea); border-radius: var(--r-chico); }
+.chip-crema { background: var(--crema); }
+.chip-tarjeta { background: var(--tarjeta); }
+.chip-superficie { background: var(--superficie); }
+.chip-bruma { background: var(--bruma); }
+.chip-linea { background: var(--linea); }
+.chip-tinta { background: var(--tinta); }
+.chip-tinta-suave { background: var(--tinta-suave); }
+.chip-salvia-texto { background: var(--salvia-texto); }
+.chip-terracota-texto { background: var(--terracota-texto); }
+.chip-salvia { background: var(--salvia); }
+.chip-salvia-boton { background: var(--salvia-boton); }
+.chip-salvia-suave { background: var(--salvia-suave); }
+.chip-terracota { background: var(--terracota); }
+.chip-terracota-suave { background: var(--terracota-suave); }
+.chip-ambar { background: var(--ambar); }
+.chip-mancha-salvia { background: var(--mancha-salvia); }
+.chip-mancha-durazno { background: var(--mancha-durazno); }
+.chip-mancha-miel { background: var(--mancha-miel); }
+.kit-type { display: flex; flex-direction: column; gap: var(--e-4); }
+.kit-type .t-portada { font-size: var(--t-portada); font-weight: 300; line-height: 1.2; }
+.kit-type .t-titulo { font-size: var(--t-titulo); font-weight: 300; line-height: 1.2; }
+.kit-type .t-subtitulo { font-size: var(--t-subtitulo); font-weight: 600; }
+.kit-type .t-bajada { font-size: var(--t-bajada); color: var(--tinta-suave); }
+.kit-type small { display: block; color: var(--tinta-suave); font-size: var(--t-mini); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }

@@ -54,4 +54,7 @@ pnpm dev
 
 - Todo el texto de cara al usuario (labels, botones, mensajes) va en español, es una app para Chile.
 - No hay backend ni llamadas de red con datos personales, si tu cambio necesita eso, probablemente no encaje con el proyecto. Abre un issue primero para discutirlo.
+- Nada de recursos de terceros: fuentes, scripts, estilos, íconos e imágenes se guardan en el repo y se sirven desde el mismo sitio. Cargarlos desde otro servidor (Google Fonts, una CDN, analítica) le avisa a ese servicio que alguien está usando la app.
+- Al abrir un PR aceptas que tu aporte se publique bajo la [licencia MIT](./LICENSE) del proyecto. El nombre «Progreso Sobrio» y el logo no forman parte de esa licencia.
+- Si encuentras una vulnerabilidad, no abras un issue: sigue [SECURITY.md](./SECURITY.md).
 - Todavía no hay suite de tests automatizada, prueba tu cambio manualmente en el navegador (`pnpm dev`) antes de abrir el PR.

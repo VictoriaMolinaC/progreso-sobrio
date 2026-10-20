@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Política de privacidad · Progreso Sobrio</title>
+<meta name="description" content="Qué datos guarda Progreso Sobrio, dónde quedan, cuáles nos llegan y cómo ejercer tus derechos. Versión 1.0.">
+<meta name="theme-color" content="#dae2d8">
+<link rel="canonical" href="https://progresosobrio.cl/privacidad.html">
+<!-- Todo se carga desde este mismo sitio: ninguna fuente, imagen ni script de terceros. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; font-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fuentes/figtree.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="top">
+  <div class="wrap">
+    <!-- Isotipo: la manchita. El nombre completo va en el título de la página y en el pie. -->
+    <a class="brand" href="index.html" aria-label="Progreso Sobrio, ir al inicio">
+      <svg class="brand-blob" viewBox="0 0 48 48" aria-hidden="true"><path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/><circle cx="31" cy="18.5" r="5" fill="#e6a756"/></svg>
+    </a>
+    <nav class="links" aria-label="Páginas">
+      <a href="index.html">Inicio</a>
+      <a href="terminos.html">Términos de uso</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="contenido">
+  <div class="doc-hero">
+    <div class="doc-icon" aria-hidden="true">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+    </div>
+    <h1>Política de privacidad</h1>
+    <span class="badge">Versión 1.0 · Vigente desde el 20 de octubre de 2026</span>
+    <p class="lead">Qué guarda la app, dónde queda y qué hacemos con lo poco que nos llega.</p>
+  </div>
+
+  <div class="layout">
+    <nav class="card toc" aria-label="Contenido">
+      <details open>
+        <summary>Contenido</summary>
+        <ol>
+          <li><a href="#responsable">Quién es responsable</a></li>
+          <li><a href="#app">Lo que guarda la app</a></li>
+          <li><a href="#reloj">Datos del reloj o pulsera</a></li>
+          <li><a href="#exportar">Respaldos y archivos que exportas</a></li>
+          <li><a href="#nos-llega">Los datos que sí nos llegan</a></li>
+          <li><a href="#terceros">A quién se entregan y si salen de Chile</a></li>
+          <li><a href="#seguridad">Cómo cuidamos la seguridad</a></li>
+          <li><a href="#vulneraciones">Si ocurre una vulneración</a></li>
+          <li><a href="#derechos">Tus derechos y cómo ejercerlos</a></li>
+          <li><a href="#menores">Menores de edad</a></li>
+          <li><a href="#cookies">Cookies y almacenamiento</a></li>
+          <li><a href="#cambios">Cambios a esta política</a></li>
+        </ol>
+      </details>
+    </nav>
+
+    <article>
+      <section class="card summary" id="resumen">
+        <h2>En corto</h2>
+        <ul class="checks">
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Lo que anotas en la app se guarda solo en tu dispositivo. No tenemos servidor ni base de datos: no lo vemos y no podemos recuperarlo.</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>La app no usa analítica, publicidad, cookies ni servicios externos.</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Solo nos llegan datos si tú nos escribes o respondes el formulario de experiencias.</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Sobre esos datos tienes derechos, y aquí te explicamos cómo ejercerlos.</span></li>
+        </ul>
+      </section>
+
+      <section class="card" id="responsable">
+        <h2><span class="num" aria-hidden="true">1</span>Quién es responsable</h2>
+        <p>Progreso Sobrio es un proyecto personal, gratuito y de código abierto, hecho en Chile. La responsable es <b>Victoria Molina Copier</b>, su creadora. En esta política, «nosotros» se refiere a ella.</p>
+        <p>No es una empresa, así que no tiene representante legal ni encargado de prevención. Para cualquier consulta o solicitud sobre tus datos, escribe a <span class="email">contacto.progresosobrio@gmail.com</span>.</p>
+        <p>Esta política aplica al sitio progresosobrio.cl, a la app web (app.progresosobrio.cl y su dirección anterior, progreso-sobrio.vercel.app), a la app Android y a nuestros canales de contacto.</p>
+      </section>
+
+      <section class="card" id="app">
+        <h2><span class="num" aria-hidden="true">2</span>Lo que guarda la app</h2>
+        <p>Todo lo que anotas en la app se guarda <b>solo en tu dispositivo</b>: en la versión web, dentro de tu navegador; en la app Android, dentro de la app en tu teléfono. No se envía a ningún servidor.</p>
+        <ul class="tiles">
+          <li><b>Sustancias</b><span>Nombre y fecha de la última vez. De ahí se calcula la racha.</span></li>
+          <li><b>Registro diario</b><span>Pulso (en reposo, mínimo y máximo) y el equipo con que mediste; craving, sueño, actividad física, energía y ánimo; disparadores, hábitos y tus notas.</span></li>
+          <li><b>Hábitos y disparadores</b><span>Las listas que tú defines.</span></li>
+          <li><b>Red de apoyo</b><span>Nombre, teléfono y relación de tus contactos de confianza.</span></li>
+          <li><b>Ajustes</b><span>Modo claro u oscuro, tu umbral de pulso, que confirmaste ser mayor de edad y que ya viste el tour de bienvenida.</span></li>
+        </ul>
+        <p>Los datos de salud son <b>datos sensibles</b> según la ley chilena. Los ingresas tú, para tu propio uso, y no salen de tu dispositivo: nosotros no los recibimos, no los vemos y no podemos recuperarlos si se pierden.</p>
+        <p class="note">En tu red de apoyo anotas datos de otras personas. También se quedan solo en tu dispositivo, pero te pedimos agregarlas con su conocimiento.</p>
+      </section>
+
+      <section class="card" id="reloj">
+        <h2><span class="num" aria-hidden="true">3</span>Datos del reloj o pulsera (solo Android)</h2>
+        <ul>
+          <li>La app Android puede leer tres datos desde Health Connect: <b>pulso, pulso en reposo y sueño</b>.</li>
+          <li>Solo los lee cuando tocas «Traer datos del reloj», nunca en segundo plano. Primero los ves en pantalla, y se guardan solo si tocas «Usar estos datos» y después «Guardar registro».</li>
+          <li>Quedan en tu registro diario, en tu teléfono. No los usamos para publicidad, no los vendemos y no los compartimos con nadie.</li>
+          <li>Puedes quitar el acceso cuando quieras en Health Connect → Permisos de apps.</li>
+        </ul>
+        <p class="note">Los datos de tu pulsera llegan a Health Connect a través de la app del fabricante, que los maneja con sus propias reglas y, según la marca, puede pasarlos por su nube. Por ejemplo, Mi Fitness (pulseras Xiaomi) necesita tu cuenta Xiaomi y usa la nube de Xiaomi. Ese tramo es entre tú y el fabricante; Progreso Sobrio no participa en él. Sin pulsera, la app funciona igual.</p>
+      </section>
+
+      <section class="card" id="exportar">
+        <h2><span class="num" aria-hidden="true">4</span>Respaldos y archivos que exportas</h2>
+        <p>En Ajustes puedes descargar un <b>respaldo completo</b> (archivo .json) o <b>tus registros</b> (archivo .csv para Excel o Sheets). Los dos se crean en tu dispositivo y contienen datos de salud.</p>
+        <ul>
+          <li>Si compartes un archivo (por correo, WhatsApp, Google Drive u otra nube), sale de tu dispositivo y queda sujeto a las reglas de ese servicio y de quien lo reciba.</li>
+          <li>Si se lo entregas a tu terapeuta o a un centro, esa copia queda bajo su responsabilidad.</li>
+          <li>La app Android no se copia sola a la nube de Google ni a otro teléfono: el respaldo automático del sistema y el traspaso entre teléfonos están desactivados.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="nos-llega">
+        <h2><span class="num" aria-hidden="true">5</span>Los datos que sí nos llegan</h2>
+        <p>Solo recibimos datos personales cuando tú decides contactarnos. Los usamos con tu consentimiento, que das al escribirnos o al enviar el formulario, y solo para lo que se indica aquí.</p>
+        <div class="channels">
+          <div class="channel">
+            <h3>Correo</h3>
+            <dl>
+              <dt>Qué recibimos</dt><dd>Tu correo, tu nombre si lo incluyes y lo que escribas a <span class="email">contacto.progresosobrio@gmail.com</span>.</dd>
+              <dt>Para qué</dt><dd>Responderte. Si eres un centro o profesional, coordinar contigo.</dd>
+              <dt>Cuánto tiempo</dt><dd>Hasta 12 meses después de la última conversación, salvo que pidas borrarlo antes.</dd>
+            </dl>
+          </div>
+          <div class="channel">
+            <h3>Formulario «Cuéntanos tu experiencia» (Google Forms)</h3>
+            <dl>
+              <dt>Qué recibimos</dt><dd>Tus respuestas. No pedimos nombre ni correo.</dd>
+              <dt>Para qué</dt><dd>Mejorar la app. Solo si marcas la autorización, citar tu respuesta como testimonio anónimo.</dd>
+              <dt>Cuánto tiempo</dt><dd>Hasta 12 meses desde que la envías. Un testimonio autorizado se mantiene mientras esté publicado, y puedes pedir que lo retiremos.</dd>
+            </dl>
+          </div>
+          <div class="channel">
+            <h3>Visitas al sitio y a la app web</h3>
+            <dl>
+              <dt>Qué recibimos</dt><dd>Nosotros, nada. Vercel, el servicio que aloja las páginas, registra datos técnicos de conexión: dirección IP, navegador, fecha y hora.</dd>
+              <dt>Para qué</dt><dd>Que el servicio funcione y se proteja de abusos. No usamos ni analizamos esos registros.</dd>
+              <dt>Cuánto tiempo</dt><dd>Según las reglas de Vercel.</dd>
+            </dl>
+          </div>
+          <div class="channel">
+            <h3>GitHub: descarga del APK, issues y discusiones</h3>
+            <dl>
+              <dt>Qué recibimos</dt><dd>Lo que publiques en issues y discusiones, que es público. GitHub registra datos técnicos de las descargas.</dd>
+              <dt>Para qué</dt><dd>Distribuir la app y conversar con la comunidad.</dd>
+              <dt>Cuánto tiempo</dt><dd>Lo que publicas, puedes borrarlo tú. Lo demás, según las reglas de GitHub.</dd>
+            </dl>
+          </div>
+          <div class="channel">
+            <h3>LinkedIn u otras redes, si nos escribes por ahí</h3>
+            <dl>
+              <dt>Qué recibimos</dt><dd>Tu perfil y tus mensajes.</dd>
+              <dt>Para qué</dt><dd>Responderte.</dd>
+              <dt>Cuánto tiempo</dt><dd>Según las reglas de esa red.</dd>
+            </dl>
+          </div>
+        </div>
+        <p>Si en un mensaje nos cuentas algo de tu salud, lo usamos solo para responderte y no lo compartimos con nadie. Por favor, no nos mandes datos de otras personas.</p>
+      </section>
+
+      <section class="card" id="terceros">
+        <h2><span class="num" aria-hidden="true">6</span>A quién se entregan y si salen de Chile</h2>
+        <p><b>No vendemos, no arrendamos ni cedemos datos personales.</b> No hay publicidad.</p>
+        <p>Los datos de la sección anterior quedan en servicios de tres empresas. Las tres están en Estados Unidos, así que esos datos salen de Chile:</p>
+        <ul class="providers">
+          <li><b>Google LLC</b><span>Gmail y Google Forms</span><a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener">Su política</a></li>
+          <li><b>Vercel Inc.</b><span>Alojamiento del sitio y de la app web</span><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Su política</a></li>
+          <li><b>GitHub Inc.</b><span>Código y descargas</span><a href="https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Su política</a></li>
+        </ul>
+        <p class="note">Los datos que anotas en la app <b>no salen de tu dispositivo</b> y no pasan por ninguna de esas empresas.</p>
+      </section>
+
+      <section class="card" id="seguridad">
+        <h2><span class="num" aria-hidden="true">7</span>Cómo cuidamos la seguridad</h2>
+        <ul>
+          <li><b>Sin servidor ni base de datos central:</b> no existe un lugar desde donde puedan filtrarse los datos de todas las personas que usan la app.</li>
+          <li><b>App web:</b> el navegador solo le permite cargar archivos y conectarse a su propio sitio. No puede enviar datos a otros servidores.</li>
+          <li><b>App Android:</b> no tiene permiso de internet, no se respalda en la nube y su visor web no envía estadísticas.</li>
+          <li><b>APK firmado:</b> el archivo oficial lleva una firma cuya huella publicamos en el <a href="https://github.com/VictoriaMolinaC/progreso-sobrio#app-android" target="_blank" rel="noopener">repositorio</a>, para que puedas verificarlo. Descárgalo solo desde ahí.</li>
+          <li><b>Cuentas protegidas:</b> las cuentas del proyecto (código, alojamiento, correo y dominio) usan verificación en dos pasos, y cada cambio al código se revisa antes de publicarse.</li>
+          <li><b>Código abierto:</b> cualquier persona puede revisar qué hace la app.</li>
+        </ul>
+        <p class="note warm">Hay cosas que dependen de ti: usa bloqueo de pantalla en tu teléfono (quien lo abra puede ver la app), guarda tus respaldos en un lugar seguro y no instales versiones de la app que vengan de otras fuentes.</p>
+      </section>
+
+      <section class="card" id="vulneraciones">
+        <h2><span class="num" aria-hidden="true">8</span>Si ocurre una vulneración</h2>
+        <p>Una vulneración sería, por ejemplo, que alguien tome el control de una cuenta del proyecto y publique una versión alterada de la app, o que acceda al correo o al formulario. Si pasa:</p>
+        <ol>
+          <li>La contenemos: retiramos la versión alterada, cambiamos las claves y cerramos el acceso.</li>
+          <li>Evaluamos qué datos y a quiénes pudo afectar.</li>
+          <li>Lo informamos a la Agencia de Protección de Datos Personales lo antes posible.</li>
+          <li>Si pudo afectar datos sensibles, o la ley lo exige, avisamos a las personas afectadas sin demora y en lenguaje claro: en este sitio, en el repositorio y, si tenemos su correo, por correo.</li>
+          <li>Publicamos qué pasó y qué hicimos para que no se repita.</li>
+        </ol>
+        <p>Si encuentras una falla de seguridad, no la publiques: repórtala en privado como explica <a href="https://github.com/VictoriaMolinaC/progreso-sobrio/blob/main/SECURITY.md" target="_blank" rel="noopener">SECURITY.md</a>.</p>
+      </section>
+
+      <section class="card" id="derechos">
+        <h2><span class="num" aria-hidden="true">9</span>Tus derechos y cómo ejercerlos</h2>
+        <p>La ley te da derecho a <b>acceder</b> a tus datos, <b>rectificarlos</b> (corregirlos), <b>suprimirlos</b> (borrarlos), <b>oponerte</b> a su uso, a la <b>portabilidad</b> (recibirlos en un formato que puedas llevar a otro lado) y al <b>bloqueo</b> (que se suspenda su uso mientras se resuelve tu solicitud).</p>
+        <h3>Datos de la app</h3>
+        <p>Como están solo en tu dispositivo, los manejas tú directamente:</p>
+        <ul>
+          <li><b>Verlos:</b> en Progreso (historial, calendario y gráficas).</li>
+          <li><b>Corregirlos:</b> editando el registro de ese día.</li>
+          <li><b>Borrarlos:</b> en Ajustes → «Borrar todos mis datos». También se borran si desinstalas la app o borras los datos del sitio en tu navegador.</li>
+          <li><b>Llevarlos a otro lado:</b> en Ajustes, con «Descargar respaldo completo» o «Descargar mis registros (para Excel o Sheets)».</li>
+        </ul>
+        <p>Nosotros no tenemos copia, así que no podemos verlos, corregirlos ni recuperarlos por ti.</p>
+        <h3>Datos que nos llegaron</h3>
+        <ul>
+          <li>Escribe a <span class="email">contacto.progresosobrio@gmail.com</span> con el asunto «Mis datos» y cuéntanos qué necesitas. Es gratis.</li>
+          <li>Te respondemos dentro del plazo que fija la ley. Podemos pedirte lo mínimo para confirmar que se trata de ti, por ejemplo, que escribas desde el mismo correo.</li>
+          <li>El formulario es anónimo, así que no sabemos cuál respuesta es tuya. Para encontrarla, cuéntanos la fecha aproximada y parte de lo que escribiste.</li>
+        </ul>
+        <p class="note">Si no te respondemos o no estás de acuerdo con la respuesta, puedes reclamar ante la <b>Agencia de Protección de Datos Personales</b>.</p>
+      </section>
+
+      <section class="card" id="menores">
+        <h2><span class="num" aria-hidden="true">10</span>Menores de edad</h2>
+        <p>Progreso Sobrio es para personas mayores de 18 años y pide confirmarlo al entrar. Si eres menor de edad, la línea <b>1412</b> de SENDA atiende a cualquier edad, gratis y de forma confidencial, las 24 horas.</p>
+      </section>
+
+      <section class="card" id="cookies">
+        <h2><span class="num" aria-hidden="true">11</span>Cookies y almacenamiento</h2>
+        <p>El sitio y la app no usan cookies ni tecnologías de seguimiento. La app web usa el almacenamiento de tu navegador solo para guardar en tu dispositivo tus datos, tus preferencias (como el modo oscuro) y una copia de la app para que funcione sin internet. El formulario de Google es un sitio aparte, con sus propias reglas.</p>
+      </section>
+
+      <section class="card" id="cambios">
+        <h2><span class="num" aria-hidden="true">12</span>Cambios a esta política</h2>
+        <p>Cada cambio sube el número de versión y la fecha de vigencia. Si un cambio es importante, lo avisaremos en este sitio y en la app. Las versiones anteriores quedan en el <a href="https://github.com/VictoriaMolinaC/progreso-sobrio/commits/main/sitio/privacidad.html" target="_blank" rel="noopener">historial público del repositorio</a>.</p>
+        <h3>Historial de versiones</h3>
+        <ul class="history">
+          <li><b>1.0</b><span>20 de octubre de 2026</span>Primera versión publicada.</li>
+        </ul>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="crisis has-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Si estás en crisis, llama al <a class="tel" href="tel:1412">1412</a> de SENDA: gratuito, confidencial y disponible las 24 horas.</p>
+    <p>Progreso Sobrio es para personas mayores de 18 años y no reemplaza la atención médica ni psicológica profesional.</p>
+    <div class="foot-row">
+      <span class="foot-brand"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/><circle cx="31" cy="18.5" r="5" fill="#e6a756"/></svg>Progreso Sobrio</span>
+      <a href="index.html">Inicio</a>
+      <a href="terminos.html">Términos de uso</a>
+      <a href="https://github.com/VictoriaMolinaC/progreso-sobrio/blob/main/LICENSE" target="_blank" rel="noopener">Licencia MIT</a>
+      <span>Creado por <a href="https://www.linkedin.com/in/victoriamolinac" target="_blank" rel="noopener">Victoria Molina</a></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

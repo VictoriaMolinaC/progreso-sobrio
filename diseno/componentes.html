@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Componentes · Progreso Sobrio</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; font-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="../sitio/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../sitio/fuentes/figtree.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../sitio/estilos.css">
+<link rel="stylesheet" href="componentes.css">
+</head>
+<body>
+<!-- Guía de componentes de progresosobrio.cl. Copia el HTML de cada bloque; los estilos ya están en estilos.css. -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="m3 3 18 18M10.6 5.1Q11.3 5 12 5c5 0 8.5 4.5 9.5 7a13 13 0 0 1-2.6 3.8M6.6 6.6C4.6 8 3.2 10 2.5 12c1 2.5 4.5 7 9.5 7 1.9 0 3.6-.6 5-1.5M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11m-5-5 5 5 5-5M5 20.5h14"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20.5h10M12 20.5V12m0 0c0-3.5-2.5-6-6-6 0 3.5 2.5 6 6 6Zm0 0c0-3 2-5.5 5.5-5.5 0 3-2 5.5-5.5 5.5Z"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4Zm9.5-13.5 4 4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 4v16h16M7.5 15l3.5-4.5 3 3 4.5-5.5"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8v.3h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3Z"/></symbol>
+  <symbol id="i-watch" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="m9 6 .7-3h4.6l.7 3M9 18l.7 3h4.6l.7-3M12 9.5V12l1.5 1.5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20Z"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Zm0 0v5h5M8.5 12.5h7m-7 3.5h7M12 12.5V19"/></symbol>
+  <symbol id="i-restore" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5m0-5v5h5M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20H4Zm6 9.5v-5h4v5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path d="M5 4h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2Z"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M5 4h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1Z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-4 4 4 4m8-8 4 4-4 4M13.5 5l-3 14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+</svg>
+
+<main>
+  <div class="wrap kit-intro">
+    <p class="eyebrow">Sistema visual · Diario con bruma</p>
+    <h1>Componentes</h1>
+    <p class="lead">Las piezas de la portada, listas para privacidad.html, terminos.html y, más adelante, la app. Todas usan <code>estilos.css</code> y el sprite de íconos que va al inicio del <code>&lt;body&gt;</code> (cópialo desde index.html).</p>
+  </div>
+
+  <section class="kit-section" id="color" aria-labelledby="t-color">
+    <div class="wrap">
+      <h2 id="t-color">Color</h2>
+      <p class="kit-desc">Los tokens viven en <code>:root</code> de estilos.css. Los cuatro colores de texto pasan 4,5:1 sobre todos los fondos, incluso sobre la bruma. Las manchas son solo decoración: nunca van detrás de texto.</p>
+      <div class="kit-demo">
+        <ul class="kit-swatches">
+          <li><span class="chip chip-crema"></span><b>--crema</b><span>#faf6f0 · Fondo</span></li>
+          <li><span class="chip chip-tarjeta"></span><b>--tarjeta</b><span>#fffcf7 · Tarjetas</span></li>
+          <li><span class="chip chip-superficie"></span><b>--superficie</b><span>#f3ede4 · Franjas y fichas</span></li>
+          <li><span class="chip chip-bruma"></span><b>--bruma</b><span>#dae2d8 · Arriba del degradado</span></li>
+          <li><span class="chip chip-linea"></span><b>--linea</b><span>#e6ddd1 · Bordes finos</span></li>
+          <li><span class="chip chip-tinta"></span><b>--tinta</b><span>#3e3a36 · Texto</span></li>
+          <li><span class="chip chip-tinta-suave"></span><b>--tinta-suave</b><span>#655d56 · Texto secundario</span></li>
+          <li><span class="chip chip-salvia-texto"></span><b>--salvia-texto</b><span>#3d6a54 · Enlaces y acentos</span></li>
+          <li><span class="chip chip-terracota-texto"></span><b>--terracota-texto</b><span>#8c5339 · Cejas y etiquetas</span></li>
+          <li><span class="chip chip-salvia"></span><b>--salvia</b><span>#5b9279 · Íconos y bordes</span></li>
+          <li><span class="chip chip-salvia-boton"></span><b>--salvia-boton</b><span>#467a62 · Botón principal</span></li>
+          <li><span class="chip chip-salvia-suave"></span><b>--salvia-suave</b><span>#e6eee8 · Avisos y franja de centros</span></li>
+          <li><span class="chip chip-terracota"></span><b>--terracota</b><span>#c97c5d · Borde del aviso cálido</span></li>
+          <li><span class="chip chip-terracota-suave"></span><b>--terracota-suave</b><span>#f7ebe4 · Aviso cálido y 1412</span></li>
+          <li><span class="chip chip-ambar"></span><b>--ambar</b><span>#e6a756 · Punto de la manchita</span></li>
+          <li><span class="chip chip-mancha-salvia"></span><b>--mancha-salvia</b><span>#cbd9cd · Manchas y cintas</span></li>
+          <li><span class="chip chip-mancha-durazno"></span><b>--mancha-durazno</b><span>#f4e2d7 · Manchas y cintas</span></li>
+          <li><span class="chip chip-mancha-miel"></span><b>--mancha-miel</b><span>#f6e6c9 · Manchas y cintas</span></li>
+        </ul>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>:root {
+  /* Fondos */
+  --crema: #faf6f0;
+  --tarjeta: #fffcf7;
+  --superficie: #f3ede4;
+  --bruma: #dae2d8;            /* parte alta del degradado, como la puerta de edad de la app */
+  --linea: #e6ddd1;
+  /* Texto (todos pasan 4,5:1 sobre cualquier fondo de arriba, incluso sobre la bruma) */
+  --tinta: #3e3a36;
+  --tinta-suave: #655d56;
+  --salvia-texto: #3d6a54;
+  --terracota-texto: #8c5339;
+  /* Acentos */
+  --salvia: #5b9279;           /* rellenos, íconos y bordes */
+  --salvia-boton: #467a62;     /* botón con texto blanco: 4,98:1 */
+  --salvia-suave: #e6eee8;
+  --terracota: #c97c5d;
+  --terracota-suave: #f7ebe4;
+  --ambar: #e6a756;
+  /* Manchas: solo decoración, nunca detrás de texto pequeño */
+  --mancha-salvia: #cbd9cd;
+  --mancha-durazno: #f4e2d7;
+  --mancha-miel: #f6e6c9;
+  --foco: #3d6a54;
+}</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="letra" aria-labelledby="t-letra">
+    <div class="wrap">
+      <h2 id="t-letra">Letra</h2>
+      <p class="kit-desc">Figtree en un solo archivo variable (300 a 600, 18 KB). El peso 300 solo se usa desde 28 px; todo lo pequeño va en 400 o 600.</p>
+      <div class="kit-demo">
+        <div class="kit-type">
+          <div><small>Portada · 300 · 34 → 48 px</small><p class="t-portada">Un día a la vez.</p></div>
+          <div><small>Título · 300 · 28 → 38 px</small><p class="t-titulo">Lo que anotas no sale de tu teléfono.</p></div>
+          <div><small>Subtítulo · 600 · 18 px</small><p class="t-subtitulo">Sin servidor</p></div>
+          <div><small>Bajada · 400 · 17 → 19 px</small><p class="t-bajada">Alguien en recuperación necesita un lugar seguro donde ser honesto.</p></div>
+          <div><small>Texto · 400 · 16 px</small><p>Todo se guarda solo en tu dispositivo. No hay base de datos central ni cuentas.</p></div>
+          <div><small>Ceja · 600 · 13 px</small><p class="eyebrow">Nuestra promesa</p></div>
+        </div>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("fuentes/figtree.woff2") format("woff2");
+}
+
+:root {
+  /* Tipografía: peso 300 solo desde 28 px; el texto corrido va en 400 */
+  --letra: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --peso-titulo: 300;
+  --peso-texto: 400;
+  --peso-fuerte: 600;
+  --t-portada: clamp(2.125rem, 1.6rem + 2.2vw, 3rem);      /* 34 → 48 px */
+  --t-titulo: clamp(1.75rem, 1.5rem + 1.1vw, 2.375rem);    /* 28 → 38 px */
+  --t-subtitulo: 1.125rem;                                  /* 18 px, peso 600 */
+  --t-bajada: clamp(1.0625rem, 1rem + .3vw, 1.1875rem);     /* 17 → 19 px */
+  --t-texto: 1rem;                                          /* 16 px */
+  --t-chico: .9375rem;                                      /* 15 px */
+  --t-mini: .8125rem;                                       /* 13 px, siempre en 600 */
+  --interlineado: 1.65;
+}</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="cabecera" aria-labelledby="t-cabecera">
+    <div class="wrap">
+      <h2 id="t-cabecera">Cabecera con la manchita</h2>
+      <p class="kit-desc">El isotipo reemplaza al nombre: por encima del hombro no se lee de qué se trata. El enlace tiene el nombre para lectores de pantalla. En celular, el menú se despliega con <code>&lt;details&gt;</code>, sin JavaScript. En privacidad.html y terminos.html va la misma cabecera con dos enlaces: Inicio y la otra página legal.</p>
+      <div class="kit-demo kit-demo-bruma kit-demo-flush">
+        <header class="top">
+          <div class="wrap">
+            <a class="brand" href="index.html" aria-label="Progreso Sobrio, ir al inicio">
+              <svg class="brand-blob" viewBox="0 0 48 48" aria-hidden="true"><path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/><circle cx="31" cy="18.5" r="5" fill="#e6a756"/></svg>
+            </a>
+            <nav class="links links-wide" aria-label="Secciones">
+              <a href="index.html#privacidad">Privacidad</a>
+              <a href="index.html#que-hace">Qué hace</a>
+              <a href="index.html#centros">Centros y fundaciones</a>
+              <a href="index.html#comunidad">Comunidad</a>
+            </nav>
+            <details class="menu">
+              <summary>Menú<svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></summary>
+              <nav class="menu-panel" aria-label="Secciones">
+                <a href="index.html#privacidad">Privacidad</a>
+                <a href="index.html#que-hace">Qué hace</a>
+                <a href="index.html#centros">Centros y fundaciones</a>
+                <a href="index.html#comunidad">Comunidad</a>
+              </nav>
+            </details>
+          </div>
+        </header>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>&lt;header class="top"&gt;
+  &lt;div class="wrap"&gt;
+    &lt;a class="brand" href="index.html" aria-label="Progreso Sobrio, ir al inicio"&gt;
+      &lt;svg class="brand-blob" viewBox="0 0 48 48" aria-hidden="true"&gt;&lt;path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/&gt;&lt;circle cx="31" cy="18.5" r="5" fill="#e6a756"/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+    &lt;nav class="links links-wide" aria-label="Secciones"&gt;
+      &lt;a href="index.html#privacidad"&gt;Privacidad&lt;/a&gt;
+      &lt;a href="index.html#que-hace"&gt;Qué hace&lt;/a&gt;
+      &lt;a href="index.html#centros"&gt;Centros y fundaciones&lt;/a&gt;
+      &lt;a href="index.html#comunidad"&gt;Comunidad&lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;details class="menu"&gt;
+      &lt;summary&gt;Menú&lt;svg class="icon" aria-hidden="true"&gt;&lt;use href="#i-menu"/&gt;&lt;/svg&gt;&lt;/summary&gt;
+      &lt;nav class="menu-panel" aria-label="Secciones"&gt;
+        &lt;a href="index.html#privacidad"&gt;Privacidad&lt;/a&gt;
+        &lt;a href="index.html#que-hace"&gt;Qué hace&lt;/a&gt;
+        &lt;a href="index.html#centros"&gt;Centros y fundaciones&lt;/a&gt;
+        &lt;a href="index.html#comunidad"&gt;Comunidad&lt;/a&gt;
+      &lt;/nav&gt;
+    &lt;/details&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="botones" aria-labelledby="t-botones">
+    <div class="wrap">
+      <h2 id="t-botones">Botón principal y secundario</h2>
+      <p class="kit-desc">Pastilla de 52 px de alto, como en la app. Principal: salvia con texto blanco (4,98:1). Secundario: papel con borde salvia. En celular se apilan a todo el ancho.</p>
+      <div class="kit-demo">
+        <div class="btns">
+          <a class="btn btn-primary" href="https://app.progresosobrio.cl" target="_blank" rel="noopener">Abrir la app</a>
+          <a class="btn btn-ghost" href="https://github.com/VictoriaMolinaC/progreso-sobrio/releases/latest" target="_blank" rel="noopener">Descargar para Android</a>
+        </div>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>&lt;div class="btns"&gt;
+  &lt;a class="btn btn-primary" href="https://app.progresosobrio.cl" target="_blank" rel="noopener"&gt;Abrir la app&lt;/a&gt;
+  &lt;a class="btn btn-ghost" href="https://github.com/VictoriaMolinaC/progreso-sobrio/releases/latest" target="_blank" rel="noopener"&gt;Descargar para Android&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="tarjeta" aria-labelledby="t-tarjeta">
+    <div class="wrap">
+      <h2 id="t-tarjeta">Tarjeta</h2>
+      <p class="kit-desc">Papel con borde fino y sombra suave. Con <code>card-ribbon</code> lleva una cinta arriba a la derecha (<code>ribbon-peach</code> o <code>ribbon-honey</code> cambian su color). La burbuja es un ícono dentro de una manchita.</p>
+      <div class="kit-demo">
+        <div class="kit-demo-grid">
+        <div class="card card-ribbon card-stack">
+          <span class="bubble" aria-hidden="true"><svg class="icon"><use href="#i-phone"/></svg></span>
+          <h3>Sin servidor</h3>
+          <p>Todo se guarda solo en tu dispositivo. No hay base de datos central ni cuentas.</p>
+        </div>
+        <div class="card card-stack">
+          <span class="bubble bubble-peach" aria-hidden="true"><svg class="icon"><use href="#i-heart"/></svg></span>
+          <h3>Quien acompaña</h3>
+          <p>Familia o amistades que quieren apoyar sin vigilar. La persona decide qué compartir y cuándo.</p>
+        </div>
+        </div>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>&lt;div class="card card-ribbon card-stack"&gt;
+  &lt;span class="bubble" aria-hidden="true"&gt;&lt;svg class="icon"&gt;&lt;use href="#i-phone"/&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;h3&gt;Sin servidor&lt;/h3&gt;
+  &lt;p&gt;Todo se guarda solo en tu dispositivo. No hay base de datos central ni cuentas.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="card card-stack"&gt;
+  &lt;span class="bubble bubble-peach" aria-hidden="true"&gt;&lt;svg class="icon"&gt;&lt;use href="#i-heart"/&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;h3&gt;Quien acompaña&lt;/h3&gt;
+  &lt;p&gt;Familia o amistades que quieren apoyar sin vigilar. La persona decide qué compartir y cuándo.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="aviso" aria-labelledby="t-aviso">
+    <div class="wrap">
+      <h2 id="t-aviso">Aviso suave</h2>
+      <p class="kit-desc">Papel con borde de cinta a la izquierda: informa sin alarmar. La variante cálida (<code>notice-warm</code>) es la misma del pie con la línea 1412.</p>
+      <div class="kit-demo">
+        <p class="notice">¿Ya usabas la app en progreso-sobrio.vercel.app? Tus datos siguen ahí. Para traerlos, descarga un respaldo en Ajustes de esa dirección y restáuralo en la nueva.</p>
+        <p class="notice notice-warm">Este aviso cálido sirve para lo que depende de la persona, por ejemplo, guardar su respaldo.</p>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>&lt;p class="notice"&gt;¿Ya usabas la app en progreso-sobrio.vercel.app? Tus datos siguen ahí. Para traerlos, descarga un respaldo en Ajustes de esa dirección y restáuralo en la nueva.&lt;/p&gt;
+
+&lt;p class="notice notice-warm"&gt;Este aviso cálido sirve para lo que depende de la persona, por ejemplo, guardar su respaldo.&lt;/p&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="correo" aria-labelledby="t-correo">
+    <div class="wrap">
+      <h2 id="t-correo">Tarjeta de correo para copiar</h2>
+      <p class="kit-desc">Toda la tarjeta es un botón: al tocarla, <code>copiar-correo.js</code> copia la dirección, marca <code>data-done</code> y cambia el ícono por un ✓. Mantiene los mismos <code>id</code> que la versión anterior.</p>
+      <div class="kit-demo">
+        <div class="card card-ribbon contact">
+          <h3>Conversemos</h3>
+          <p>Si diriges o trabajas en un programa de tratamiento en Chile, te mostramos la app en una reunión corta, con una pulsera conectada.</p>
+          <button class="mail-copy" id="copy-mail" type="button" aria-label="Copiar el correo contacto.progresosobrio@gmail.com" title="Copiar correo">
+            <span class="mail-icon" aria-hidden="true"><svg class="icon"><use href="#i-mail"/></svg></span>
+            <span class="mail-text">
+              <span class="mail-address" id="mail">contacto.progresosobrio@gmail.com</span>
+              <span class="mail-hint" id="copy-hint"></span>
+            </span>
+            <span class="mail-action" aria-hidden="true">
+              <svg class="icon icon-copy"><use href="#i-copy"/></svg>
+              <svg class="icon icon-done"><use href="#i-check"/></svg>
+            </span>
+          </button>
+          <span class="sr-only" id="copy-status" role="status"></span>
+        </div>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>&lt;div class="card card-ribbon contact"&gt;
+  &lt;h3&gt;Conversemos&lt;/h3&gt;
+  &lt;p&gt;Si diriges o trabajas en un programa de tratamiento en Chile, te mostramos la app en una reunión corta, con una pulsera conectada.&lt;/p&gt;
+  &lt;button class="mail-copy" id="copy-mail" type="button" aria-label="Copiar el correo contacto.progresosobrio@gmail.com" title="Copiar correo"&gt;
+    &lt;span class="mail-icon" aria-hidden="true"&gt;&lt;svg class="icon"&gt;&lt;use href="#i-mail"/&gt;&lt;/svg&gt;&lt;/span&gt;
+    &lt;span class="mail-text"&gt;
+      &lt;span class="mail-address" id="mail"&gt;contacto.progresosobrio@gmail.com&lt;/span&gt;
+      &lt;span class="mail-hint" id="copy-hint"&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="mail-action" aria-hidden="true"&gt;
+      &lt;svg class="icon icon-copy"&gt;&lt;use href="#i-copy"/&gt;&lt;/svg&gt;
+      &lt;svg class="icon icon-done"&gt;&lt;use href="#i-check"/&gt;&lt;/svg&gt;
+    &lt;/span&gt;
+  &lt;/button&gt;
+  &lt;span class="sr-only" id="copy-status" role="status"&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="kit-section" id="pie" aria-labelledby="t-pie">
+    <div class="wrap">
+      <h2 id="t-pie">Pie con la línea 1412</h2>
+      <p class="kit-desc">El aviso de crisis es cálido, no rojo. El 1412 se puede tocar para llamar desde el teléfono. El nombre completo del proyecto vive aquí.</p>
+      <div class="kit-demo kit-demo-flush">
+        <footer>
+          <div class="wrap">
+            <p class="crisis has-icon"><svg class="icon" aria-hidden="true"><use href="#i-call"/></svg>Si estás en crisis, llama al <a class="tel" href="tel:1412">1412</a> de SENDA: gratuito, confidencial y disponible las 24 horas.</p>
+            <p>Progreso Sobrio es para personas mayores de 18 años y no reemplaza la atención médica ni psicológica profesional.</p>
+            <div class="foot-row">
+              <span class="foot-brand"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/><circle cx="31" cy="18.5" r="5" fill="#e6a756"/></svg>Progreso Sobrio</span>
+              <span>Creado por <a href="https://www.linkedin.com/in/victoriamolinac" target="_blank" rel="noopener">Victoria Molina</a></span>
+              <a href="https://github.com/VictoriaMolinaC/progreso-sobrio/blob/main/LICENSE" target="_blank" rel="noopener">Licencia MIT</a>
+              <a href="privacidad.html">Política de privacidad</a>
+              <a href="terminos.html">Términos de uso</a>
+            </div>
+          </div>
+        </footer>
+      </div>
+      <pre class="kit-code" tabindex="0"><code>&lt;footer&gt;
+  &lt;div class="wrap"&gt;
+    &lt;p class="crisis has-icon"&gt;&lt;svg class="icon" aria-hidden="true"&gt;&lt;use href="#i-call"/&gt;&lt;/svg&gt;Si estás en crisis, llama al &lt;a class="tel" href="tel:1412"&gt;1412&lt;/a&gt; de SENDA: gratuito, confidencial y disponible las 24 horas.&lt;/p&gt;
+    &lt;p&gt;Progreso Sobrio es para personas mayores de 18 años y no reemplaza la atención médica ni psicológica profesional.&lt;/p&gt;
+    &lt;div class="foot-row"&gt;
+      &lt;span class="foot-brand"&gt;&lt;svg viewBox="0 0 48 48" aria-hidden="true"&gt;&lt;path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/&gt;&lt;circle cx="31" cy="18.5" r="5" fill="#e6a756"/&gt;&lt;/svg&gt;Progreso Sobrio&lt;/span&gt;
+      &lt;span&gt;Creado por &lt;a href="https://www.linkedin.com/in/victoriamolinac" target="_blank" rel="noopener"&gt;Victoria Molina&lt;/a&gt;&lt;/span&gt;
+      &lt;a href="https://github.com/VictoriaMolinaC/progreso-sobrio/blob/main/LICENSE" target="_blank" rel="noopener"&gt;Licencia MIT&lt;/a&gt;
+      &lt;a href="privacidad.html"&gt;Política de privacidad&lt;/a&gt;
+      &lt;a href="terminos.html"&gt;Términos de uso&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</code></pre>
+    </div>
+  </section>
+</main>
+<script src="../sitio/copiar-correo.js" defer></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ Acompaña el día a día de una persona en proceso de abstinencia de sustancias,
 
 > Progreso Sobrio es para personas mayores de 18 años y no reemplaza atención médica ni psicológica profesional. Si estás en crisis, comunícate con la línea **1412** de SENDA (Chile), gratuita y confidencial las 24 horas.
 
-**Demo:** [progreso-sobrio.vercel.app](https://progreso-sobrio.vercel.app) — al abrirla por primera vez ves datos de ejemplo, para que puedas explorar la app antes de cargar los tuyos.
+**Sitio oficial:** [progresosobrio.cl](https://progresosobrio.cl) · **App web:** [app.progresosobrio.cl](https://app.progresosobrio.cl) — al abrirla por primera vez ves datos de ejemplo, para que puedas explorar la app antes de cargar los tuyos.
 
 **¿Usas la app o acompañas a alguien en recuperación?** Tu opinión guía lo que viene. Cuéntanos en este [formulario anónimo](https://docs.google.com/forms/d/e/1FAIpQLSc9oG92I_hm_MhiHEwnJEDB-SFooflUpTM7wKmFU1tYlNSeIQ/viewform) (no pedimos nombre ni correo).
 
@@ -22,6 +22,8 @@ Acompaña el día a día de una persona en proceso de abstinencia de sustancias,
 - Tus datos son tuyos: puedes exportarlos e importarlos cuando quieras.
 
 Pruébalo tú: instala la app, activa el modo avión y ábrela. Funciona igual.
+
+El detalle está en la [política de privacidad](https://progresosobrio.cl/privacidad.html) y los [términos de uso](https://progresosobrio.cl/terminos.html).
 
 <p align="center">
 <img src=".github/screenshots/modo-avion.png" width="240" alt="La app funcionando en modo avión, sin conexión a internet">
@@ -153,6 +155,10 @@ Proyecto creado por **Victoria Molina**, desarrolladora full stack en Chile.
 
 [LinkedIn](https://www.linkedin.com/in/victoriamolinac) · [GitHub](https://github.com/VictoriaMolinaC)
 
+## Seguridad
+
+¿Encontraste una vulnerabilidad? No abras un issue público: sigue los pasos de [SECURITY.md](./SECURITY.md).
+
 ## Licencia
 
-[MIT](./LICENSE)
+El código es [MIT](./LICENSE). El nombre «Progreso Sobrio» y el logo no forman parte de la licencia: si publicas una versión modificada, usa otro nombre y otro logo, para que nadie la confunda con la app oficial.
