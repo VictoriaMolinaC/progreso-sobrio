@@ -74,6 +74,27 @@ function formFromLog(log: DailyLog): FormState {
 
 const toNumberOrUndefined = (value: string) => (value.trim() === '' ? undefined : Number(value));
 
+/** Para guardar basta un dato, el que sea: obligar todo frena registrar en los días difíciles. */
+function hasAnyData(form: FormState): boolean {
+  const texts = [
+    form.restingHeartRate,
+    form.minHeartRate,
+    form.maxHeartRate,
+    form.deviceUsed,
+    form.sleepHours,
+    form.activityMinutes,
+    form.activityType,
+    form.notes,
+  ];
+  const scales = [form.craving, form.sleepQuality, form.energy, form.mood];
+  return (
+    texts.some((value) => value.trim() !== '') ||
+    scales.some((value) => value !== undefined) ||
+    form.triggerIds.length > 0 ||
+    form.habitIds.length > 0
+  );
+}
+
 interface RegistroScreenProps {
   initialDate?: string;
 }
@@ -150,7 +171,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!form.craving || !form.sleepQuality || !form.energy || !form.mood) return;
+    if (!hasAnyData(form)) return;
 
     await upsertDailyLog({
       date,
@@ -186,7 +207,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
     setIsDirty(false);
   };
 
-  const canSave = form.craving && form.sleepQuality && form.energy && form.mood;
+  const canSave = hasAnyData(form);
 
   return (
     <div className="px-4 py-6">
@@ -311,7 +332,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
         {saved && hrWarningMessage && <p className="text-center text-sm text-warning-text dark:text-warning">{hrWarningMessage}</p>}
         {!canSave && (
           <p className="text-center text-sm text-ink-soft dark:text-ink-soft-dark">
-            Faltan ansias, sueño, energía o ánimo para guardar.
+            Anota al menos un dato para guardar, el que quieras.
           </p>
         )}
       </form>

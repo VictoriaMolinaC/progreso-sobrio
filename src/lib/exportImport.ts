@@ -31,7 +31,8 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
 const isId = (value: unknown) => Number.isInteger(value) && (value as number) > 0;
 const isText = (value: unknown) => typeof value === 'string';
 const isDateKey = (value: unknown) => typeof value === 'string' && DATE_KEY.test(value);
-const isScale = (value: unknown) => Number.isInteger(value) && (value as number) >= 1 && (value as number) <= 5;
+const isOptionalScale = (value: unknown) =>
+  value === undefined || (Number.isInteger(value) && (value as number) >= 1 && (value as number) <= 5);
 const isOptionalNumber = (value: unknown) => value === undefined || (typeof value === 'number' && Number.isFinite(value));
 const isOptionalText = (value: unknown) => value === undefined || typeof value === 'string';
 const isIdList = (value: unknown) => Array.isArray(value) && value.every(isId);
@@ -48,7 +49,8 @@ const isDailyLog = (value: unknown) =>
   isObject(value) &&
   isId(value.id) &&
   isDateKey(value.date) &&
-  [value.craving, value.sleepQuality, value.energy, value.mood].every(isScale) &&
+  // Opcionales desde que basta un dato para guardar; los respaldos anteriores las traen todas.
+  [value.craving, value.sleepQuality, value.energy, value.mood].every(isOptionalScale) &&
   isIdList(value.triggerIds) &&
   isIdList(value.habitIds) &&
   [value.restingHeartRate, value.minHeartRate, value.maxHeartRate, value.sleepHours, value.activityMinutes].every(
@@ -207,13 +209,13 @@ export async function exportCsv(): Promise<string> {
     log.minHeartRate ?? '',
     log.maxHeartRate ?? '',
     log.deviceUsed ?? '',
-    log.craving,
+    log.craving ?? '',
     log.sleepHours ?? '',
-    log.sleepQuality,
+    log.sleepQuality ?? '',
     log.activityMinutes ?? '',
     log.activityType ?? '',
-    log.energy,
-    log.mood,
+    log.energy ?? '',
+    log.mood ?? '',
     log.triggerIds.map((id) => triggerNames.get(id)).filter(Boolean).join(', '),
     log.habitIds.map((id) => habitNames.get(id)).filter(Boolean).join(', '),
     log.notes ?? '',

@@ -1,14 +1,14 @@
 import { db } from './db';
 import { addDays, toDateKey } from '../lib/dates';
 import { getSetting, setDemoSubstanceId, setSetting } from './repositories/settings';
-import type { DailyLog } from './types';
+import type { DailyLog, Scale1to5 } from './types';
 
 const SEEDED_KEY = 'seeded';
 
 const SAMPLE_HABITS = ['Meditar', 'Ir a terapia', 'Llamar a un contacto de apoyo', 'Ejercicio', 'Diario de gratitud'];
 const SAMPLE_TRIGGERS = ['Estrés laboral', 'Conflictos familiares', 'Aburrimiento', 'Reuniones sociales', 'Insomnio'];
 
-const clamp1to5 = (n: number) => Math.max(1, Math.min(5, Math.round(n))) as DailyLog['craving'];
+const clamp1to5 = (n: number) => Math.max(1, Math.min(5, Math.round(n))) as Scale1to5;
 
 /**
  * Precarga una persona ficticia con ~15 días de sobriedad, para que la app
