@@ -91,7 +91,7 @@ export function WelcomeTour({ onFinish, theme, onToggleTheme }: WelcomeTourProps
   const card = CARDS[step];
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-mist-fade p-4">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-mist-fade p-4">
       <div className="absolute top-4 right-4">
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
@@ -102,7 +102,7 @@ export function WelcomeTour({ onFinish, theme, onToggleTheme }: WelcomeTourProps
           {card.icon}
         </div>
 
-        <h2 className="text-center text-lg font-semibold text-ink dark:text-ink-dark">{card.title}</h2>
+        <h1 className="text-center text-lg font-semibold text-ink dark:text-ink-dark">{card.title}</h1>
         <p className="mt-3 text-sm text-ink dark:text-ink-dark">{card.body}</p>
 
         <div className="mt-6 flex items-center justify-center gap-2">
@@ -131,6 +131,6 @@ export function WelcomeTour({ onFinish, theme, onToggleTheme }: WelcomeTourProps
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

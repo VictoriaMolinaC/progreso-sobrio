@@ -25,7 +25,7 @@ export function LegalConsent({ updated, onAccept, theme, onToggleTheme }: LegalC
   const [checked, setChecked] = useState(false);
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-mist-fade p-4">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-mist-fade p-4">
       <div className="absolute top-4 right-4">
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
@@ -75,6 +75,6 @@ export function LegalConsent({ updated, onAccept, theme, onToggleTheme }: LegalC
           Puedes volver a leerlos cuando quieras en Ajustes.
         </p>
       </div>
-    </div>
+    </main>
   );
 }
