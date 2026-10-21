@@ -21,19 +21,18 @@ export function DemoDataBanner({ onGoToAjustes }: DemoDataBannerProps) {
   if (!shouldShow) return null;
 
   return (
-    // Aviso suave del sitio (.notice), con la cinta de la izquierda en ámbar como el botón.
-    <div className="rounded-[4px_16px_16px_4px] border border-l-[3px] border-line border-l-accent bg-card px-5 py-4 dark:border-ink-dark/10 dark:border-l-accent dark:bg-ink-dark/5">
+    // Aviso suave del sitio (.notice), con la cinta de la izquierda en salvia.
+    <div className="rounded-[4px_16px_16px_4px] border border-l-[3px] border-line border-l-primary bg-card px-5 py-4 dark:border-ink-dark/10 dark:border-l-primary dark:bg-ink-dark/5">
       <p className="text-sm text-ink dark:text-ink-dark">
         Estos son datos de ejemplo para que veas cómo funciona la app. Cuando quieras empezar con los tuyos, bórralos
         desde Ajustes.
       </p>
       <div className="mt-3 flex items-center gap-3">
-        {/* Ámbar a propósito: el aviso pasaba desapercibido. Llama la atención sin alarmar;
-            con texto tinta (también en modo oscuro) pasa 5,4:1, con blanco no. */}
+        {/* Botón principal salvia, como "Registrar hoy": el aviso pasaba desapercibido como enlace. */}
         <button
           type="button"
           onClick={onGoToAjustes}
-          className="min-h-11 rounded-full bg-accent px-5 text-sm font-semibold text-ink shadow-[0_1px_2px_rgba(62,58,54,0.08)] hover:shadow-[0_2px_8px_rgba(62,58,54,0.16)]"
+          className="min-h-11 rounded-full bg-primary-button px-5 text-sm font-semibold text-white shadow-soft hover:bg-primary-text"
         >
           Ir a Ajustes
         </button>
