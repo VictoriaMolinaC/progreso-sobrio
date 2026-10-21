@@ -53,24 +53,24 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
   };
 
   return (
-    <div>
+    <div className="paper-card p-4">
       <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
           onClick={goToPrevMonth}
           aria-label="Mes anterior"
-          className="rounded-md p-2 text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10"
+          className="flex h-11 w-11 items-center justify-center rounded-full text-xl text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10"
         >
           ‹
         </button>
-        <span className="font-medium text-ink dark:text-ink-dark">
+        <span className="font-semibold text-ink dark:text-ink-dark">
           {MONTH_LABELS[month]} {year}
         </span>
         <button
           type="button"
           onClick={goToNextMonth}
           aria-label="Mes siguiente"
-          className="rounded-md p-2 text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10"
+          className="flex h-11 w-11 items-center justify-center rounded-full text-xl text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10"
         >
           ›
         </button>
@@ -93,9 +93,9 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
               type="button"
               disabled={!hasLog}
               onClick={() => onSelectDate(day.dateKey)}
-              className={`aspect-square rounded-lg text-sm ${
+              className={`aspect-square rounded-full text-sm ${
                 !day.inCurrentMonth ? 'text-ink/25 dark:text-ink-dark/25' : 'text-ink dark:text-ink-dark'
-              } ${hasLog ? 'bg-primary/15 font-medium text-primary-text dark:text-primary-text-dark' : ''} ${isToday ? 'ring-2 ring-accent' : ''}`}
+              } ${hasLog ? 'bg-primary-soft font-semibold text-primary-text dark:bg-primary/20 dark:text-primary-text-dark' : ''} ${isToday ? 'ring-2 ring-secondary' : ''}`}
             >
               {day.date.getDate()}
             </button>

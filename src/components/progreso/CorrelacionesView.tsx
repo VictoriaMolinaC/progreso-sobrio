@@ -25,11 +25,13 @@ export function CorrelacionesView() {
       </p>
       <ul className="flex flex-col gap-2">
         {insights.map((insight) => (
-          <li
-            key={insight.text}
-            className="shadow-[0_2px_8px_rgba(62,58,54,0.08)] dark:shadow-none rounded-xl border border-ink/15 px-4 py-3 text-sm text-ink dark:border-ink-dark/10 dark:text-ink-dark"
-          >
-            {insight.text}
+          <li key={insight.text} className="paper-card flex items-start gap-3 px-4 py-3 text-sm text-ink dark:text-ink-dark">
+            <span className="blob-shape flex h-9 w-9 shrink-0 items-center justify-center bg-blob-honey text-ink dark:bg-accent/20 dark:text-ink-dark">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M9 18h6m-5 3h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8v.3h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3Z" />
+              </svg>
+            </span>
+            <span className="pt-1.5">{insight.text}</span>
           </li>
         ))}
       </ul>

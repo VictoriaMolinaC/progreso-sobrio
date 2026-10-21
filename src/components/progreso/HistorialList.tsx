@@ -41,32 +41,31 @@ export function HistorialList({ onEdit }: HistorialListProps) {
       {logs.map((log) => (
         <li
           key={log.id}
-          className="flex items-center justify-between shadow-[0_2px_8px_rgba(62,58,54,0.08)] dark:shadow-none rounded-xl border border-ink/15 px-4 py-3 dark:border-ink-dark/10"
+          className="paper-card flex items-center justify-between gap-3 py-2 pr-2 pl-4"
         >
           <div>
-            <p className="font-medium text-ink dark:text-ink-dark">{formatDateDisplay(log.date)}</p>
+            <p className="font-semibold text-ink dark:text-ink-dark">{formatDateDisplay(log.date)}</p>
             <p className="text-sm text-ink-soft dark:text-ink-soft-dark">{summarize(log)}</p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center">
             <button
               type="button"
               onClick={() => onEdit(log.date)}
-              aria-label="Editar registro"
-              className="text-ink-soft dark:text-ink-soft-dark"
+              aria-label={`Editar el registro del ${formatDateDisplay(log.date)}`}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-primary-text hover:bg-primary-soft dark:text-primary-text-dark dark:hover:bg-primary/15"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4Zm9.5-13.5 4 4" />
               </svg>
             </button>
             <button
               type="button"
               onClick={() => handleDelete(log.id, log.date)}
-              aria-label="Borrar registro"
-              className="text-warning-text dark:text-warning"
+              aria-label={`Borrar el registro del ${formatDateDisplay(log.date)}`}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-warning-text hover:bg-warning/10 dark:text-warning"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
               </svg>
             </button>
