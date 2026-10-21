@@ -31,7 +31,7 @@ Lo que ya está decidido para la app (PWA) y el sitio. Léelo antes de tocar la 
 | `secondary` | `--terracota` | `#c97c5d` | | Botón flotante, bordes cálidos |
 | `secondary-text` / `secondary-text-dark` | `--terracota-texto` | `#8c5339` | `#e0a083` | Cejas y texto terracota |
 | `secondary-soft` | `--terracota-suave` | `#f7ebe4` | `secondary` al 15 % | Aviso cálido, tarjeta de la línea 1412 |
-| `accent` | `--ambar` | `#e6a756` | | Punto de la manchita |
+| `accent` | `--ambar` | `#e6a756` | | Punto de la manchita, «Ir a Ajustes» |
 | `blob-sage`, `blob-peach`, `blob-honey` | `--mancha-*` | `#cbd9cd`, `#f4e2d7`, `#f6e6c9` | `primary`, `secondary` y `accent` al 15 % | Manchas, burbujas y cintas (solo decoración) |
 | `success` / `success-text` | | `#7fb069` / `#44702f` | | Logros («Guardado ✓») |
 | `warning` / `warning-text` / `warning-button` | | `#d96c5f` / `#a8473b` | | Solo acciones que borran o reemplazan datos |
@@ -75,7 +75,7 @@ Reglas de color:
 
 Reglas de arriba que se rompen a propósito:
 
-- **«Ir a Ajustes»** (aviso de datos de ejemplo en Inicio): botón principal salvia relleno (`primary-button`, texto blanco), igual a «Registrar hoy», aunque queden dos botones principales en la misma pantalla. Tiene que llamar la atención, porque el aviso pasaba desapercibido como enlace. Descartados: rojo o coral (alarman) y ámbar.
+- **«Ir a Ajustes»** (aviso de datos de ejemplo en Inicio): píldora ámbar (`accent`) con texto tinta. Tiene que llamar la atención sin alarmar, porque el aviso pasaba desapercibido. Ni rojo ni coral. El ámbar con texto blanco no pasa contraste; con tinta, sí (5,4:1).
 - **Campo `craving`**: el texto visible dice «Ansias», pero el campo de Dexie/IndexedDB, la clave del respaldo `.json` y la columna del `.csv` siguen llamándose `craving`. Cambiarlos rompería los datos guardados y la restauración de respaldos.
 - **Línea 1412 de SENDA**: su nombre, número (1412), descripción y los lugares donde aparece (puerta de edad, términos, botón flotante con corazón y tour de bienvenida) no se cambian. Solo toma el estilo del sitio (aviso cálido terracota).
 - **Menor de edad**: la pantalla no tiene «Volver». Queda guardado y muestra la tarjeta de la línea 1412.
