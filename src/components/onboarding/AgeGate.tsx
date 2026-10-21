@@ -1,10 +1,12 @@
-import { useState } from 'react';
 import type { Theme } from '../../app/theme';
 import { SENDA_CONTACT } from '../../lib/constants';
 import { ThemeToggle } from '../layout/ThemeToggle';
 
 interface AgeGateProps {
   onConfirm: () => void;
+  /** Ya dijo ser menor de edad en este dispositivo (queda guardado). */
+  underage: boolean;
+  onDeclareUnderage: () => void;
   theme: Theme;
   onToggleTheme: () => void;
 }
@@ -29,10 +31,11 @@ function Icon({ children, color }: { children: React.ReactNode; color: string })
  * Quien declara ser menor no queda en un callejón sin salida: se le muestra la
  * línea 1412, que atiende a cualquier edad. Es una app de salud, negar la
  * entrada no puede significar negar la ayuda.
+ *
+ * Pero la respuesta se recuerda y no hay "Volver": quien dijo ser menor ve
+ * esta pantalla cada vez que abre la app en este dispositivo.
  */
-export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
-  const [underage, setUnderage] = useState(false);
-
+export function AgeGate({ onConfirm, underage, onDeclareUnderage, theme, onToggleTheme }: AgeGateProps) {
   // El degradado va en sRGB sobre un fondo opaco a propósito: en oklab (el
   // default de Tailwind v4) el stop semitransparente se desatura y pasa por
   // gris, y sin color de fondo compondría contra el lienzo del navegador, que
@@ -71,14 +74,6 @@ export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
               </span>
               <span className="text-lg font-semibold text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.phone}</span>
             </a>
-
-            <button
-              type="button"
-              onClick={() => setUnderage(false)}
-              className="mt-4 w-full rounded-xl border border-ink/20 py-2 text-ink/80 dark:border-ink-dark/15 dark:text-ink-dark/80"
-            >
-              Volver
-            </button>
           </>
         ) : (
           <>
@@ -103,7 +98,7 @@ export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
             </button>
             <button
               type="button"
-              onClick={() => setUnderage(true)}
+              onClick={onDeclareUnderage}
               className="mt-3 w-full text-sm text-ink-soft underline dark:text-ink-soft-dark"
             >
               Soy menor de 18 años

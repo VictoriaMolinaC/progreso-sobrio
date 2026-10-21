@@ -132,12 +132,18 @@ async function saveExport(content: string, filename: string, mimeType: string): 
   return filename;
 }
 
+const EXPORT_WARNING =
+  'Este archivo va a tener tus datos de salud. Guárdalo en un lugar seguro: si lo subes a la nube o lo envías, queda con las reglas de ese servicio. ¿Continuar?';
+
 /**
  * Exporta y devuelve el mensaje para mostrar. Nunca rechaza: sin esto, un fallo al exportar se
  * perdía como promesa rechazada sin capturar y el botón no hacía nada, sin forma de distinguir
  * un error del código de una descarga bloqueada por el navegador.
+ *
+ * Antes avisa qué lleva el archivo: fuera de la app, cuidarlo ya depende de la persona.
  */
 export async function exportWithMessage(run: () => Promise<string>): Promise<string> {
+  if (!window.confirm(EXPORT_WARNING)) return 'No se guardó ningún archivo.';
   try {
     const filename = await run();
     return isAndroidBridgeAvailable()

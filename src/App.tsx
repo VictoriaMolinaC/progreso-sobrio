@@ -7,8 +7,19 @@ import { Header } from './components/layout/Header';
 import { SupportButton } from './components/layout/SupportButton';
 import { SupportSheet } from './components/layout/SupportSheet';
 import { AgeGate } from './components/onboarding/AgeGate';
+import { LegalConsent } from './components/onboarding/LegalConsent';
 import { WelcomeTour } from './components/onboarding/WelcomeTour';
-import { confirmAge, isAgeConfirmed, isOnboardingSeen, markOnboardingSeen } from './db/repositories';
+import {
+  acceptLegal,
+  confirmAge,
+  declareUnderage,
+  getLegalAcceptance,
+  isAgeConfirmed,
+  isOnboardingSeen,
+  isUnderageDeclared,
+  markOnboardingSeen,
+} from './db/repositories';
+import { LEGAL } from './lib/constants';
 import { AjustesScreen } from './screens/AjustesScreen';
 import { DisparadoresScreen } from './screens/DisparadoresScreen';
 import { HabitosScreen } from './screens/HabitosScreen';
@@ -24,6 +35,8 @@ function App() {
   const [registroDate, setRegistroDate] = useState<string | undefined>();
   const { theme, toggleTheme } = useTheme();
   const ageConfirmed = useLiveQuery(() => isAgeConfirmed());
+  const underage = useLiveQuery(() => isUnderageDeclared());
+  const legalAcceptance = useLiveQuery(() => getLegalAcceptance());
   const onboardingSeen = useLiveQuery(() => isOnboardingSeen());
 
   const handleSelectScreen = (screen: ScreenId) => {
@@ -43,14 +56,43 @@ function App() {
 
   // Mientras Dexie responde no se muestra nada, así quien ya confirmó no ve
   // aparecer y desaparecer la puerta de edad en cada arranque.
-  if (ageConfirmed === undefined) return <div className="min-h-screen bg-base dark:bg-base-dark" />;
-
-  if (!ageConfirmed) {
-    return <AgeGate onConfirm={() => confirmAge()} theme={theme} onToggleTheme={toggleTheme} />;
+  if (ageConfirmed === undefined || underage === undefined) {
+    return <div className="min-h-screen bg-base dark:bg-base-dark" />;
   }
 
-  // Mismo motivo que arriba: no parpadear el tour mientras Dexie responde.
-  if (onboardingSeen === undefined) return <div className="min-h-screen bg-base dark:bg-base-dark" />;
+  // Quien dijo ser menor queda en la puerta de edad, aunque antes haya confirmado.
+  if (underage || !ageConfirmed) {
+    return (
+      <AgeGate
+        onConfirm={() => confirmAge()}
+        underage={underage}
+        onDeclareUnderage={() => declareUnderage()}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+    );
+  }
+
+  // Mismo motivo que arriba: no parpadear la aceptación ni el tour mientras Dexie responde.
+  if (legalAcceptance === undefined || onboardingSeen === undefined) {
+    return <div className="min-h-screen bg-base dark:bg-base-dark" />;
+  }
+
+  const legalUpToDate =
+    legalAcceptance !== null &&
+    legalAcceptance.termsVersion === LEGAL.termsVersion &&
+    legalAcceptance.privacyVersion === LEGAL.privacyVersion;
+
+  if (!legalUpToDate) {
+    return (
+      <LegalConsent
+        updated={legalAcceptance !== null}
+        onAccept={() => acceptLegal(LEGAL.termsVersion, LEGAL.privacyVersion)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+    );
+  }
 
   if (!onboardingSeen) {
     return <WelcomeTour onFinish={() => markOnboardingSeen()} theme={theme} onToggleTheme={toggleTheme} />;
