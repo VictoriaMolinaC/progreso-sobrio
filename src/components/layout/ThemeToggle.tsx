@@ -11,7 +11,7 @@ export function ThemeToggle({ theme, onToggle }: ThemeToggleProps) {
       type="button"
       onClick={onToggle}
       aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
-      className="ml-auto rounded-md p-2 text-ink hover:bg-ink/5 dark:text-ink-dark dark:hover:bg-ink-dark/10"
+      className="rounded-md p-2 text-ink hover:bg-ink/5 dark:text-ink-dark dark:hover:bg-ink-dark/10"
     >
       {theme === 'light' ? (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

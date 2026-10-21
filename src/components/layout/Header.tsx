@@ -1,13 +1,15 @@
 import type { Theme } from '../../app/theme';
+import { EyeOffIcon } from './EyeIcons';
 import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   onMenuClick: () => void;
+  onCover: () => void;
   theme: Theme;
   onToggleTheme: () => void;
 }
 
-export function Header({ onMenuClick, theme, onToggleTheme }: HeaderProps) {
+export function Header({ onMenuClick, onCover, theme, onToggleTheme }: HeaderProps) {
   return (
     <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink/10 bg-base/90 px-4 py-3 backdrop-blur dark:border-ink-dark/10 dark:bg-base-dark/90">
       <button
@@ -25,7 +27,17 @@ export function Header({ onMenuClick, theme, onToggleTheme }: HeaderProps) {
 
       <span className="text-lg font-semibold text-ink dark:text-ink-dark">Progreso Sobrio</span>
 
-      <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      <div className="ml-auto flex items-center gap-1">
+        <button
+          type="button"
+          onClick={onCover}
+          aria-label="Tapar la app"
+          className="rounded-md p-2 text-ink hover:bg-ink/5 dark:text-ink-dark dark:hover:bg-ink-dark/10"
+        >
+          <EyeOffIcon />
+        </button>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      </div>
     </header>
   );
 }

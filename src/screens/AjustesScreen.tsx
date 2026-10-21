@@ -3,9 +3,15 @@ import { ContactsSection } from '../components/ajustes/ContactsSection';
 import { ExportImportSection } from '../components/ajustes/ExportImportSection';
 import { HrThresholdSection } from '../components/ajustes/HrThresholdSection';
 import { LegalSection } from '../components/ajustes/LegalSection';
+import { PrivacyCoverSection } from '../components/ajustes/PrivacyCoverSection';
 import { ResetDataSection } from '../components/ajustes/ResetDataSection';
 
-export function AjustesScreen() {
+interface AjustesScreenProps {
+  hideOnLeave: boolean;
+  onHideOnLeaveChange: (value: boolean) => void;
+}
+
+export function AjustesScreen({ hideOnLeave, onHideOnLeaveChange }: AjustesScreenProps) {
   return (
     <div className="flex flex-col gap-8 px-4 py-6">
       <div>
@@ -17,6 +23,7 @@ export function AjustesScreen() {
       <ContactsSection />
       <HrThresholdSection />
       <ExportImportSection />
+      <PrivacyCoverSection hideOnLeave={hideOnLeave} onChange={onHideOnLeaveChange} />
       <AndroidSection />
       <LegalSection />
       <ResetDataSection />

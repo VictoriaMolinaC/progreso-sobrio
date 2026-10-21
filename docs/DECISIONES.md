@@ -86,6 +86,7 @@ Reglas de arriba que se rompen a propósito:
 - **No se cambia el texto legal.** Si algún día cambia de forma importante: se sube la versión en el sitio y en `LEGAL` (`src/lib/constants.ts`), se agrega la fila al historial de versiones, y la app vuelve a pedir que se acepte.
 - Aceptación: una casilla («Leí la Política de privacidad y acepto los Términos de uso.») y «Continuar», que se activa solo al marcarla. Se vuelve a pedir si cambia la versión.
 - Ajustes → «Privacidad y términos»: muestra la fecha de aceptación y los enlaces. Va entre Android y «Borrar todos mis datos».
+- Ajustes → «Pantalla de privacidad» (antes de Android): explica el ojo tachado y tiene la casilla «Tapar la app cada vez que salgo de ella». Con la casilla marcada, la app también arranca tapada.
 - Antes de exportar, la app avisa: «Este archivo va a tener tus datos de salud…».
 - Nada de lo planificado obliga a cambiar el texto legal:
   - la manchita y el nombre «PS» no contradicen los términos;
