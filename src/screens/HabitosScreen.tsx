@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { EditableListSection } from '../components/ajustes/EditableListSection';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 import { HabitStreaksView } from '../components/progreso/HabitStreaksView';
 import { habitsRepo } from '../db/repositories';
 
@@ -8,7 +9,9 @@ export function HabitosScreen() {
 
   return (
     <div className="flex flex-col gap-8 px-4 py-6">
-      <h1 className="text-xl font-semibold text-ink dark:text-ink-dark">Hábitos</h1>
+      <ScreenTitle eyebrow="Lo que te hace bien" title="Hábitos">
+        Lo que haces para cuidarte. Márcalos en el registro y mira cuántos días seguidos llevas.
+      </ScreenTitle>
 
       <section>
         <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Tu racha por hábito</h2>

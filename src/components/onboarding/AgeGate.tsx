@@ -41,7 +41,7 @@ export function AgeGate({ onConfirm, underage, onDeclareUnderage, theme, onToggl
   // gris, y sin color de fondo compondría contra el lienzo del navegador, que
   // sigue al sistema y no al tema elegido acá.
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-base bg-linear-to-b/srgb from-primary/20 via-base to-base p-4 dark:bg-base-dark dark:from-primary/25 dark:via-base-dark dark:to-base-dark">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-base bg-linear-to-b/srgb from-primary/20 via-base to-base p-4 dark:bg-base-dark dark:from-primary/25 dark:via-base-dark dark:to-base-dark">
       <div className="absolute top-4 right-4">
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
@@ -106,6 +106,6 @@ export function AgeGate({ onConfirm, underage, onDeclareUnderage, theme, onToggl
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,4 +1,4 @@
-/** Escala usada para craving, calidad de sueño, energía y ánimo. */
+/** Escala usada para ansias (campo `craving`), calidad de sueño, energía y ánimo. */
 export type Scale1to5 = 1 | 2 | 3 | 4 | 5;
 
 export interface Substance {
@@ -19,14 +19,15 @@ export interface DailyLog {
   maxHeartRate?: number;
   /** Equipo con el que se midió (ej. "Xiaomi Smart Band 10"), texto libre. */
   deviceUsed?: string;
-  craving: Scale1to5;
+  // Las cuatro escalas son opcionales: para guardar el día basta un dato, el que sea.
+  craving?: Scale1to5;
   triggerIds: number[];
   sleepHours?: number;
-  sleepQuality: Scale1to5;
+  sleepQuality?: Scale1to5;
   activityMinutes?: number;
   activityType?: string;
-  energy: Scale1to5;
-  mood: Scale1to5;
+  energy?: Scale1to5;
+  mood?: Scale1to5;
   /** Hábitos de apoyo cumplidos ese día. */
   habitIds: number[];
   notes?: string;

@@ -23,7 +23,7 @@ export function HabitStreaksView() {
         return (
           <li
             key={habit.id}
-            className="flex items-center justify-between shadow-[0_2px_8px_rgba(62,58,54,0.08)] dark:shadow-none rounded-xl border border-ink/15 px-4 py-3 dark:border-ink-dark/10"
+            className="paper-card flex items-center justify-between gap-3 px-4 py-3"
           >
             <span className="font-medium text-ink dark:text-ink-dark">{habit.name}</span>
             <span className="text-sm font-medium text-success-text dark:text-success">

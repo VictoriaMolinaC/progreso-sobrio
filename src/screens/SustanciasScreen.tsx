@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { type FormEvent, useState } from 'react';
 import { DateField } from '../components/forms/DateField';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 import { SubstanceRow } from '../components/substances/SubstanceRow';
 import { addSubstance, getSubstances } from '../db/repositories';
 import { toDateKey } from '../lib/dates';
@@ -23,7 +24,9 @@ export function SustanciasScreen() {
 
   return (
     <div className="px-4 py-6">
-      <h1 className="mb-4 text-xl font-semibold text-ink dark:text-ink-dark">Sustancias</h1>
+      <ScreenTitle eyebrow="Tus rachas" title="Sustancias" className="mb-6">
+        Lo que dejaste y desde cuándo. De aquí sale tu racha.
+      </ScreenTitle>
 
       <form
         onSubmit={handleSubmit}

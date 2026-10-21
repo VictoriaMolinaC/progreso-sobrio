@@ -29,6 +29,59 @@
   --color-success-text: #44702f; /* texto verde modo claro: 5,4:1 */
   --color-warning-text: #a8473b; /* texto coral modo claro: 5,4:1 */
   --color-warning-button: #a8473b; /* botón coral con texto blanco: 5,8:1 */
+
+  /* Fondos y decoración del sitio («Diario con bruma», diseno/tokens.md), mismos
+     valores. En modo oscuro no tienen par propio: se usan los colores de arriba
+     con transparencia (ver docs/DECISIONES.md). */
+  --color-card: #fffcf7; /* --tarjeta: tarjetas */
+  --color-surface: #f3ede4; /* --superficie: fichas y franjas */
+  --color-mist: #dae2d8; /* --bruma: parte alta del degradado del fondo */
+  --color-mist-dark: color-mix(in srgb, var(--color-primary) 25%, var(--color-base-dark)); /* la bruma en modo oscuro */
+  --color-line: #e6ddd1; /* --linea: bordes finos */
+  --color-primary-soft: #e6eee8; /* --salvia-suave */
+  --color-secondary-soft: #f7ebe4; /* --terracota-suave: aviso cálido, línea 1412 */
+  --color-blob-sage: #cbd9cd; /* --mancha-salvia: solo decoración, nunca detrás de texto */
+  --color-blob-peach: #f4e2d7; /* --mancha-durazno */
+  --color-blob-honey: #f6e6c9; /* --mancha-miel */
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-eyebrow: 0.8125rem; /* cejas: 13 px, siempre en 600 y mayúsculas */
+  --text-title: 1.75rem; /* títulos de pantalla: 28 px, peso 300 (nunca más chico en 300) */
+  --tracking-eyebrow: 0.1em;
+  --shadow-soft: 0 1px 2px rgba(62, 58, 54, 0.04), 0 4px 16px rgba(62, 58, 54, 0.06); /* --sombra */
+  --shadow-high: 0 2px 4px rgba(62, 58, 54, 0.05), 0 12px 32px rgba(62, 58, 54, 0.1); /* --sombra-alta */
+}
+
+/* Fondo de la app: la bruma arriba y la crema desde los 36rem, como el sitio y
+   la puerta de edad. linear-gradient mezcla en sRGB: no pasa por gris. */
+@utility bg-mist-fade {
+  background-color: var(--color-base);
+  background-image: linear-gradient(to bottom, var(--color-mist), var(--color-base) 36rem);
+  background-repeat: no-repeat;
+
+  @variant dark {
+    background-color: var(--color-base-dark);
+    background-image: linear-gradient(to bottom, var(--color-mist-dark), var(--color-base-dark) 36rem);
+  }
+}
+
+/* Tarjeta de papel del sitio (.card): crema, borde fino y sombra suave. */
+@utility paper-card {
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background-color: var(--color-card);
+  box-shadow: var(--shadow-soft);
+
+  @variant dark {
+    border-color: color-mix(in srgb, var(--color-ink-dark) 10%, transparent);
+    background-color: color-mix(in srgb, var(--color-ink-dark) 5%, transparent);
+    box-shadow: none;
+  }
+}
+
+/* Burbuja del sitio (.bubble): un ícono dentro de una manchita de color. */
+@utility blob-shape {
+  border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%;
 }
 
 :root {
@@ -47,8 +100,18 @@ body,
 }
 
 body {
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Anillo de foco del sitio: 3 px salvia con 3 px de separación, solo con teclado. */
+:focus-visible {
+  outline: 3px solid var(--color-primary-text);
+  outline-offset: 3px;
+}
+
+.dark :focus-visible {
+  outline-color: var(--color-primary-text-dark);
 }
 
 /* El placeholder de Tailwind es el color del texto al 50 % (2,7:1 en modo

@@ -1,9 +1,11 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
 import type { ScreenId } from './app/navigation';
+import { usePrivacyCover } from './app/privacyCover';
 import { useTheme } from './app/theme';
 import { Drawer } from './components/layout/Drawer';
 import { Header } from './components/layout/Header';
+import { PrivacyCover } from './components/layout/PrivacyCover';
 import { SupportButton } from './components/layout/SupportButton';
 import { SupportSheet } from './components/layout/SupportSheet';
 import { AgeGate } from './components/onboarding/AgeGate';
@@ -34,6 +36,7 @@ function App() {
   const [supportOpen, setSupportOpen] = useState(false);
   const [registroDate, setRegistroDate] = useState<string | undefined>();
   const { theme, toggleTheme } = useTheme();
+  const privacy = usePrivacyCover();
   const ageConfirmed = useLiveQuery(() => isAgeConfirmed());
   const underage = useLiveQuery(() => isUnderageDeclared());
   const legalAcceptance = useLiveQuery(() => getLegalAcceptance());
@@ -98,29 +101,41 @@ function App() {
     return <WelcomeTour onFinish={() => markOnboardingSeen()} theme={theme} onToggleTheme={toggleTheme} />;
   }
 
+  // Tapada, la app sigue montada debajo pero inert: no se ve, no se puede tocar
+  // ni enfocar, los lectores de pantalla no la leen, y no pierde lo que estaba a medias.
   return (
-    <div className="min-h-screen bg-base dark:bg-base-dark">
-      <Header onMenuClick={() => setDrawerOpen(true)} theme={theme} onToggleTheme={toggleTheme} />
-      <Drawer
-        open={drawerOpen}
-        activeScreen={activeScreen}
-        onSelect={handleSelectScreen}
-        onClose={() => setDrawerOpen(false)}
-      />
-      <main>
-        {activeScreen === 'inicio' && (
-          <InicioScreen onRegistrarHoy={handleRegistrarHoy} onGoToAjustes={() => setActiveScreen('ajustes')} />
-        )}
-        {activeScreen === 'sustancias' && <SustanciasScreen />}
-        {activeScreen === 'registro' && <RegistroScreen initialDate={registroDate} />}
-        {activeScreen === 'progreso' && <ProgresoScreen onEditDate={handleEditDate} theme={theme} />}
-        {activeScreen === 'habitos' && <HabitosScreen />}
-        {activeScreen === 'disparadores' && <DisparadoresScreen />}
-        {activeScreen === 'ajustes' && <AjustesScreen />}
-      </main>
-      <SupportButton onClick={() => setSupportOpen(true)} />
-      <SupportSheet open={supportOpen} onClose={() => setSupportOpen(false)} />
-    </div>
+    <>
+      <div className="min-h-screen bg-mist-fade" inert={privacy.covered}>
+        <Header
+          onMenuClick={() => setDrawerOpen(true)}
+          onCover={privacy.cover}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+        />
+        <Drawer
+          open={drawerOpen}
+          activeScreen={activeScreen}
+          onSelect={handleSelectScreen}
+          onClose={() => setDrawerOpen(false)}
+        />
+        <main className="mx-auto w-full max-w-xl">
+          {activeScreen === 'inicio' && (
+            <InicioScreen onRegistrarHoy={handleRegistrarHoy} onGoToAjustes={() => setActiveScreen('ajustes')} />
+          )}
+          {activeScreen === 'sustancias' && <SustanciasScreen />}
+          {activeScreen === 'registro' && <RegistroScreen initialDate={registroDate} />}
+          {activeScreen === 'progreso' && <ProgresoScreen onEditDate={handleEditDate} theme={theme} />}
+          {activeScreen === 'habitos' && <HabitosScreen />}
+          {activeScreen === 'disparadores' && <DisparadoresScreen />}
+          {activeScreen === 'ajustes' && (
+            <AjustesScreen hideOnLeave={privacy.hideOnLeave} onHideOnLeaveChange={privacy.setHideOnLeave} />
+          )}
+        </main>
+        <SupportButton onClick={() => setSupportOpen(true)} />
+        <SupportSheet open={supportOpen} onClose={() => setSupportOpen(false)} />
+      </div>
+      {privacy.covered && <PrivacyCover onUncover={privacy.uncover} />}
+    </>
   );
 }
 

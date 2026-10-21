@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Theme } from '../../app/theme';
+import { Ribbon } from '../layout/Decor';
 import { ThemeToggle } from '../layout/ThemeToggle';
 
 interface WelcomeTourProps {
@@ -33,7 +34,7 @@ const CARDS: TourCard[] = [
   {
     title: 'Bienvenida a Progreso Sobrio',
     body: 'Un día a la vez. Esta app te ayuda a llevar el registro de tu proceso, sin juzgar y sin diagnósticos. Te mostramos rápido cómo se organiza.',
-    color: 'bg-primary',
+    color: 'bg-primary text-white',
     icon: (
       <Icon>
         <path d={SHIELD_PATH} />
@@ -42,8 +43,8 @@ const CARDS: TourCard[] = [
   },
   {
     title: 'Registro diario',
-    body: 'En menos de 30 segundos anotas cómo estuvo tu día: LPM en reposo, sueño, craving, ánimo y los hábitos que cumpliste. Se accede desde "Registrar hoy" en Inicio, o desde el ítem "Registro" del menú.',
-    color: 'bg-accent',
+    body: 'En menos de 30 segundos anotas cómo estuvo tu día: LPM en reposo, sueño, ansias, ánimo y los hábitos que cumpliste. Se accede desde "Registrar hoy" en Inicio, o desde el ítem "Registro" del menú.',
+    color: 'bg-blob-honey text-ink dark:bg-accent/20 dark:text-ink-dark',
     icon: (
       <Icon>
         <path d="M12 20h9" />
@@ -54,7 +55,7 @@ const CARDS: TourCard[] = [
   {
     title: 'Progreso',
     body: 'Ahí vive todo lo que registras con el tiempo: historial, calendario, gráficas y observaciones simples sobre qué parece ayudarte más.',
-    color: 'bg-success',
+    color: 'bg-blob-sage text-success-text dark:bg-success/20 dark:text-success',
     icon: (
       <Icon>
         <polyline points="3 17 9 11 13 15 21 7" />
@@ -65,7 +66,7 @@ const CARDS: TourCard[] = [
   {
     title: 'Tu red de apoyo, siempre a mano',
     body: 'El botón con el corazón, abajo a la derecha, abre tus contactos de confianza y la línea 1412 de SENDA gratuita, confidencial, las 24 horas.',
-    color: 'bg-secondary',
+    color: 'bg-secondary text-white',
     icon: (
       <Icon>
         <path d={HEART_PATH} />
@@ -90,17 +91,19 @@ export function WelcomeTour({ onFinish, theme, onToggleTheme }: WelcomeTourProps
   const card = CARDS[step];
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-base p-4 dark:bg-base-dark">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-mist-fade p-4">
       <div className="absolute top-4 right-4">
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
-      <div className="w-full max-w-sm rounded-2xl bg-ink/[0.03] p-6 shadow-[0_2px_8px_rgba(62,58,54,0.08)] dark:bg-ink-dark/[0.05] dark:shadow-none">
-        <div className={`mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-white ${card.color}`}>
+      <div className="paper-card relative w-full max-w-sm p-6">
+        <Ribbon />
+        {/* Registro y Progreso van en burbuja clara con ícono oscuro: en ámbar y verde, el ícono blanco no llegaba a 3:1. */}
+        <div className={`blob-shape mx-auto mb-4 flex h-14 w-14 items-center justify-center ${card.color}`}>
           {card.icon}
         </div>
 
-        <h2 className="text-center text-lg font-semibold text-ink dark:text-ink-dark">{card.title}</h2>
-        <p className="mt-3 text-sm text-ink/80 dark:text-ink-dark/80">{card.body}</p>
+        <h1 className="text-center text-lg font-semibold text-ink dark:text-ink-dark">{card.title}</h1>
+        <p className="mt-3 text-sm text-ink dark:text-ink-dark">{card.body}</p>
 
         <div className="mt-6 flex items-center justify-center gap-2">
           {CARDS.map((c, i) => (
@@ -115,19 +118,19 @@ export function WelcomeTour({ onFinish, theme, onToggleTheme }: WelcomeTourProps
           <button
             type="button"
             onClick={onFinish}
-            className="text-sm text-ink-soft underline dark:text-ink-soft-dark"
+            className="min-h-11 text-sm text-ink-soft underline dark:text-ink-soft-dark"
           >
             Saltar
           </button>
           <button
             type="button"
             onClick={() => (isLast ? onFinish() : setStep((s) => s + 1))}
-            className="rounded-full bg-primary-button px-6 py-2 text-sm font-medium text-white hover:bg-primary-text"
+            className="min-h-11 rounded-full bg-primary-button px-6 text-sm font-semibold text-white shadow-soft hover:bg-primary-text"
           >
             {isLast ? 'Empezar' : 'Siguiente'}
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

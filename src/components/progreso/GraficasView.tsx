@@ -5,9 +5,9 @@ import { getDailyLogs } from '../../db/repositories';
 import { formatDateDisplay } from '../../lib/dates';
 import { ChartCard } from './ChartCard';
 
+// Todas las series en salvia (--color-primary): el título de cada tarjeta ya dice qué es, y el
+// ámbar de las barras no llegaba a 3:1 sobre el fondo. Recharts necesita el valor, no la clase.
 const COLOR_PRIMARY = '#5b9279';
-const COLOR_SECONDARY = '#c97c5d';
-const COLOR_ACCENT = '#e6a756';
 
 interface GraficasViewProps {
   theme: Theme;
@@ -43,7 +43,7 @@ export function GraficasView({ theme }: GraficasViewProps) {
       fontSize: 12,
     },
     labelStyle: { color: inkColor },
-    // Sin esto, recharts pinta el valor con el color de la serie (ámbar: 2:1).
+    // Sin esto, recharts pinta el valor con el color de la serie (salvia: 3,3:1, bajo 4,5:1).
     itemStyle: { color: inkColor },
   };
 
@@ -68,7 +68,7 @@ export function GraficasView({ theme }: GraficasViewProps) {
             <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
             <YAxis width={32} tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
             <Tooltip {...tooltipStyle} formatter={(value) => [`${value} hs`, 'Sueño']} />
-            <Line type="monotone" dataKey="sleepHours" stroke={COLOR_SECONDARY} strokeWidth={2} dot={{ r: 4 }} />
+            <Line type="monotone" dataKey="sleepHours" stroke={COLOR_PRIMARY} strokeWidth={2} dot={{ r: 4 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -80,7 +80,7 @@ export function GraficasView({ theme }: GraficasViewProps) {
             <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
             <YAxis width={32} tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
             <Tooltip {...tooltipStyle} formatter={(value) => [`${value} min`, 'Actividad']} />
-            <Bar dataKey="activityMinutes" fill={COLOR_ACCENT} radius={[4, 4, 0, 0]} maxBarSize={24} />
+            <Bar dataKey="activityMinutes" fill={COLOR_PRIMARY} radius={[4, 4, 0, 0]} maxBarSize={24} />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>

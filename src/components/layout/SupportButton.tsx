@@ -9,7 +9,7 @@ export function SupportButton({ onClick }: SupportButtonProps) {
       type="button"
       onClick={onClick}
       aria-label="Red de apoyo"
-      className="fixed bottom-5 right-5 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-white shadow-lg hover:bg-secondary/90"
+      className="fixed right-5 bottom-5 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-white shadow-high hover:-translate-y-px hover:shadow-[0_4px_8px_rgba(62,58,54,0.08),0_16px_36px_rgba(62,58,54,0.14)] motion-reduce:hover:translate-y-0"
     >
       <svg
         width="26"

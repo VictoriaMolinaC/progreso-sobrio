@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from 'react';
 import type { Theme } from '../app/theme';
 import { CalendarView } from '../components/progreso/CalendarView';
 import { CorrelacionesView } from '../components/progreso/CorrelacionesView';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 import { HistorialList } from '../components/progreso/HistorialList';
 
 // Diferido: Recharts es pesado y la mayoría de las visitas van a Registro, no acá.
@@ -28,16 +29,22 @@ export function ProgresoScreen({ onEditDate, theme }: ProgresoScreenProps) {
 
   return (
     <div className="px-4 py-6">
-      <h1 className="mb-4 text-xl font-semibold text-ink dark:text-ink-dark">Progreso</h1>
+      <ScreenTitle eyebrow="Tu camino" title="Progreso" className="mb-6">
+        Lo que registras con el tiempo: historial, calendario, gráficas y lo que parece ayudarte.
+      </ScreenTitle>
 
-      <div className="mb-4 flex gap-1 overflow-x-auto border-b border-ink/10 dark:border-ink-dark/10">
+      <div role="tablist" aria-label="Vistas de tu progreso" className="mb-5 flex flex-wrap gap-2">
         {TABS.map((t) => (
           <button
             key={t.id}
             type="button"
+            role="tab"
+            aria-selected={tab === t.id}
             onClick={() => setTab(t.id)}
-            className={`shrink-0 border-b-2 px-3 py-2 text-sm font-medium ${
-              tab === t.id ? 'border-primary text-primary-text dark:text-primary-text-dark' : 'border-transparent text-ink-soft dark:text-ink-soft-dark'
+            className={`min-h-10 shrink-0 rounded-full px-4 text-sm font-semibold whitespace-nowrap ${
+              tab === t.id
+                ? 'bg-primary-button text-white'
+                : 'text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10'
             }`}
           >
             {t.label}

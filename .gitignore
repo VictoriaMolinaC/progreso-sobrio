@@ -16,7 +16,9 @@ dist-ssr
 dist-android
 android/app/src/main/assets/www/
 
-docs
+# Documentos locales; solo las decisiones de producto van al repo
+docs/*
+!docs/DECISIONES.md
 
 # Notas privadas (reuniones, transcripciones): nunca van al repo público
 notas-privadas/
