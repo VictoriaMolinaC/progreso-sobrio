@@ -88,7 +88,7 @@ export function WatchDataPreview({ date, onUse }: WatchDataPreviewProps) {
               type="button"
               onClick={fetchDay}
               disabled={state.kind === 'loading'}
-              className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-50"
+              className="rounded-xl bg-primary-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-text disabled:opacity-50"
             >
               {state.kind === 'loading' ? 'Leyendo…' : 'Traer datos del reloj'}
             </button>
@@ -98,7 +98,7 @@ export function WatchDataPreview({ date, onUse }: WatchDataPreviewProps) {
               </button>
             )}
           </div>
-          <p className="mt-2 text-sm text-ink/60 dark:text-ink-dark/60">
+          <p className="mt-2 text-sm text-ink-soft dark:text-ink-soft-dark">
             Se leen pulso y sueño desde Health Connect solo cuando tocas este botón. Nada se guarda hasta que toques
             Guardar registro.
           </p>
@@ -106,7 +106,7 @@ export function WatchDataPreview({ date, onUse }: WatchDataPreviewProps) {
       )}
 
       {state.kind === 'used' && (
-        <p className="mt-2 text-sm text-success">Listo: completamos los campos. Revísalos y guarda el registro.</p>
+        <p className="mt-2 text-sm text-success-text dark:text-success">Listo: completamos los campos. Revísalos y guarda el registro.</p>
       )}
 
       {state.kind === 'error' && <ErrorMessage code={state.code} />}
@@ -115,30 +115,30 @@ export function WatchDataPreview({ date, onUse }: WatchDataPreviewProps) {
         <>
           <h2 className="mb-2 text-base font-semibold text-ink dark:text-ink-dark">Datos del reloj</h2>
           <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm text-ink dark:text-ink-dark">
-            <dt className="text-ink/60 dark:text-ink-dark/60">Pulso en reposo</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Pulso en reposo</dt>
             <dd>{lpm(state.data.restingBpm)}</dd>
-            <dt className="text-ink/60 dark:text-ink-dark/60">Pulso mín. / máx.</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Pulso mín. / máx.</dt>
             <dd>
               {state.data.minBpm === null && state.data.maxBpm === null
                 ? SIN_DATO
                 : `${state.data.minBpm ?? SIN_DATO} / ${state.data.maxBpm ?? SIN_DATO} lpm`}
             </dd>
-            <dt className="text-ink/60 dark:text-ink-dark/60">Promedio de las mediciones</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Promedio de las mediciones</dt>
             <dd>{lpm(state.data.avgBpm)}</dd>
-            <dt className="text-ink/60 dark:text-ink-dark/60">Última medición</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Última medición</dt>
             <dd>{lastMeasurement(state.data)}</dd>
-            <dt className="text-ink/60 dark:text-ink-dark/60">Horas de sueño</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Horas de sueño</dt>
             <dd>
               {state.data.sleepMinutes === null
                 ? SIN_DATO
                 : `${sleepMinutesToHours(state.data.sleepMinutes).toLocaleString('es-CL')} h`}
             </dd>
-            <dt className="text-ink/60 dark:text-ink-dark/60">Pulso durante el sueño</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Pulso durante el sueño</dt>
             <dd>{sleepPulse(state.data)}</dd>
-            <dt className="text-ink/60 dark:text-ink-dark/60">Fuente</dt>
+            <dt className="text-ink-soft dark:text-ink-soft-dark">Fuente</dt>
             <dd>{state.data.sources.length > 0 ? state.data.sources.join(', ') : SIN_DATO}</dd>
           </dl>
-          <p className="mt-3 text-sm text-ink/60 dark:text-ink-dark/60">
+          <p className="mt-3 text-sm text-ink-soft dark:text-ink-soft-dark">
             Al usarlos se completan LPM reposo, mín., máx., horas de sueño y el equipo (si está vacío). Lo que diga
             "sin dato" no cambia. El promedio, la última medición y el pulso durante el sueño son solo informativos.
           </p>
@@ -146,7 +146,7 @@ export function WatchDataPreview({ date, onUse }: WatchDataPreviewProps) {
             <button
               type="button"
               onClick={() => use(state.data)}
-              className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+              className="rounded-xl bg-primary-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-text"
             >
               Usar estos datos
             </button>

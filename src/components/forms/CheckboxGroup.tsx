@@ -25,8 +25,8 @@ export function CheckboxGroup({ label, options, selectedIds, onToggle }: Checkbo
               aria-pressed={selected}
               className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
                 selected
-                  ? 'border-primary bg-primary text-white'
-                  : 'border-ink/20 text-ink/70 dark:border-ink-dark/15 dark:text-ink-dark/70'
+                  ? 'border-primary-button bg-primary-button text-white'
+                  : 'border-ink/20 text-ink-soft dark:border-ink-dark/15 dark:text-ink-soft-dark'
               }`}
             >
               {option.name}
@@ -34,7 +34,7 @@ export function CheckboxGroup({ label, options, selectedIds, onToggle }: Checkbo
           );
         })}
         {options.length === 0 && (
-          <span className="text-sm text-ink/50 dark:text-ink-dark/50">Todavía no hay ninguno cargado.</span>
+          <span className="text-sm text-ink-soft dark:text-ink-soft-dark">Todavía no hay ninguno cargado.</span>
         )}
       </div>
     </div>

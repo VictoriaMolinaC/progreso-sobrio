@@ -27,13 +27,13 @@ export function DemoDataBanner({ onGoToAjustes }: DemoDataBannerProps) {
         desde Ajustes.
       </p>
       <div className="mt-3 flex items-center gap-3">
-        <button type="button" onClick={onGoToAjustes} className="text-sm font-medium text-primary underline">
+        <button type="button" onClick={onGoToAjustes} className="text-sm font-medium text-primary-text dark:text-primary-text-dark underline">
           Ir a Ajustes
         </button>
         <button
           type="button"
           onClick={() => dismissDemoBanner()}
-          className="ml-auto text-sm text-ink/50 dark:text-ink-dark/50"
+          className="ml-auto text-sm text-ink-soft dark:text-ink-soft-dark"
           aria-label="Descartar este aviso"
         >
           ✕

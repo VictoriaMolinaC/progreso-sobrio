@@ -37,7 +37,7 @@ export function ProgresoScreen({ onEditDate, theme }: ProgresoScreenProps) {
             type="button"
             onClick={() => setTab(t.id)}
             className={`shrink-0 border-b-2 px-3 py-2 text-sm font-medium ${
-              tab === t.id ? 'border-primary text-primary' : 'border-transparent text-ink/60 dark:text-ink-dark/60'
+              tab === t.id ? 'border-primary text-primary-text dark:text-primary-text-dark' : 'border-transparent text-ink-soft dark:text-ink-soft-dark'
             }`}
           >
             {t.label}
@@ -48,7 +48,7 @@ export function ProgresoScreen({ onEditDate, theme }: ProgresoScreenProps) {
       {tab === 'historial' && <HistorialList onEdit={onEditDate} />}
       {tab === 'calendario' && <CalendarView onSelectDate={onEditDate} />}
       {tab === 'graficas' && (
-        <Suspense fallback={<p className="text-center text-ink/60 dark:text-ink-dark/60">Cargando gráficas…</p>}>
+        <Suspense fallback={<p className="text-center text-ink-soft dark:text-ink-soft-dark">Cargando gráficas…</p>}>
           <GraficasView theme={theme} />
         </Suspense>
       )}

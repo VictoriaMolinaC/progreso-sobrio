@@ -37,10 +37,10 @@ export function SupportSheet({ open, onClose }: SupportSheetProps) {
           className="mb-3 flex items-center justify-between rounded-xl border border-secondary/30 bg-secondary/10 px-4 py-3"
         >
           <span>
-            <span className="block font-medium text-secondary">{SENDA_CONTACT.name}</span>
-            <span className="block text-sm text-secondary/80">{SENDA_CONTACT.description}</span>
+            <span className="block font-medium text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.name}</span>
+            <span className="block text-sm text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.description}</span>
           </span>
-          <span className="text-lg font-semibold text-secondary">{SENDA_CONTACT.phone}</span>
+          <span className="text-lg font-semibold text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.phone}</span>
         </a>
 
         {contacts && contacts.length > 0 ? (
@@ -52,7 +52,7 @@ export function SupportSheet({ open, onClose }: SupportSheetProps) {
                     <span>
                       <span className="block font-medium text-ink dark:text-ink-dark">{contact.name}</span>
                       {contact.relationship && (
-                        <span className="block text-sm text-ink/60 dark:text-ink-dark/60">{contact.relationship}</span>
+                        <span className="block text-sm text-ink-soft dark:text-ink-soft-dark">{contact.relationship}</span>
                       )}
                     </span>
                     <span className="text-sm font-medium text-ink dark:text-ink-dark">{contact.phone}</span>
@@ -61,7 +61,7 @@ export function SupportSheet({ open, onClose }: SupportSheetProps) {
                   <div>
                     <span className="block font-medium text-ink dark:text-ink-dark">{contact.name}</span>
                     {contact.relationship && (
-                      <span className="block text-sm text-ink/60 dark:text-ink-dark/60">{contact.relationship}</span>
+                      <span className="block text-sm text-ink-soft dark:text-ink-soft-dark">{contact.relationship}</span>
                     )}
                   </div>
                 )}
@@ -69,7 +69,7 @@ export function SupportSheet({ open, onClose }: SupportSheetProps) {
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-ink/60 dark:text-ink-dark/60">
+          <p className="text-sm text-ink-soft dark:text-ink-soft-dark">
             Tus propios contactos de apoyo van a aparecer aquí una vez que los agregues en Ajustes.
           </p>
         )}

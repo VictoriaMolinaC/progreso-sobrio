@@ -115,14 +115,14 @@ export function WelcomeTour({ onFinish, theme, onToggleTheme }: WelcomeTourProps
           <button
             type="button"
             onClick={onFinish}
-            className="text-sm text-ink/50 underline dark:text-ink-dark/50"
+            className="text-sm text-ink-soft underline dark:text-ink-soft-dark"
           >
             Saltar
           </button>
           <button
             type="button"
             onClick={() => (isLast ? onFinish() : setStep((s) => s + 1))}
-            className="rounded-full bg-primary px-6 py-2 text-sm font-medium text-white hover:bg-primary/90"
+            className="rounded-full bg-primary-button px-6 py-2 text-sm font-medium text-white hover:bg-primary-text"
           >
             {isLast ? 'Empezar' : 'Siguiente'}
           </button>

@@ -53,7 +53,7 @@ export function EditableListSection({ title, items, onAdd, onRename, onToggleAct
         />
         <button
           type="submit"
-          className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+          className="rounded-xl bg-primary-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-text"
         >
           Agregar
         </button>
@@ -74,13 +74,13 @@ export function EditableListSection({ title, items, onAdd, onRename, onToggleAct
                   autoFocus
                   className="flex-1 rounded-xl border border-ink/20 bg-base px-2 py-1 text-sm text-ink dark:border-ink-dark/15 dark:bg-base-dark dark:text-ink-dark"
                 />
-                <button type="submit" className="text-sm text-primary">
+                <button type="submit" className="text-sm text-primary-text dark:text-primary-text-dark">
                   Guardar
                 </button>
                 <button
                   type="button"
                   onClick={() => setEditingId(null)}
-                  className="text-sm text-ink/60 dark:text-ink-dark/60"
+                  className="text-sm text-ink-soft dark:text-ink-soft-dark"
                 >
                   Cancelar
                 </button>
@@ -89,7 +89,7 @@ export function EditableListSection({ title, items, onAdd, onRename, onToggleAct
               <>
                 <span
                   className={`text-sm ${
-                    item.active ? 'text-ink dark:text-ink-dark' : 'text-ink/40 line-through dark:text-ink-dark/40'
+                    item.active ? 'text-ink dark:text-ink-dark' : 'text-ink-soft line-through dark:text-ink-soft-dark'
                   }`}
                 >
                   {item.name}
@@ -99,7 +99,7 @@ export function EditableListSection({ title, items, onAdd, onRename, onToggleAct
                     type="button"
                     onClick={() => startEditing(item)}
                     aria-label="Renombrar"
-                    className="text-ink/60 dark:text-ink-dark/60"
+                    className="text-ink-soft dark:text-ink-soft-dark"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 20h9" />
@@ -109,7 +109,7 @@ export function EditableListSection({ title, items, onAdd, onRename, onToggleAct
                   <button
                     type="button"
                     onClick={() => onToggleActive(item.id, !item.active)}
-                    className="text-xs text-ink/60 dark:text-ink-dark/60"
+                    className="text-xs text-ink-soft dark:text-ink-soft-dark"
                   >
                     {item.active ? 'Desactivar' : 'Reactivar'}
                   </button>
@@ -119,7 +119,7 @@ export function EditableListSection({ title, items, onAdd, onRename, onToggleAct
           </li>
         ))}
         {items && items.length === 0 && (
-          <p className="text-center text-sm text-ink/60 dark:text-ink-dark/60">Todavía no hay ninguno.</p>
+          <p className="text-center text-sm text-ink-soft dark:text-ink-soft-dark">Todavía no hay ninguno.</p>
         )}
       </ul>
     </section>

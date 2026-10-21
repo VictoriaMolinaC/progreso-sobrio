@@ -16,12 +16,13 @@ interface GraficasViewProps {
 export function GraficasView({ theme }: GraficasViewProps) {
   const logs = useLiveQuery(() => getDailyLogs());
   const inkColor = theme === 'dark' ? '#f5efe6' : '#3e3a36';
+  const inkSoftColor = theme === 'dark' ? '#b3ada6' : '#655d56';
   const surfaceColor = theme === 'dark' ? '#221e1a' : '#faf6f0';
 
   if (!logs) return null;
 
   if (logs.length === 0) {
-    return <p className="text-center text-ink/60 dark:text-ink-dark/60">Todavía no hay registros para graficar.</p>;
+    return <p className="text-center text-ink-soft dark:text-ink-soft-dark">Todavía no hay registros para graficar.</p>;
   }
 
   const data = logs
@@ -42,6 +43,8 @@ export function GraficasView({ theme }: GraficasViewProps) {
       fontSize: 12,
     },
     labelStyle: { color: inkColor },
+    // Sin esto, recharts pinta el valor con el color de la serie (ámbar: 2:1).
+    itemStyle: { color: inkColor },
   };
 
   return (
@@ -50,8 +53,8 @@ export function GraficasView({ theme }: GraficasViewProps) {
         <ResponsiveContainer width="100%" height={160}>
           <LineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid vertical={false} stroke={inkColor} strokeOpacity={0.1} />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkColor, fillOpacity: 0.5 }} axisLine={false} tickLine={false} />
-            <YAxis width={32} tick={{ fontSize: 11, fill: inkColor, fillOpacity: 0.5 }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
+            <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
+            <YAxis width={32} tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
             <Tooltip {...tooltipStyle} formatter={(value) => [`${value} lpm`, 'LPM reposo']} />
             <Line type="monotone" dataKey="restingHeartRate" stroke={COLOR_PRIMARY} strokeWidth={2} dot={{ r: 4 }} />
           </LineChart>
@@ -62,8 +65,8 @@ export function GraficasView({ theme }: GraficasViewProps) {
         <ResponsiveContainer width="100%" height={160}>
           <LineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid vertical={false} stroke={inkColor} strokeOpacity={0.1} />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkColor, fillOpacity: 0.5 }} axisLine={false} tickLine={false} />
-            <YAxis width={32} tick={{ fontSize: 11, fill: inkColor, fillOpacity: 0.5 }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
+            <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
+            <YAxis width={32} tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
             <Tooltip {...tooltipStyle} formatter={(value) => [`${value} hs`, 'Sueño']} />
             <Line type="monotone" dataKey="sleepHours" stroke={COLOR_SECONDARY} strokeWidth={2} dot={{ r: 4 }} />
           </LineChart>
@@ -74,8 +77,8 @@ export function GraficasView({ theme }: GraficasViewProps) {
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid vertical={false} stroke={inkColor} strokeOpacity={0.1} />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkColor, fillOpacity: 0.5 }} axisLine={false} tickLine={false} />
-            <YAxis width={32} tick={{ fontSize: 11, fill: inkColor, fillOpacity: 0.5 }} axisLine={false} tickLine={false} />
+            <XAxis dataKey="label" tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
+            <YAxis width={32} tick={{ fontSize: 11, fill: inkSoftColor }} axisLine={false} tickLine={false} />
             <Tooltip {...tooltipStyle} formatter={(value) => [`${value} min`, 'Actividad']} />
             <Bar dataKey="activityMinutes" fill={COLOR_ACCENT} radius={[4, 4, 0, 0]} maxBarSize={24} />
           </BarChart>

@@ -43,7 +43,7 @@ export function Drawer({ open, activeScreen, onSelect, onClose }: DrawerProps) {
                 onClick={() => onSelect(item.id)}
                 className={`w-full rounded-md px-3 py-2 text-left text-base ${
                   activeScreen === item.id
-                    ? 'bg-primary/15 font-medium text-primary'
+                    ? 'bg-primary/15 font-medium text-primary-text dark:text-primary-text-dark'
                     : 'text-ink/80 hover:bg-ink/5 dark:text-ink-dark/80 dark:hover:bg-ink-dark/10'
                 }`}
               >

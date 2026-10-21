@@ -196,7 +196,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
         <DateField label="Fecha" value={date} onChange={handleDateChange} min={minDate} max={today} required />
 
         {existingLog && (
-          <p className="-mt-2 text-sm text-secondary">Ya existe un registro para este día, se va a actualizar.</p>
+          <p className="-mt-2 text-sm text-secondary-text dark:text-secondary-text-dark">Ya existe un registro para este día, se va a actualizar.</p>
         )}
 
         {/* key={date}: al cambiar de fecha, la vista previa vuelve a empezar (nunca muestra datos de otro día). */}
@@ -297,15 +297,15 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
         <button
           type="submit"
           disabled={!canSave}
-          className="rounded-full bg-primary px-4 py-3 text-base font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full bg-primary-button px-4 py-3 text-base font-medium text-white hover:bg-primary-text disabled:cursor-not-allowed disabled:opacity-50"
         >
           Guardar registro
         </button>
 
-        {saved && <p className="text-center text-sm text-success">Guardado ✓</p>}
-        {saved && hrWarningMessage && <p className="text-center text-sm text-warning">{hrWarningMessage}</p>}
+        {saved && <p className="text-center text-sm text-success-text dark:text-success">Guardado ✓</p>}
+        {saved && hrWarningMessage && <p className="text-center text-sm text-warning-text dark:text-warning">{hrWarningMessage}</p>}
         {!canSave && (
-          <p className="text-center text-sm text-ink/50 dark:text-ink-dark/50">
+          <p className="text-center text-sm text-ink-soft dark:text-ink-soft-dark">
             Faltan craving, sueño, energía o ánimo para guardar.
           </p>
         )}

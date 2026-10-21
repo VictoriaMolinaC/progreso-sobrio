@@ -45,7 +45,7 @@ export function SustanciasScreen() {
 
         <button
           type="submit"
-          className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+          className="rounded-full bg-primary-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-text"
         >
           Agregar sustancia
         </button>
@@ -60,7 +60,7 @@ export function SustanciasScreen() {
       )}
 
       {substances && substances.length === 0 && (
-        <p className="text-center text-ink/60 dark:text-ink-dark/60">Todavía no agregaste ninguna sustancia.</p>
+        <p className="text-center text-ink-soft dark:text-ink-soft-dark">Todavía no agregaste ninguna sustancia.</p>
       )}
     </div>
   );

@@ -59,7 +59,7 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
           type="button"
           onClick={goToPrevMonth}
           aria-label="Mes anterior"
-          className="rounded-md p-2 text-ink/60 hover:bg-ink/5 dark:text-ink-dark/60 dark:hover:bg-ink-dark/10"
+          className="rounded-md p-2 text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10"
         >
           ‹
         </button>
@@ -70,13 +70,13 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
           type="button"
           onClick={goToNextMonth}
           aria-label="Mes siguiente"
-          className="rounded-md p-2 text-ink/60 hover:bg-ink/5 dark:text-ink-dark/60 dark:hover:bg-ink-dark/10"
+          className="rounded-md p-2 text-ink-soft hover:bg-ink/5 dark:text-ink-soft-dark dark:hover:bg-ink-dark/10"
         >
           ›
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 pb-1 text-center text-xs text-ink/50 dark:text-ink-dark/50">
+      <div className="grid grid-cols-7 gap-1 pb-1 text-center text-xs text-ink-soft dark:text-ink-soft-dark">
         {WEEKDAY_LABELS.map((label) => (
           <span key={label}>{label}</span>
         ))}
@@ -95,7 +95,7 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
               onClick={() => onSelectDate(day.dateKey)}
               className={`aspect-square rounded-lg text-sm ${
                 !day.inCurrentMonth ? 'text-ink/25 dark:text-ink-dark/25' : 'text-ink dark:text-ink-dark'
-              } ${hasLog ? 'bg-primary/15 font-medium text-primary' : ''} ${isToday ? 'ring-2 ring-accent' : ''}`}
+              } ${hasLog ? 'bg-primary/15 font-medium text-primary-text dark:text-primary-text-dark' : ''} ${isToday ? 'ring-2 ring-accent' : ''}`}
             >
               {day.date.getDate()}
             </button>
@@ -103,7 +103,7 @@ export function CalendarView({ onSelectDate }: CalendarViewProps) {
         })}
       </div>
 
-      <p className="mt-3 text-center text-sm text-ink/50 dark:text-ink-dark/50">
+      <p className="mt-3 text-center text-sm text-ink-soft dark:text-ink-soft-dark">
         Los días marcados tienen un registro: tócalos para verlo.
       </p>
     </div>

@@ -18,7 +18,7 @@ export function HistorialList({ onEdit }: HistorialListProps) {
   if (!logs) return null;
 
   if (logs.length === 0) {
-    return <p className="text-center text-ink/60 dark:text-ink-dark/60">Todavía no hay registros diarios.</p>;
+    return <p className="text-center text-ink-soft dark:text-ink-soft-dark">Todavía no hay registros diarios.</p>;
   }
 
   return (
@@ -30,7 +30,7 @@ export function HistorialList({ onEdit }: HistorialListProps) {
         >
           <div>
             <p className="font-medium text-ink dark:text-ink-dark">{formatDateDisplay(log.date)}</p>
-            <p className="text-sm text-ink/60 dark:text-ink-dark/60">
+            <p className="text-sm text-ink-soft dark:text-ink-soft-dark">
               Craving {log.craving} · Ánimo {log.mood}
               {log.restingHeartRate !== undefined ? ` · ${log.restingHeartRate} lpm` : ''}
             </p>
@@ -41,7 +41,7 @@ export function HistorialList({ onEdit }: HistorialListProps) {
               type="button"
               onClick={() => onEdit(log.date)}
               aria-label="Editar registro"
-              className="text-ink/60 dark:text-ink-dark/60"
+              className="text-ink-soft dark:text-ink-soft-dark"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 20h9" />
@@ -52,7 +52,7 @@ export function HistorialList({ onEdit }: HistorialListProps) {
               type="button"
               onClick={() => handleDelete(log.id, log.date)}
               aria-label="Borrar registro"
-              className="text-warning"
+              className="text-warning-text dark:text-warning"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
