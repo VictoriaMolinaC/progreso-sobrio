@@ -19,10 +19,11 @@ export function AjustesScreen({ hideOnLeave, onHideOnLeaveChange }: AjustesScree
         <ScreenTitle eyebrow="Tus preferencias" title="Ajustes" className="mb-4">
           Tu red de apoyo, tus respaldos y la privacidad. Todo se guarda solo en este dispositivo.
         </ScreenTitle>
-        {/* Solo lleva a la sección: el coral queda para el botón que de verdad borra. */}
+        {/* Solo lleva a la sección: el coral queda para el botón que de verdad borra. Borde ámbar como
+            "Ir a Ajustes" en Inicio, sin fondo; el texto va en tinta porque el ámbar no llega a 4,5:1. */}
         <a
           href="#borrar-datos"
-          className="inline-flex min-h-11 items-center gap-2 rounded-full border-[1.5px] border-primary bg-card px-4 text-sm font-semibold text-primary-text hover:bg-primary-soft dark:bg-transparent dark:text-primary-text-dark dark:hover:bg-primary/15"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-accent px-4 text-sm font-semibold text-ink hover:bg-accent/15 dark:text-ink-dark"
         >
           Ir a borrar todos mis datos
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
