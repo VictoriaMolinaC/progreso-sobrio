@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
 import { CheckboxGroup } from '../components/forms/CheckboxGroup';
 import { DateField } from '../components/forms/DateField';
 import { ScaleSelector } from '../components/forms/ScaleSelector';
@@ -71,6 +71,21 @@ function formFromLog(log: DailyLog): FormState {
     triggerIds: log.triggerIds,
     habitIds: log.habitIds,
   };
+}
+
+interface FormCardProps {
+  title: string;
+  children: ReactNode;
+}
+
+/** Un bloque del formulario en una tarjeta de papel, con su título. */
+function FormCard({ title, children }: FormCardProps) {
+  return (
+    <section className="paper-card flex flex-col gap-4 p-4">
+      <h2 className="font-semibold text-ink dark:text-ink-dark">{title}</h2>
+      {children}
+    </section>
+  );
 }
 
 const toNumberOrUndefined = (value: string) => (value.trim() === '' ? undefined : Number(value));
@@ -214,7 +229,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
     <div className="px-4 py-6">
       <ScreenTitle eyebrow="Cómo estuvo tu día" title="Registro" className="mb-6" />
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5 pb-10">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 pb-24">
         <DateField label="Fecha" value={date} onChange={handleDateChange} min={minDate} max={today} required />
 
         {existingLog && (
@@ -224,52 +239,56 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
         {/* key={date}: al cambiar de fecha, la vista previa vuelve a empezar (nunca muestra datos de otro día). */}
         {isAndroidBridgeAvailable() && <WatchDataPreview key={date} date={date} onUse={applyWatchData} />}
 
-        <div className="grid grid-cols-3 gap-2">
+        <FormCard title="Pulso">
+          <div className="grid grid-cols-3 gap-2">
+            <TextField
+              label="LPM reposo"
+              type="number"
+              min="0"
+              value={form.restingHeartRate}
+              onChange={(value) => updateField('restingHeartRate', value)}
+            />
+            <TextField
+              label="LPM mín."
+              type="number"
+              min="0"
+              value={form.minHeartRate}
+              onChange={(value) => updateField('minHeartRate', value)}
+            />
+            <TextField
+              label="LPM máx."
+              type="number"
+              min="0"
+              value={form.maxHeartRate}
+              onChange={(value) => updateField('maxHeartRate', value)}
+            />
+          </div>
+
           <TextField
-            label="LPM reposo"
-            type="number"
-            min="0"
-            value={form.restingHeartRate}
-            onChange={(value) => updateField('restingHeartRate', value)}
+            label="Equipo con el que mediste"
+            placeholder="Ej: Xiaomi Smart Band 10"
+            value={form.deviceUsed}
+            onChange={(value) => updateField('deviceUsed', value)}
           />
-          <TextField
-            label="LPM mín."
-            type="number"
-            min="0"
-            value={form.minHeartRate}
-            onChange={(value) => updateField('minHeartRate', value)}
+        </FormCard>
+
+        <FormCard title="Ansias y disparadores">
+          <ScaleSelector
+            label="Ansias"
+            hint="1 = nada · 5 = muchas"
+            value={form.craving}
+            onChange={(value) => updateField('craving', value)}
           />
-          <TextField
-            label="LPM máx."
-            type="number"
-            min="0"
-            value={form.maxHeartRate}
-            onChange={(value) => updateField('maxHeartRate', value)}
+
+          <CheckboxGroup
+            label="Disparadores"
+            options={triggers}
+            selectedIds={form.triggerIds}
+            onToggle={(id) => toggleArrayField('triggerIds', id)}
           />
-        </div>
+        </FormCard>
 
-        <TextField
-          label="Equipo con el que mediste"
-          placeholder="Ej: Xiaomi Smart Band 10"
-          value={form.deviceUsed}
-          onChange={(value) => updateField('deviceUsed', value)}
-        />
-
-        <ScaleSelector
-          label="Ansias"
-          hint="1 = nada · 5 = muchas"
-          value={form.craving}
-          onChange={(value) => updateField('craving', value)}
-        />
-
-        <CheckboxGroup
-          label="Disparadores"
-          options={triggers}
-          selectedIds={form.triggerIds}
-          onToggle={(id) => toggleArrayField('triggerIds', id)}
-        />
-
-        <div className="grid grid-cols-2 gap-2">
+        <FormCard title="Sueño">
           <TextField
             label="Horas de sueño"
             type="number"
@@ -278,53 +297,62 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
             value={form.sleepHours}
             onChange={(value) => updateField('sleepHours', value)}
           />
+          {/* En su propia fila: al lado de las horas, los botones se cortaban. */}
           <ScaleSelector
             label="Calidad de sueño"
             value={form.sleepQuality}
             onChange={(value) => updateField('sleepQuality', value)}
           />
-        </div>
+        </FormCard>
 
-        <div className="grid grid-cols-2 gap-2">
-          <TextField
-            label="Minutos de actividad"
-            type="number"
-            min="0"
-            value={form.activityMinutes}
-            onChange={(value) => updateField('activityMinutes', value)}
+        <FormCard title="Actividad">
+          <div className="grid grid-cols-2 gap-2">
+            <TextField
+              label="Minutos de actividad"
+              type="number"
+              min="0"
+              value={form.activityMinutes}
+              onChange={(value) => updateField('activityMinutes', value)}
+            />
+            <TextField
+              label="Tipo de actividad"
+              placeholder="Ej: Caminata"
+              value={form.activityType}
+              onChange={(value) => updateField('activityType', value)}
+            />
+          </div>
+        </FormCard>
+
+        <FormCard title="Energía y ánimo">
+          <ScaleSelector label="Energía" value={form.energy} onChange={(value) => updateField('energy', value)} />
+          <ScaleSelector label="Ánimo" value={form.mood} onChange={(value) => updateField('mood', value)} />
+        </FormCard>
+
+        <FormCard title="Hábitos">
+          <CheckboxGroup
+            label="Hábitos de apoyo cumplidos"
+            options={habits}
+            selectedIds={form.habitIds}
+            onToggle={(id) => toggleArrayField('habitIds', id)}
           />
-          <TextField
-            label="Tipo de actividad"
-            placeholder="Ej: Caminata"
-            value={form.activityType}
-            onChange={(value) => updateField('activityType', value)}
-          />
-        </div>
+        </FormCard>
 
-        <ScaleSelector label="Energía" value={form.energy} onChange={(value) => updateField('energy', value)} />
-        <ScaleSelector label="Ánimo" value={form.mood} onChange={(value) => updateField('mood', value)} />
-
-        <CheckboxGroup
-          label="Hábitos de apoyo cumplidos"
-          options={habits}
-          selectedIds={form.habitIds}
-          onToggle={(id) => toggleArrayField('habitIds', id)}
-        />
-
-        <label className="flex flex-col gap-1 text-sm text-ink/80 dark:text-ink-dark/80">
-          Notas
-          <textarea
-            value={form.notes}
-            onChange={(event) => updateField('notes', event.target.value)}
-            rows={3}
-            className="w-full rounded-xl border border-ink/20 bg-base px-3 py-2 text-ink dark:border-ink-dark/15 dark:bg-base-dark dark:text-ink-dark"
-          />
-        </label>
+        <FormCard title="Notas">
+          <label className="flex flex-col gap-1 text-sm text-ink-soft dark:text-ink-soft-dark">
+            Lo que quieras recordar de hoy
+            <textarea
+              value={form.notes}
+              onChange={(event) => updateField('notes', event.target.value)}
+              rows={3}
+              className="w-full rounded-xl border border-ink/20 bg-base px-3 py-2 text-ink dark:border-ink-dark/15 dark:bg-base-dark dark:text-ink-dark"
+            />
+          </label>
+        </FormCard>
 
         <button
           type="submit"
           disabled={!canSave}
-          className="rounded-full bg-primary-button px-4 py-3 text-base font-medium text-white hover:bg-primary-text disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-2 min-h-13 rounded-full bg-primary-button px-6 text-base font-semibold text-white shadow-soft hover:bg-primary-text disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
         >
           Guardar registro
         </button>

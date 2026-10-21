@@ -14,7 +14,7 @@ export function DateField({ label, value, onChange, min, max, required }: DateFi
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <label className="flex flex-col gap-1 text-sm text-ink/80 dark:text-ink-dark/80">
+    <label className="flex flex-col gap-1 text-sm text-ink-soft dark:text-ink-soft-dark">
       {label}
       <div className="relative">
         <input
@@ -25,7 +25,7 @@ export function DateField({ label, value, onChange, min, max, required }: DateFi
           min={min}
           max={max}
           required={required}
-          className="date-input w-full rounded-xl border border-ink/20 bg-base px-3 py-2 pr-10 text-ink dark:border-ink-dark/15 dark:bg-base-dark dark:text-ink-dark"
+          className="date-input min-h-11 w-full rounded-xl border border-ink/20 bg-card px-3 py-2 pr-11 text-base text-ink dark:border-ink-dark/15 dark:bg-base-dark dark:text-ink-dark"
         />
         <button
           type="button"
