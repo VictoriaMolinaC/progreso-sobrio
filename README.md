@@ -33,13 +33,14 @@ El detalle está en la [política de privacidad](https://progresosobrio.cl/priva
 
 - **Tour de bienvenida**, una sola vez, antes de entrar por primera vez: te explica en 4 tarjetas cortas dónde está el registro diario, dónde ver tu progreso, y que tu red de apoyo está siempre a un toque en el ícono de corazón.
 - **Racha de sobriedad** por sustancia, lo primero que ves al abrir la app, y puedes tener varias en paralelo.
-- **Registro diario en menos de 30 segundos**: LPM (latidos por minuto) en reposo, ansias, sueño, actividad física, energía, ánimo, hábitos cumplidos, disparadores y notas.
-- **Historial** en tabla y calendario, editable.
+- **Registro diario en menos de 30 segundos**: LPM (latidos por minuto) en reposo, ansias, sueño, actividad física, energía, ánimo, hábitos cumplidos, disparadores y notas. Basta un dato para guardar el día.
+- **Historial** en tarjetas y calendario, editable.
 - **Gráficas** de LPM en reposo, sueño y actividad a lo largo del tiempo.
 - **Panel "Qué te ayuda"**: correlaciones simples en lenguaje llano, nunca un diagnóstico.
 - **Rachas de cumplimiento por hábito.**
 - **Respaldo completo** en un archivo JSON que puedes restaurar cuando quieras, y **tus registros en CSV** para abrirlos en Excel o Sheets.
 - **Red de apoyo** siempre a un toque: tus propios contactos + la línea 1412 de SENDA.
+- **Pantalla de privacidad**: el ojo tachado, arriba a la derecha, tapa toda la app con una pantalla neutra. En Ajustes puedes hacer que se tape sola cada vez que sales.
 - **Traer datos del reloj** (solo en la app Android): pulso y sueño desde Health Connect, con una vista previa antes de usarlos en tu registro.
 
 ## App Android
