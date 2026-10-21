@@ -21,7 +21,7 @@ export function CorrelacionesView() {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-sm text-ink-soft dark:text-ink-soft-dark">
-        Observaciones simples sobre tus propios registros, no son un diagnóstico ni un consejo médico.
+        Relaciones simples entre tus datos, en lenguaje llano. Nunca un diagnóstico.
       </p>
       <ul className="flex flex-col gap-2">
         {insights.map((insight) => (
