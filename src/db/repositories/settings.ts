@@ -49,6 +49,36 @@ export const isAgeConfirmed = () => getSetting<boolean>(AGE_CONFIRMED_KEY, false
 
 export const confirmAge = () => setSetting(AGE_CONFIRMED_KEY, true);
 
+const UNDERAGE_DECLARED_KEY = 'underageDeclared';
+
+/**
+ * La persona dijo ser menor de edad en este dispositivo. Se recuerda a
+ * propósito y la app no ofrece cómo deshacerlo: una puerta de edad que deja
+ * volver atrás a cambiar la respuesta invita a cambiarla.
+ */
+export const isUnderageDeclared = () => getSetting<boolean>(UNDERAGE_DECLARED_KEY, false);
+
+export const declareUnderage = () => setSetting(UNDERAGE_DECLARED_KEY, true);
+
+const LEGAL_ACCEPTANCE_KEY = 'legalAcceptance';
+
+export interface LegalAcceptance {
+  termsVersion: string;
+  privacyVersion: string;
+  /** Fecha y hora (ISO) en que se aceptó. */
+  acceptedAt: string;
+}
+
+/**
+ * Qué versión de los términos y de la política aceptó la persona, y cuándo.
+ * Igual que la confirmación de edad, sobrevive a "borrar todos mis datos" y a
+ * restaurar un respaldo: lo aceptado sigue valiendo.
+ */
+export const getLegalAcceptance = () => getSetting<LegalAcceptance | null>(LEGAL_ACCEPTANCE_KEY, null);
+
+export const acceptLegal = (termsVersion: string, privacyVersion: string) =>
+  setSetting(LEGAL_ACCEPTANCE_KEY, { termsVersion, privacyVersion, acceptedAt: new Date().toISOString() });
+
 const ONBOARDING_SEEN_KEY = 'onboardingSeen';
 
 /**
