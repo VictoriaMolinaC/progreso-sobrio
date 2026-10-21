@@ -110,7 +110,7 @@ La parte de los recordatorios sí calzaba, así que la convertimos en el [issue 
 </p>
 
 <p align="center">
-<img src=".github/screenshots/capturas-modo-oscuro.png" alt="Modo oscuro: puerta de edad, tour de red de apoyo y rachas por hábito">
+<img src=".github/screenshots/capturas-modo-oscuro.png" alt="Modo oscuro: puerta de edad, términos y privacidad, tour de red de apoyo y rachas por hábito">
 </p>
 
 <p align="center">
