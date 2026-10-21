@@ -14,6 +14,21 @@
   --color-accent: #e6a756; /* ámbar — logros, refuerzo positivo */
   --color-success: #7fb069; /* verde vivo — hitos cumplidos */
   --color-warning: #d96c5f; /* coral — alerta, sin ser rojo de alarma */
+
+  /* Tonos para texto: los de arriba no llegan a 4,5:1 (WCAG AA) sobre el
+     fondo, así que quedan para íconos, bordes y rellenos. Los que tienen par
+     en el sitio usan el mismo valor (diseno/tokens.md). Todos pasan 4,5:1
+     también sobre las tarjetas y los fondos suaves de la app. */
+  --color-ink-soft: #655d56; /* texto secundario modo claro (--tinta-suave): 6:1 */
+  --color-ink-soft-dark: #b3ada6; /* texto secundario modo oscuro: 7,4:1 */
+  --color-primary-button: #467a62; /* botón salvia con texto blanco (--salvia-boton): 5:1 */
+  --color-primary-text: #3d6a54; /* texto y enlaces salvia, y hover del botón (--salvia-texto): 5,8:1 */
+  --color-primary-text-dark: #8fc1a6; /* texto salvia modo oscuro: 8,2:1 */
+  --color-secondary-text: #8c5339; /* texto terracota (--terracota-texto): 5,7:1 */
+  --color-secondary-text-dark: #e0a083; /* texto terracota modo oscuro: 7,5:1 */
+  --color-success-text: #44702f; /* texto verde modo claro: 5,4:1 */
+  --color-warning-text: #a8473b; /* texto coral modo claro: 5,4:1 */
+  --color-warning-button: #a8473b; /* botón coral con texto blanco: 5,8:1 */
 }
 
 :root {
@@ -34,6 +49,16 @@ body,
 body {
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* El placeholder de Tailwind es el color del texto al 50 % (2,7:1 en modo
+   claro); este pasa 4,5:1 en ambos modos. */
+::placeholder {
+  color: var(--color-ink-soft);
+}
+
+.dark ::placeholder {
+  color: var(--color-ink-soft-dark);
 }
 
 /* El ícono nativo del <input type="date"> se esconde acá, con CSS plano —

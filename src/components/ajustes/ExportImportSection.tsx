@@ -42,7 +42,7 @@ export function ExportImportSection() {
   return (
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Respaldar y restaurar mis datos</h2>
-      <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
+      <p className="mb-3 text-sm text-ink-soft dark:text-ink-soft-dark">
         {isAndroidBridgeAvailable()
           ? 'Tus datos viven solo en este teléfono. Guarda un respaldo seguido: si desinstalas la app o borras sus datos, se pierden.'
           : 'Tus datos viven solo en este navegador. Descarga un respaldo seguido para no perderlos.'}
@@ -66,7 +66,7 @@ export function ExportImportSection() {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="rounded-xl border border-warning/40 px-4 py-2 text-sm text-warning"
+          className="rounded-xl border border-warning/40 px-4 py-2 text-sm text-warning-text dark:text-warning"
         >
           Restaurar un respaldo
         </button>
@@ -79,7 +79,7 @@ export function ExportImportSection() {
         />
       </div>
 
-      {message && <p className="mt-2 text-sm text-ink/70 dark:text-ink-dark/70">{message}</p>}
+      {message && <p className="mt-2 text-sm text-ink-soft dark:text-ink-soft-dark">{message}</p>}
     </section>
   );
 }

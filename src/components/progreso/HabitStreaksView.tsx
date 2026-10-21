@@ -10,7 +10,7 @@ export function HabitStreaksView() {
 
   if (habits.length === 0) {
     return (
-      <p className="text-center text-ink/60 dark:text-ink-dark/60">
+      <p className="text-center text-ink-soft dark:text-ink-soft-dark">
         Todavía no hay hábitos cargados. Vas a poder agregarlos desde Ajustes.
       </p>
     );
@@ -26,7 +26,7 @@ export function HabitStreaksView() {
             className="flex items-center justify-between shadow-[0_2px_8px_rgba(62,58,54,0.08)] dark:shadow-none rounded-xl border border-ink/15 px-4 py-3 dark:border-ink-dark/10"
           >
             <span className="font-medium text-ink dark:text-ink-dark">{habit.name}</span>
-            <span className="text-sm font-medium text-success">
+            <span className="text-sm font-medium text-success-text dark:text-success">
               {streak} {streak === 1 ? 'día seguido' : 'días seguidos'}
             </span>
           </li>

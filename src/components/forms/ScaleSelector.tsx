@@ -19,8 +19,8 @@ export function ScaleSelector({ label, value, onChange }: ScaleSelectorProps) {
             aria-pressed={value === n}
             className={`h-10 w-10 rounded-full border text-sm font-medium transition-colors ${
               value === n
-                ? 'border-primary bg-primary text-white'
-                : 'border-ink/20 text-ink/70 dark:border-ink-dark/15 dark:text-ink-dark/70'
+                ? 'border-primary-button bg-primary-button text-white'
+                : 'border-ink/20 text-ink-soft dark:border-ink-dark/15 dark:text-ink-soft-dark'
             }`}
           >
             {n}

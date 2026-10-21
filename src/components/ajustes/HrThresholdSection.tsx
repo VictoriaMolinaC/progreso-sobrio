@@ -21,7 +21,7 @@ export function HrThresholdSection() {
   return (
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Umbral de LPM en reposo</h2>
-      <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
+      <p className="mb-3 text-sm text-ink-soft dark:text-ink-soft-dark">
         Al guardar un registro diario, Progreso Sobrio compara tu LPM en reposo contra este valor y te avisa si lo superaste. No
         es un valor médico, es una referencia que eliges tú.
       </p>
@@ -30,6 +30,7 @@ export function HrThresholdSection() {
         <input
           type="number"
           min="1"
+          aria-label="Umbral de LPM en reposo"
           value={value}
           onChange={(event) => {
             setValue(event.target.value);
@@ -39,13 +40,13 @@ export function HrThresholdSection() {
         />
         <button
           type="submit"
-          className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+          className="rounded-xl bg-primary-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-text"
         >
           Guardar
         </button>
       </form>
 
-      {saved && <p className="mt-2 text-sm text-success">Guardado ✓</p>}
+      {saved && <p className="mt-2 text-sm text-success-text dark:text-success">Guardado ✓</p>}
     </section>
   );
 }

@@ -56,7 +56,7 @@ export function ContactsSection() {
         />
         <button
           type="submit"
-          className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+          className="rounded-full bg-primary-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-text"
         >
           Agregar contacto
         </button>
@@ -70,7 +70,7 @@ export function ContactsSection() {
         </ul>
       )}
       {contacts && contacts.length === 0 && (
-        <p className="text-center text-ink/60 dark:text-ink-dark/60">Todavía no agregaste contactos.</p>
+        <p className="text-center text-ink-soft dark:text-ink-soft-dark">Todavía no agregaste contactos.</p>
       )}
     </section>
   );

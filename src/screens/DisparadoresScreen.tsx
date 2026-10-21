@@ -9,7 +9,7 @@ export function DisparadoresScreen() {
     <div className="flex flex-col gap-8 px-4 py-6">
       <div>
         <h1 className="mb-2 text-xl font-semibold text-ink dark:text-ink-dark">Disparadores</h1>
-        <p className="text-sm text-ink/70 dark:text-ink-dark/70">
+        <p className="text-sm text-ink-soft dark:text-ink-soft-dark">
           Registra qué situación, emoción o momento te llevó a consumir. Identificar tus disparadores es el primer
           paso para anticiparte.
         </p>

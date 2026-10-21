@@ -9,7 +9,7 @@ export function AjustesScreen() {
     <div className="flex flex-col gap-8 px-4 py-6">
       <div>
         <h1 className="text-xl font-semibold text-ink dark:text-ink-dark">Ajustes</h1>
-        <a href="#borrar-datos" className="text-sm text-warning underline">
+        <a href="#borrar-datos" className="text-sm text-warning-text dark:text-warning underline">
           Ir a borrar todos mis datos
         </a>
       </div>

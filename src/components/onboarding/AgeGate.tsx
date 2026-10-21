@@ -66,10 +66,10 @@ export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
               className="mt-4 flex items-center justify-between rounded-xl border border-secondary/30 bg-secondary/10 px-4 py-3"
             >
               <span>
-                <span className="block font-medium text-secondary">{SENDA_CONTACT.name}</span>
-                <span className="block text-sm text-secondary/80">{SENDA_CONTACT.description}</span>
+                <span className="block font-medium text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.name}</span>
+                <span className="block text-sm text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.description}</span>
               </span>
-              <span className="text-lg font-semibold text-secondary">{SENDA_CONTACT.phone}</span>
+              <span className="text-lg font-semibold text-secondary-text dark:text-secondary-text-dark">{SENDA_CONTACT.phone}</span>
             </a>
 
             <button
@@ -90,21 +90,21 @@ export function AgeGate({ onConfirm, theme, onToggleTheme }: AgeGateProps) {
               Progreso Sobrio acompaña a personas mayores de edad en proceso de abstinencia de sustancias. No reemplaza
               atención médica ni psicológica profesional.
             </p>
-            <p className="mt-3 text-sm text-ink/60 dark:text-ink-dark/60">
+            <p className="mt-3 text-sm text-ink-soft dark:text-ink-soft-dark">
               Tus datos se guardan solo en este dispositivo. No se envían a ningún servidor.
             </p>
 
             <button
               type="button"
               onClick={onConfirm}
-              className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-base font-medium text-white hover:bg-primary/90"
+              className="mt-6 w-full rounded-full bg-primary-button px-6 py-3 text-base font-medium text-white hover:bg-primary-text"
             >
               Tengo 18 años o más
             </button>
             <button
               type="button"
               onClick={() => setUnderage(true)}
-              className="mt-3 w-full text-sm text-ink/60 underline dark:text-ink-dark/60"
+              className="mt-3 w-full text-sm text-ink-soft underline dark:text-ink-soft-dark"
             >
               Soy menor de 18 años
             </button>

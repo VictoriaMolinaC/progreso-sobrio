@@ -38,7 +38,7 @@ export function AndroidSection() {
   return (
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">App Android</h2>
-      <p className="mb-3 text-sm text-ink/60 dark:text-ink-dark/60">
+      <p className="mb-3 text-sm text-ink-soft dark:text-ink-soft-dark">
         Estás usando la app para Android. Aquí puedes ver qué datos llegan de tu reloj y cómo se cuida tu privacidad.
       </p>
 
@@ -59,9 +59,9 @@ export function AndroidSection() {
         </button>
       </div>
 
-      {message && <p className="mt-2 text-sm text-ink/70 dark:text-ink-dark/70">{message}</p>}
+      {message && <p className="mt-2 text-sm text-ink-soft dark:text-ink-soft-dark">{message}</p>}
       {capabilities && (
-        <p className="mt-3 text-sm text-ink/60 dark:text-ink-dark/60">
+        <p className="mt-3 text-sm text-ink-soft dark:text-ink-soft-dark">
           App {capabilities.appVersion} · PWA {capabilities.pwaBuild}
         </p>
       )}

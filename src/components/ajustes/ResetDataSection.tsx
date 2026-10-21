@@ -25,7 +25,7 @@ export function ResetDataSection() {
     >
       <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Borrar todos mis datos</h2>
 
-      <p className="mb-3 text-sm text-ink/70 dark:text-ink-dark/70">
+      <p className="mb-3 text-sm text-ink-soft dark:text-ink-soft-dark">
         Borra tus sustancias, registros diarios, contactos, hábitos y disparadores, incluidos los datos de ejemplo
         que vienen precargados. La app queda vacía para que empieces de cero. <strong>No se puede deshacer.</strong>
       </p>
@@ -38,7 +38,7 @@ export function ResetDataSection() {
         Descargar un respaldo antes
       </button>
 
-      {exportMessage && <p className="-mt-2 mb-4 text-sm text-ink/70 dark:text-ink-dark/70">{exportMessage}</p>}
+      {exportMessage && <p className="-mt-2 mb-4 text-sm text-ink-soft dark:text-ink-soft-dark">{exportMessage}</p>}
 
       <label className="mb-2 flex flex-col gap-1 text-sm text-ink/80 dark:text-ink-dark/80">
         Para confirmar, escribe <strong>{CONFIRM_WORD}</strong>
@@ -57,12 +57,12 @@ export function ResetDataSection() {
         type="button"
         onClick={handleDelete}
         disabled={!canDelete}
-        className="w-full rounded-full bg-warning px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
+        className="w-full rounded-full bg-warning-button px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
       >
         Borrar todo y empezar de cero
       </button>
 
-      {deleted && <p className="mt-2 text-sm text-success">Listo. La app quedó vacía.</p>}
+      {deleted && <p className="mt-2 text-sm text-success-text dark:text-success">Listo. La app quedó vacía.</p>}
     </section>
   );
 }

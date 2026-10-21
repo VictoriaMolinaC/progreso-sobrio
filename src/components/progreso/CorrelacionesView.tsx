@@ -12,7 +12,7 @@ export function CorrelacionesView() {
 
   if (insights.length === 0) {
     return (
-      <p className="text-center text-ink/60 dark:text-ink-dark/60">
+      <p className="text-center text-ink-soft dark:text-ink-soft-dark">
         Todavía no hay suficientes registros variados para mostrar patrones. Sigue registrando y vuelve más adelante.
       </p>
     );
@@ -20,7 +20,7 @@ export function CorrelacionesView() {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-sm text-ink/50 dark:text-ink-dark/50">
+      <p className="text-sm text-ink-soft dark:text-ink-soft-dark">
         Observaciones simples sobre tus propios registros, no son un diagnóstico ni un consejo médico.
       </p>
       <ul className="flex flex-col gap-2">

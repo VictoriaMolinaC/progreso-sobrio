@@ -29,7 +29,7 @@ export function InicioScreen({ onRegistrarHoy, onGoToAjustes }: InicioScreenProp
       )}
 
       {substances && substances.length === 0 && (
-        <p className="text-center text-ink/60 dark:text-ink-dark/60">
+        <p className="text-center text-ink-soft dark:text-ink-soft-dark">
           Todavía no agregaste ninguna sustancia. Vas a poder hacerlo desde Sustancias.
         </p>
       )}
@@ -37,7 +37,7 @@ export function InicioScreen({ onRegistrarHoy, onGoToAjustes }: InicioScreenProp
       <button
         type="button"
         onClick={onRegistrarHoy}
-        className="rounded-full bg-primary px-6 py-3 text-base font-medium text-white hover:bg-primary/90"
+        className="rounded-full bg-primary-button px-6 py-3 text-base font-medium text-white hover:bg-primary-text"
       >
         Registrar hoy
       </button>
