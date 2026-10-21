@@ -3,7 +3,7 @@ import type { DailyLog } from '../db/types';
 const average = (nums: number[]) => nums.reduce((a, b) => a + b, 0) / nums.length;
 
 /**
- * Compara el craving promedio entre días que cumplen una condición y días
+ * Compara las ansias promedio (campo `craving`) entre días que cumplen una condición y días
  * que no. Devuelve null si no hay al menos 2 registros de cada lado —
  * comparar contra un solo día no dice nada confiable.
  */
@@ -34,14 +34,14 @@ export function getInsights(logs: DailyLog[], habits: Habit[]): Insight[] {
   const exercise = compareCravingByCondition(logs, (log) => (log.activityMinutes ?? 0) > 0);
   if (exercise) {
     insights.push({
-      text: `Los días que hiciste actividad física, tu craving promedio fue ${exercise.withAvg.toFixed(1)} (vs ${exercise.withoutAvg.toFixed(1)} los días que no).`,
+      text: `Los días que hiciste actividad física, tus ansias fueron de ${exercise.withAvg.toFixed(1)} en promedio (vs ${exercise.withoutAvg.toFixed(1)} los días que no).`,
     });
   }
 
   const goodSleep = compareCravingByCondition(logs, (log) => log.sleepQuality >= 4);
   if (goodSleep) {
     insights.push({
-      text: `Los días que dormiste mejor, tu craving promedio fue ${goodSleep.withAvg.toFixed(1)} (vs ${goodSleep.withoutAvg.toFixed(1)} los días que dormiste peor).`,
+      text: `Los días que dormiste mejor, tus ansias fueron de ${goodSleep.withAvg.toFixed(1)} en promedio (vs ${goodSleep.withoutAvg.toFixed(1)} los días que dormiste peor).`,
     });
   }
 
@@ -49,7 +49,7 @@ export function getInsights(logs: DailyLog[], habits: Habit[]): Insight[] {
     const comparison = compareCravingByCondition(logs, (log) => log.habitIds.includes(habit.id));
     if (comparison) {
       insights.push({
-        text: `Los días que cumpliste "${habit.name}", tu craving promedio fue ${comparison.withAvg.toFixed(1)} (vs ${comparison.withoutAvg.toFixed(1)} los días que no).`,
+        text: `Los días que cumpliste "${habit.name}", tus ansias fueron de ${comparison.withAvg.toFixed(1)} en promedio (vs ${comparison.withoutAvg.toFixed(1)} los días que no).`,
       });
     }
   }

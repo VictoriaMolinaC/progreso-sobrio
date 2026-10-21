@@ -4,9 +4,11 @@ interface ScaleSelectorProps {
   label: string;
   value: Scale1to5 | undefined;
   onChange: (value: Scale1to5) => void;
+  /** Qué significan los extremos, bajo la escala (ej. "1 = nada · 5 = muchas"). */
+  hint?: string;
 }
 
-export function ScaleSelector({ label, value, onChange }: ScaleSelectorProps) {
+export function ScaleSelector({ label, value, onChange, hint }: ScaleSelectorProps) {
   return (
     <div className="flex flex-col gap-1">
       <span className="text-sm text-ink/80 dark:text-ink-dark/80">{label}</span>
@@ -27,6 +29,7 @@ export function ScaleSelector({ label, value, onChange }: ScaleSelectorProps) {
           </button>
         ))}
       </div>
+      {hint && <span className="text-xs text-ink-soft dark:text-ink-soft-dark">{hint}</span>}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-/** Escala usada para craving, calidad de sueño, energía y ánimo. */
+/** Escala usada para ansias (campo `craving`), calidad de sueño, energía y ánimo. */
 export type Scale1to5 = 1 | 2 | 3 | 4 | 5;
 
 export interface Substance {

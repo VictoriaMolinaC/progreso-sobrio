@@ -233,7 +233,12 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
           onChange={(value) => updateField('deviceUsed', value)}
         />
 
-        <ScaleSelector label="Craving" value={form.craving} onChange={(value) => updateField('craving', value)} />
+        <ScaleSelector
+          label="Ansias"
+          hint="1 = nada · 5 = muchas"
+          value={form.craving}
+          onChange={(value) => updateField('craving', value)}
+        />
 
         <CheckboxGroup
           label="Disparadores"
@@ -306,7 +311,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
         {saved && hrWarningMessage && <p className="text-center text-sm text-warning-text dark:text-warning">{hrWarningMessage}</p>}
         {!canSave && (
           <p className="text-center text-sm text-ink-soft dark:text-ink-soft-dark">
-            Faltan craving, sueño, energía o ánimo para guardar.
+            Faltan ansias, sueño, energía o ánimo para guardar.
           </p>
         )}
       </form>

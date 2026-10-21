@@ -31,7 +31,7 @@ export function HistorialList({ onEdit }: HistorialListProps) {
           <div>
             <p className="font-medium text-ink dark:text-ink-dark">{formatDateDisplay(log.date)}</p>
             <p className="text-sm text-ink-soft dark:text-ink-soft-dark">
-              Craving {log.craving} · Ánimo {log.mood}
+              Ansias {log.craving} · Ánimo {log.mood}
               {log.restingHeartRate !== undefined ? ` · ${log.restingHeartRate} lpm` : ''}
             </p>
           </div>

@@ -33,7 +33,7 @@ El detalle está en la [política de privacidad](https://progresosobrio.cl/priva
 
 - **Tour de bienvenida**, una sola vez, antes de entrar por primera vez: te explica en 4 tarjetas cortas dónde está el registro diario, dónde ver tu progreso, y que tu red de apoyo está siempre a un toque en el ícono de corazón.
 - **Racha de sobriedad** por sustancia, lo primero que ves al abrir la app, y puedes tener varias en paralelo.
-- **Registro diario en menos de 30 segundos**: LPM (latidos por minuto) en reposo, craving, sueño, actividad física, energía, ánimo, hábitos cumplidos, disparadores y notas.
+- **Registro diario en menos de 30 segundos**: LPM (latidos por minuto) en reposo, ansias, sueño, actividad física, energía, ánimo, hábitos cumplidos, disparadores y notas.
 - **Historial** en tabla y calendario, editable.
 - **Gráficas** de LPM en reposo, sueño y actividad a lo largo del tiempo.
 - **Panel "Qué te ayuda"**: correlaciones simples en lenguaje llano, nunca un diagnóstico.
@@ -87,7 +87,7 @@ Una app que compiles tú queda con otra firma: Android no la deja instalarse enc
 
 No encontramos una app chilena dedicada a esto. Lo más cercano es la línea/chat 1412 de SENDA y "PlanSobrio", una app de encuentro social para gente sobria en Latinoamérica, pero con otro propósito (no es un tracker diario).
 
-Progreso Sobrio se diferencia por ser open source, una PWA instalable y una app Android que funcionan sin conexión, con profundidad real de correlación entre LPM, sueño, craving y ánimo, soporte para varias sustancias en paralelo, e integración directa con la red de apoyo chilena.
+Progreso Sobrio se diferencia por ser open source, una PWA instalable y una app Android que funcionan sin conexión, con profundidad real de correlación entre LPM, sueño, ansias y ánimo, soporte para varias sustancias en paralelo, e integración directa con la red de apoyo chilena.
 
 ## Por qué no tiene IA
 
