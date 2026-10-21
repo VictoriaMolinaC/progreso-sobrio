@@ -13,9 +13,9 @@ const aqui = dirname(fileURLToPath(import.meta.url));
 // plantilla → imagen final (relativa a esta carpeta) y tamaño exacto en píxeles
 const imagenes = [
   { plantilla: 'banner.html', salida: '../banner.png', ancho: 1280, alto: 640 },
-  { plantilla: '01-primera-vez.html', salida: '../screenshots/capturas-primera-vez.png', ancho: 1600, alto: 1124 },
+  { plantilla: '01-primera-vez.html', salida: '../screenshots/capturas-primera-vez.png', ancho: 1600, alto: 1076 },
   { plantilla: '02-dia-a-dia.html', salida: '../screenshots/capturas-dia-a-dia.png', ancho: 1600, alto: 1076 },
-  { plantilla: '03-modo-oscuro.html', salida: '../screenshots/capturas-modo-oscuro.png', ancho: 1600, alto: 1076 },
+  { plantilla: '03-modo-oscuro.html', salida: '../screenshots/capturas-modo-oscuro.png', ancho: 1600, alto: 1124 },
   { plantilla: '04-app-android.html', salida: '../screenshots/capturas-app-android.png', ancho: 1600, alto: 1076 },
   { plantilla: 'modo-avion.html', salida: '../screenshots/modo-avion.png', ancho: 460, alto: 995 },
 ];
