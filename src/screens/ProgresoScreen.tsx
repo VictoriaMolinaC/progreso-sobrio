@@ -29,7 +29,9 @@ export function ProgresoScreen({ onEditDate, theme }: ProgresoScreenProps) {
 
   return (
     <div className="px-4 py-6">
-      <ScreenTitle eyebrow="Tu camino" title="Progreso" className="mb-6" />
+      <ScreenTitle eyebrow="Tu camino" title="Progreso" className="mb-6">
+        Lo que registras con el tiempo: historial, calendario, gráficas y lo que parece ayudarte.
+      </ScreenTitle>
 
       <div role="tablist" aria-label="Vistas de tu progreso" className="mb-5 flex flex-wrap gap-2">
         {TABS.map((t) => (

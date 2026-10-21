@@ -24,7 +24,9 @@ export function SustanciasScreen() {
 
   return (
     <div className="px-4 py-6">
-      <ScreenTitle eyebrow="Tus rachas" title="Sustancias" className="mb-6" />
+      <ScreenTitle eyebrow="Tus rachas" title="Sustancias" className="mb-6">
+        Lo que dejaste y desde cuándo. De aquí sale tu racha.
+      </ScreenTitle>
 
       <form
         onSubmit={handleSubmit}

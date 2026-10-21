@@ -227,7 +227,9 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
 
   return (
     <div className="px-4 py-6">
-      <ScreenTitle eyebrow="Cómo estuvo tu día" title="Registro" className="mb-6" />
+      <ScreenTitle eyebrow="Cómo estuvo tu día" title="Registro" className="mb-6">
+        Anota cómo estuvo tu día. Basta un dato para guardar.
+      </ScreenTitle>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 pb-24">
         <DateField label="Fecha" value={date} onChange={handleDateChange} min={minDate} max={today} required />

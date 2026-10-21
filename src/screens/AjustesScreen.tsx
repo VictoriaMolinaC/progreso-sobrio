@@ -16,7 +16,9 @@ export function AjustesScreen({ hideOnLeave, onHideOnLeaveChange }: AjustesScree
   return (
     <div className="flex flex-col gap-8 px-4 py-6">
       <div>
-        <ScreenTitle eyebrow="Tus preferencias" title="Ajustes" className="mb-2" />
+        <ScreenTitle eyebrow="Tus preferencias" title="Ajustes" className="mb-2">
+          Tu red de apoyo, tus respaldos y la privacidad. Todo se guarda solo en este dispositivo.
+        </ScreenTitle>
         <a href="#borrar-datos" className="text-sm text-warning-text dark:text-warning underline">
           Ir a borrar todos mis datos
         </a>

@@ -9,7 +9,9 @@ export function HabitosScreen() {
 
   return (
     <div className="flex flex-col gap-8 px-4 py-6">
-      <ScreenTitle eyebrow="Lo que te hace bien" title="Hábitos" />
+      <ScreenTitle eyebrow="Lo que te hace bien" title="Hábitos">
+        Lo que haces para cuidarte. Márcalos en el registro y mira cuántos días seguidos llevas.
+      </ScreenTitle>
 
       <section>
         <h2 className="mb-3 text-lg font-semibold text-ink dark:text-ink-dark">Tu racha por hábito</h2>

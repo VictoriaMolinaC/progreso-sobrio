@@ -47,7 +47,7 @@ Reglas de color:
 
 - Ícono: la **manchita** (salvia con un punto ámbar), en la app y en el sitio. **(pendiente** como ícono instalado y favicon: hoy es la llama.**)** Descartados: el favicon actual del sitio y las letras «ps».
 - Encabezado de la app: ☰ a la izquierda, la manchita al centro, y el ojo 👁 y el tema 🌙 a la derecha. El encabezado no dice «Progreso Sobrio».
-- Cada pantalla muestra su nombre como título: una ceja terracota arriba y el nombre en un título liviano.
+- Cada pantalla muestra su nombre como título: una ceja terracota arriba, el nombre en un título liviano y, debajo, un texto corto que explica para qué sirve.
 - La app instalada se llama **«PS»** y no muestra «Progreso Sobrio». **(pendiente)**
 
 ### Estilo

@@ -18,10 +18,12 @@ export function InicioScreen({ onRegistrarHoy, onGoToAjustes }: InicioScreenProp
   return (
     <div className="relative flex flex-col gap-6 px-4 py-6">
       {/* A la derecha del título, que es corto: nunca detrás de texto. */}
-      <Blob shape="sage" className="top-2 right-3 w-24 text-blob-sage dark:text-primary/20" />
-      <Blob shape="honey" className="top-16 right-24 w-8 text-blob-honey dark:text-accent/20" />
+      <Blob shape="sage" className="top-1 right-3 w-20 text-blob-sage dark:text-primary/20" />
+      <Blob shape="honey" className="top-12 right-22 w-7 text-blob-honey dark:text-accent/20" />
 
-      <ScreenTitle eyebrow={formatLongDate(new Date())} title="Inicio" className="relative" />
+      <ScreenTitle eyebrow={formatLongDate(new Date())} title="Inicio" className="relative">
+        Tus días de racha y un acceso rápido para registrar hoy.
+      </ScreenTitle>
 
       <DemoDataBanner onGoToAjustes={onGoToAjustes} />
 
