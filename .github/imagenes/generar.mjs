@@ -17,7 +17,7 @@ const imagenes = [
   { plantilla: '02-dia-a-dia.html', salida: '../screenshots/capturas-dia-a-dia.png', ancho: 1600, alto: 1076 },
   { plantilla: '03-modo-oscuro.html', salida: '../screenshots/capturas-modo-oscuro.png', ancho: 1600, alto: 1124 },
   { plantilla: '04-app-android.html', salida: '../screenshots/capturas-app-android.png', ancho: 1600, alto: 1076 },
-  { plantilla: 'modo-avion.html', salida: '../screenshots/modo-avion.png', ancho: 460, alto: 995 },
+  { plantilla: 'modo-avion.html', salida: '../screenshots/modo-avion.png', ancho: 460, alto: 971 },
 ];
 
 function buscarNavegador() {

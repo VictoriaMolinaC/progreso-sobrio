@@ -24,7 +24,7 @@ Usa Edge (Windows) o Chrome/Chromium (Linux y macOS) sin ventana y con un perfil
 ## Capturas (`capturas/`)
 
 - Pantallas de la app con los **datos de ejemplo**, salvo las `04-*`, que son de un teléfono de prueba con una Xiaomi Smart Band 10 (mediciones de prueba, publicadas con permiso).
-- Recortadas sin la barra de estado ni la de navegación (para no mostrar notificaciones) y achicadas a 540 px de ancho. `05-modo-avion` conserva la barra de estado porque muestra el avión.
+- Recortadas sin la barra de estado ni la de navegación (para no mostrar notificaciones) y achicadas a 540 px de ancho. `05-modo-avion` conserva la barra de estado porque muestra el avión; solo se cambió la hora del reloj (a 14:00).
 - Para reemplazar una: toma la captura nueva, recórtala igual y guárdala con el mismo nombre. Antes de publicar, revisa que no muestre datos personales (nombres, teléfonos, notificaciones).
 
 ## Fuentes (`fuentes/`)
