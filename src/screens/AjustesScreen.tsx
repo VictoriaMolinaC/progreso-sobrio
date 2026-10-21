@@ -16,11 +16,18 @@ export function AjustesScreen({ hideOnLeave, onHideOnLeaveChange }: AjustesScree
   return (
     <div className="flex flex-col gap-8 px-4 py-6">
       <div>
-        <ScreenTitle eyebrow="Tus preferencias" title="Ajustes" className="mb-2">
+        <ScreenTitle eyebrow="Tus preferencias" title="Ajustes" className="mb-4">
           Tu red de apoyo, tus respaldos y la privacidad. Todo se guarda solo en este dispositivo.
         </ScreenTitle>
-        <a href="#borrar-datos" className="text-sm text-warning-text dark:text-warning underline">
+        {/* Solo lleva a la sección: el coral queda para el botón que de verdad borra. */}
+        <a
+          href="#borrar-datos"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full border-[1.5px] border-primary bg-card px-4 text-sm font-semibold text-primary-text hover:bg-primary-soft dark:bg-transparent dark:text-primary-text-dark dark:hover:bg-primary/15"
+        >
           Ir a borrar todos mis datos
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 5v14m-6-6 6 6 6-6" />
+          </svg>
         </a>
       </div>
       <ContactsSection />

@@ -76,6 +76,7 @@ Reglas de color:
 Reglas de arriba que se rompen a propósito:
 
 - **«Ir a Ajustes»** (aviso de datos de ejemplo en Inicio): píldora ámbar (`accent`) con texto tinta. Tiene que llamar la atención sin alarmar, porque el aviso pasaba desapercibido. Ni rojo ni coral. El ámbar con texto blanco no pasa contraste; con tinta, sí (5,4:1).
+- **«Ir a borrar todos mis datos»** (arriba en Ajustes): botón secundario salvia con flecha hacia abajo. Solo lleva a la sección, no borra nada; el coral queda para el botón «Borrar todo y empezar de cero».
 - **Campo `craving`**: el texto visible dice «Ansias», pero el campo de Dexie/IndexedDB, la clave del respaldo `.json` y la columna del `.csv` siguen llamándose `craving`. Cambiarlos rompería los datos guardados y la restauración de respaldos.
 - **Línea 1412 de SENDA**: su nombre, número (1412), descripción y los lugares donde aparece (puerta de edad, términos, botón flotante con corazón y tour de bienvenida) no se cambian. Solo toma el estilo del sitio (aviso cálido terracota).
 - **Menor de edad**: la pantalla no tiene «Volver». Queda guardado y muestra la tarjeta de la línea 1412.
