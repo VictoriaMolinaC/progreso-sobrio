@@ -106,7 +106,7 @@ Orden de trabajo acordado (PWA primero, Android al final):
 4. Inicio, Red de apoyo y Términos.
 5. Registro.
 6. Progreso: historial, calendario, gráficas en salvia y «Qué te ayuda».
-7. **Discreción**: la manchita como ícono instalado y favicon (app y sitio); nombre «PS» (`name`, `short_name` y `<title>`); respaldos `ps-AAAA-MM-DD.json` y `ps-AAAA-MM-DD.csv` (el `.json` no lleva el nombre adentro, así que los respaldos viejos se siguen importando).
+7. **Discreción**: la manchita como ícono instalado y favicon (app y sitio); nombre «PS» (`name`, `short_name` y `<title>`); respaldos `ps-AAAA-MM-DD.json` y `ps-AAAA-MM-DD.csv` **(hecho)**; el `.json` no lleva el nombre adentro, así que los respaldos viejos se siguen importando.
 8. **PIN opcional**, sobre la misma pantalla del ojo, sin librerías: hash con WebCrypto (PBKDF2 con sal), espera tras intentos fallidos; si se olvida, se borra y se restaura un respaldo. Mencionarlo en la política sería la v1.1.
 9. **Android 0.2.0**: pantalla nativa «Datos del reloj», `app_name` «PS» e ícono del lanzador, enlace a la política, `FLAG_SECURE` opcional, y probar en el APK el aviso de exportar y los enlaces externos.
 

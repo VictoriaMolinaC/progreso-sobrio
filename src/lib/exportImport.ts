@@ -160,8 +160,9 @@ export async function exportWithMessage(run: () => Promise<string>): Promise<str
 /** Devuelve el nombre del archivo generado, para poder confirmarlo en la UI. */
 export async function exportJson(): Promise<string> {
   const data = await buildExport();
-  // Fecha local en el nombre: exportedAt va en UTC y en Chile, de noche, ya marcaba el día siguiente.
-  const filename = `progreso-sobrio-datos-${toDateKey(new Date())}.json`;
+  // "ps" y no el nombre de la app: el archivo no tiene que delatar de qué se trata. Fecha local en el
+  // nombre: exportedAt va en UTC y en Chile, de noche, ya marcaba el día siguiente.
+  const filename = `ps-${toDateKey(new Date())}.json`;
   return saveExport(JSON.stringify(data, null, 2), filename, 'application/json');
 }
 
@@ -223,7 +224,7 @@ export async function exportCsv(): Promise<string> {
 
   // El BOM (U+FEFF) le avisa a Excel que el archivo es UTF-8: sin él, los tildes y la ñ se ven mal.
   const csv = '\uFEFF' + [CSV_COLUMNS, ...rows].map((row) => row.map(csvEscape).join(CSV_SEPARATOR)).join('\n');
-  const filename = `progreso-sobrio-registros-${toDateKey(new Date())}.csv`;
+  const filename = `ps-${toDateKey(new Date())}.csv`;
   return saveExport(csv, filename, 'text/csv');
 }
 
