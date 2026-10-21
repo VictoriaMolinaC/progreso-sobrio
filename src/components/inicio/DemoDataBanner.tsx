@@ -27,7 +27,13 @@ export function DemoDataBanner({ onGoToAjustes }: DemoDataBannerProps) {
         desde Ajustes.
       </p>
       <div className="mt-3 flex items-center gap-3">
-        <button type="button" onClick={onGoToAjustes} className="text-sm font-medium text-primary-text dark:text-primary-text-dark underline">
+        {/* Ámbar a propósito: el aviso pasaba desapercibido. Llama la atención sin alarmar;
+            con texto tinta (también en modo oscuro) pasa 5,4:1, con blanco no. */}
+        <button
+          type="button"
+          onClick={onGoToAjustes}
+          className="min-h-11 rounded-full bg-accent px-5 text-sm font-semibold text-ink shadow-[0_1px_2px_rgba(62,58,54,0.08)] hover:shadow-[0_2px_8px_rgba(62,58,54,0.16)]"
+        >
           Ir a Ajustes
         </button>
         <button
