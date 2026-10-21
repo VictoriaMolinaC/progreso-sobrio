@@ -105,7 +105,7 @@ function App() {
   // ni enfocar, los lectores de pantalla no la leen, y no pierde lo que estaba a medias.
   return (
     <>
-      <div className="min-h-screen bg-base dark:bg-base-dark" inert={privacy.covered}>
+      <div className="min-h-screen bg-mist-fade" inert={privacy.covered}>
         <Header
           onMenuClick={() => setDrawerOpen(true)}
           onCover={privacy.cover}
@@ -118,7 +118,7 @@ function App() {
           onSelect={handleSelectScreen}
           onClose={() => setDrawerOpen(false)}
         />
-        <main>
+        <main className="mx-auto w-full max-w-xl">
           {activeScreen === 'inicio' && (
             <InicioScreen onRegistrarHoy={handleRegistrarHoy} onGoToAjustes={() => setActiveScreen('ajustes')} />
           )}

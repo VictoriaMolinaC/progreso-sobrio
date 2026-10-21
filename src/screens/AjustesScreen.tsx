@@ -5,6 +5,7 @@ import { HrThresholdSection } from '../components/ajustes/HrThresholdSection';
 import { LegalSection } from '../components/ajustes/LegalSection';
 import { PrivacyCoverSection } from '../components/ajustes/PrivacyCoverSection';
 import { ResetDataSection } from '../components/ajustes/ResetDataSection';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 
 interface AjustesScreenProps {
   hideOnLeave: boolean;
@@ -15,7 +16,7 @@ export function AjustesScreen({ hideOnLeave, onHideOnLeaveChange }: AjustesScree
   return (
     <div className="flex flex-col gap-8 px-4 py-6">
       <div>
-        <h1 className="text-xl font-semibold text-ink dark:text-ink-dark">Ajustes</h1>
+        <ScreenTitle eyebrow="Tus preferencias" title="Ajustes" className="mb-2" />
         <a href="#borrar-datos" className="text-sm text-warning-text dark:text-warning underline">
           Ir a borrar todos mis datos
         </a>

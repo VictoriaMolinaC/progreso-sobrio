@@ -4,6 +4,7 @@ import { CheckboxGroup } from '../components/forms/CheckboxGroup';
 import { DateField } from '../components/forms/DateField';
 import { ScaleSelector } from '../components/forms/ScaleSelector';
 import { TextField } from '../components/forms/TextField';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 import { WatchDataPreview } from '../components/registro/WatchDataPreview';
 import { getFirstUsedDate } from '../db/init';
 import {
@@ -211,7 +212,7 @@ export function RegistroScreen({ initialDate }: RegistroScreenProps) {
 
   return (
     <div className="px-4 py-6">
-      <h1 className="mb-4 text-xl font-semibold text-ink dark:text-ink-dark">Registro diario</h1>
+      <ScreenTitle eyebrow="Cómo estuvo tu día" title="Registro" className="mb-6" />
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5 pb-10">
         <DateField label="Fecha" value={date} onChange={handleDateChange} min={minDate} max={today} required />

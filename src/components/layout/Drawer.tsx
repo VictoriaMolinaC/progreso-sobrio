@@ -31,7 +31,7 @@ export function Drawer({ open, activeScreen, onSelect, onClose }: DrawerProps) {
       />
       <nav
         aria-label="Navegación principal"
-        className={`fixed inset-y-0 left-0 z-40 w-72 max-w-[80vw] transform bg-base p-4 shadow-lg transition-transform duration-200 dark:bg-base-dark ${
+        className={`fixed inset-y-0 left-0 z-40 w-72 max-w-[80vw] transform bg-card p-4 shadow-high transition-transform duration-200 dark:bg-base-dark ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -41,9 +41,9 @@ export function Drawer({ open, activeScreen, onSelect, onClose }: DrawerProps) {
               <button
                 type="button"
                 onClick={() => onSelect(item.id)}
-                className={`w-full rounded-md px-3 py-2 text-left text-base ${
+                className={`flex min-h-12 w-full items-center rounded-[10px] px-4 text-left text-base ${
                   activeScreen === item.id
-                    ? 'bg-primary/15 font-medium text-primary-text dark:text-primary-text-dark'
+                    ? 'bg-primary-soft font-semibold text-primary-text dark:bg-primary/15 dark:text-primary-text-dark'
                     : 'text-ink/80 hover:bg-ink/5 dark:text-ink-dark/80 dark:hover:bg-ink-dark/10'
                 }`}
               >

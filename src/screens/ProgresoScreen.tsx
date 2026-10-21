@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from 'react';
 import type { Theme } from '../app/theme';
 import { CalendarView } from '../components/progreso/CalendarView';
 import { CorrelacionesView } from '../components/progreso/CorrelacionesView';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 import { HistorialList } from '../components/progreso/HistorialList';
 
 // Diferido: Recharts es pesado y la mayoría de las visitas van a Registro, no acá.
@@ -28,7 +29,7 @@ export function ProgresoScreen({ onEditDate, theme }: ProgresoScreenProps) {
 
   return (
     <div className="px-4 py-6">
-      <h1 className="mb-4 text-xl font-semibold text-ink dark:text-ink-dark">Progreso</h1>
+      <ScreenTitle eyebrow="Tu camino" title="Progreso" className="mb-6" />
 
       <div className="mb-4 flex gap-1 overflow-x-auto border-b border-ink/10 dark:border-ink-dark/10">
         {TABS.map((t) => (

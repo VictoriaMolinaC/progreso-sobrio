@@ -1,7 +1,9 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { DemoDataBanner } from '../components/inicio/DemoDataBanner';
+import { ScreenTitle } from '../components/layout/ScreenTitle';
 import { StreakCard } from '../components/streak/StreakCard';
 import { getSubstances } from '../db/repositories';
+import { formatLongDate } from '../lib/dates';
 import { getStreakDays } from '../lib/streak';
 
 interface InicioScreenProps {
@@ -13,7 +15,9 @@ export function InicioScreen({ onRegistrarHoy, onGoToAjustes }: InicioScreenProp
   const substances = useLiveQuery(() => getSubstances());
 
   return (
-    <div className="flex flex-col items-center gap-6 px-4 py-8">
+    <div className="flex flex-col items-center gap-6 px-4 py-6">
+      <ScreenTitle eyebrow={formatLongDate(new Date())} title="Inicio" className="w-full" />
+
       <DemoDataBanner onGoToAjustes={onGoToAjustes} />
 
       {substances && substances.length > 0 && (
