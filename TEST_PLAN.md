@@ -218,11 +218,9 @@ on:
   push:
     branches:
       - main
-      - develop
   pull_request:
     branches:
       - main
-      - develop
 
 jobs:
   qa-pipeline:
@@ -233,23 +231,28 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
-          cache: 'npm'
+          node-version: '24.x'
+          cache: 'pnpm'
 
       - name: Instalar dependencias
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Ejecutar Linter (oxlint)
-        run: npm run lint
+        run: pnpm lint
 
       - name: Verificar tipos TypeScript
-        run: tsc -b
+        run: pnpm exec tsc -b
 
       - name: Ejecutar tests unitarios con Vitest
-        run: npm test
+        run: pnpm test
 ```
 
 ### 4.2 Gobernanza y Privacidad en el Repositorio

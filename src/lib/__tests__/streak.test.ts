@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { getStreakDays } from '../streak';
 
 describe('getStreakDays - Cálculo de rachas de sobriedad', () => {
@@ -87,21 +87,17 @@ describe('getStreakDays - Cálculo de rachas de sobriedad', () => {
   });
 
   it('Debe calcular correctamente cruzando el cambio de hora DST en Chile (America/Santiago)', () => {
-    // En 2026 Chile adelanta el reloj el domingo 13 de septiembre
-    // La racha debe contar días calendario, no horas
-    const originalTZ = process.env['TZ'];
-    process.env['TZ'] = 'America/Santiago';
+    // En 2026 Chile adelantó el reloj la noche del sábado 5 al domingo 6 de septiembre:
+    // entre el 5 y el 7 pasan 47 horas, pero la racha debe contar días calendario, no horas
+    // vi.stubEnv en vez de process.env: los tests se revisan con los tipos de la app (navegador)
+    vi.stubEnv('TZ', 'America/Santiago');
     try {
-      const lastUseDate = '2026-09-12';
-      const today = new Date(2026, 8, 14); // 14 de septiembre (mes 8 = septiembre)
+      const lastUseDate = '2026-09-05';
+      const today = new Date(2026, 8, 7); // 7 de septiembre (mes 8 = septiembre)
       const streak = getStreakDays(lastUseDate, today);
       expect(streak).toBe(2);
     } finally {
-      if (originalTZ === undefined) {
-        delete process.env['TZ'];
-      } else {
-        process.env['TZ'] = originalTZ;
-      }
+      vi.unstubAllEnvs();
     }
   });
 });
