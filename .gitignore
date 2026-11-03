@@ -34,3 +34,6 @@ notas-privadas/
 *.njsproj
 *.sln
 *.sw?
+
+# Informe de cobertura de tests (se genera localmente con test:coverage)
+coverage/

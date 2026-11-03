@@ -36,9 +36,8 @@ describe('getStreakDays - Cálculo de rachas de sobriedad', () => {
 
     const streak = getStreakDays(lastUseDate, today);
 
-    // Enero a octubre (no bisiesto 2026): 294 días
-    expect(streak).toBeGreaterThanOrEqual(290);
-    expect(streak).toBeLessThanOrEqual(295);
+    // De 2026-01-01 a 2026-10-22 son exactamente 294 días
+    expect(streak).toBe(294);
   });
 
   it('Debe usar la fecha actual por defecto si no se proporciona', () => {
@@ -85,5 +84,24 @@ describe('getStreakDays - Cálculo de rachas de sobriedad', () => {
     expect(streakMorning).toBe(streakAfternoon);
     expect(streakAfternoon).toBe(streakMidnight);
     expect(streakMorning).toBe(7);
+  });
+
+  it('Debe calcular correctamente cruzando el cambio de hora DST en Chile (America/Santiago)', () => {
+    // En 2026 Chile adelanta el reloj el domingo 13 de septiembre
+    // La racha debe contar días calendario, no horas
+    const originalTZ = process.env['TZ'];
+    process.env['TZ'] = 'America/Santiago';
+    try {
+      const lastUseDate = '2026-09-12';
+      const today = new Date(2026, 8, 14); // 14 de septiembre (mes 8 = septiembre)
+      const streak = getStreakDays(lastUseDate, today);
+      expect(streak).toBe(2);
+    } finally {
+      if (originalTZ === undefined) {
+        delete process.env['TZ'];
+      } else {
+        process.env['TZ'] = originalTZ;
+      }
+    }
   });
 });
