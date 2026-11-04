@@ -23,8 +23,9 @@ export default defineConfig(({ mode }) => {
               registerType: 'autoUpdate',
               includeAssets: ['favicon.svg'],
               manifest: {
-                name: 'Progreso Sobrio',
-                short_name: 'Progreso',
+                // Nombre discreto: es lo que se ve bajo el ícono instalado y en la lista de apps.
+                name: 'PS',
+                short_name: 'PS',
                 description: 'Acompaña el día a día de una persona en proceso de abstinencia de sustancias.',
                 lang: 'es-CL',
                 theme_color: '#5B9279',

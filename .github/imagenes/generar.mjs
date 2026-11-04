@@ -1,24 +1,34 @@
-// Convierte las plantillas HTML de esta carpeta en las imágenes del README, con un navegador sin
-// ventana (Edge en Windows, Chrome o Chromium en Linux/macOS). Node puro, sin dependencias.
+// Convierte las plantillas HTML de esta carpeta en las imágenes del README y en los íconos PNG de
+// la PWA, con un navegador sin ventana (Edge en Windows, Chrome o Chromium en Linux/macOS).
+// Node puro, sin dependencias.
 // Uso, desde la raíz del repo:  node .github/imagenes/generar.mjs
+// Solo algunas:                 node .github/imagenes/generar.mjs icono   (las que contienen "icono")
 // Para usar otro navegador:     NAVEGADOR=/ruta/al/navegador node .github/imagenes/generar.mjs
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
+const raiz = join(aqui, '..', '..');
 
 // plantilla → imagen final (relativa a esta carpeta) y tamaño exacto en píxeles
-const imagenes = [
+const todas = [
   { plantilla: 'banner.html', salida: '../banner.png', ancho: 1280, alto: 640 },
   { plantilla: '01-primera-vez.html', salida: '../screenshots/capturas-primera-vez.png', ancho: 1600, alto: 1076 },
   { plantilla: '02-dia-a-dia.html', salida: '../screenshots/capturas-dia-a-dia.png', ancho: 1600, alto: 1076 },
   { plantilla: '03-modo-oscuro.html', salida: '../screenshots/capturas-modo-oscuro.png', ancho: 1600, alto: 1124 },
   { plantilla: '04-app-android.html', salida: '../screenshots/capturas-app-android.png', ancho: 1600, alto: 1076 },
   { plantilla: 'modo-avion.html', salida: '../screenshots/modo-avion.png', ancho: 460, alto: 971 },
+  // Íconos de la PWA (la manchita). El favicon es SVG y está escrito a mano en public/favicon.svg.
+  { plantilla: 'icono.html', salida: '../../public/icon-192.png', ancho: 192, alto: 192 },
+  { plantilla: 'icono.html', salida: '../../public/icon-512.png', ancho: 512, alto: 512 },
+  { plantilla: 'icono-maskable.html', salida: '../../public/maskable-192.png', ancho: 192, alto: 192 },
+  { plantilla: 'icono-maskable.html', salida: '../../public/maskable-512.png', ancho: 512, alto: 512 },
 ];
+const filtro = process.argv[2];
+const imagenes = filtro ? todas.filter(({ plantilla }) => plantilla.includes(filtro)) : todas;
 
 function buscarNavegador() {
   if (process.env.NAVEGADOR) return process.env.NAVEGADOR;
@@ -59,7 +69,7 @@ try {
       `--screenshot=${destino}`,
       pathToFileURL(join(aqui, plantilla)).href,
     ], { stdio: 'ignore' });
-    console.log(`${plantilla} → ${salida.replace('../', '.github/')} (${ancho}×${alto})`);
+    console.log(`${plantilla} → ${relative(raiz, destino).replaceAll('\\', '/')} (${ancho}×${alto})`);
   }
 } finally {
   rmSync(perfil, { recursive: true, force: true });

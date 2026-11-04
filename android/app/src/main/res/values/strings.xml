@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Progreso Sobrio</string>
+    <!-- Nombre discreto bajo el ícono, en la lista de apps y en Health Connect. -->
+    <string name="app_name">PS</string>
 </resources>
