@@ -12,6 +12,7 @@ Lo que ya está decidido para la app (PWA) y el sitio. Léelo antes de tocar la 
 
 - La app toma el sistema «Diario con bruma» del sitio. La fuente de verdad es el bloque `:root` de `sitio/estilos.css`; los tokens están listados en `diseno/tokens.md` y los componentes en `diseno/componentes.html`.
 - En la app, los tokens viven en el `@theme` de `src/index.css`, con nombres en inglés (`base`, `ink`, `primary`…). Cada token que tiene par en el sitio usa el mismo valor.
+- En la app Android, las pantallas nativas («Datos del reloj» y «Privacidad de la app») usan los mismos valores en `android/app/src/main/java/cl/progresosobrio/app/ui/theme/Color.kt` (en oscuro, ya mezclados sobre el café) y siguen el modo claro u oscuro **del teléfono**, no el 🌙 de la PWA.
 - **Sin hex sueltos nuevos.** Los colores salen de los tokens. Si hace falta un color que no existe, primero se agrega como token (con su contraste medido) y se anota aquí.
 
 ### Paleta
@@ -108,7 +109,7 @@ Orden de trabajo acordado (PWA primero, Android al final):
 6. Progreso: historial, calendario, gráficas en salvia y «Qué te ayuda».
 7. **Discreción**: la manchita como ícono instalado y favicon (app y sitio); nombre «PS» (`name`, `short_name` y `<title>`); respaldos `ps-AAAA-MM-DD.json` y `ps-AAAA-MM-DD.csv` **(hecho)**; el `.json` no lleva el nombre adentro, así que los respaldos viejos se siguen importando.
 8. **PIN opcional**, sobre la misma pantalla del ojo, sin librerías: hash con WebCrypto (PBKDF2 con sal), espera tras intentos fallidos; si se olvida, se borra y se restaura un respaldo. Mencionarlo en la política sería la v1.1.
-9. **Android 0.2.0**: pantalla nativa «Datos del reloj», `app_name` «PS» e ícono del lanzador, enlace a la política, `FLAG_SECURE` opcional, y probar en el APK el aviso de exportar y los enlaces externos.
+9. **Android 0.2.0**: pantallas nativas «Datos del reloj» y «Privacidad de la app» con el estilo de la PWA **(hecho)**; `app_name` «PS» e ícono del lanzador; enlace a la política en «Privacidad de la app» **(hecho)**; `FLAG_SECURE` opcional; y probar en el APK el aviso de exportar y los enlaces externos **(hecho)**.
 
 Si algún día se quiere Figtree en la app: agregar `font-src 'self'` a la CSP de `vercel.json` y alojar el archivo en la misma app (nunca desde un CDN).
 
