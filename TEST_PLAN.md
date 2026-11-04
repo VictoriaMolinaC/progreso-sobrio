@@ -2,7 +2,7 @@
 
 **Proyecto:** Progreso Sobrio
 **Repositorio:** [VictoriaMolinaC/progreso-sobrio](https://github.com/VictoriaMolinaC/progreso-sobrio)
-**Versión del documento:** 1.3.0
+**Versión del documento:** 1.4.0
 **Fecha de creación:** Octubre 2026
 **Última actualización:** Noviembre 2026 (app Android y CI)
 **Creadora y mantenedora:** Victoria Molina
@@ -218,8 +218,11 @@ Se recorre en el teléfono antes de publicar cada versión del APK, con la versi
 | 18 | Exportar | Aviso "Este archivo va a tener tus datos de salud…"; Cancelar no guarda nada; Aceptar guarda `ps-AAAA-MM-DD.json` y `.csv` | ✅ | — |
 | 19 | Girar el teléfono con el formulario a medias | No se pierde nada | ✅ | — |
 | 20 | Escribir con el teclado abierto | El teclado no tapa el campo activo | ✅ | — |
+| 21 | "Datos del reloj" y "Privacidad de la app" (Ajustes → App Android) | El estilo de la PWA (ceja, título liviano, tarjetas de papel, botones píldora); en modo oscuro todo el texto se lee | ✅ | ✅ (2) |
+| 22 | "Privacidad de la app" → "Leer la Política de privacidad" | Abre la Política en el navegador | ✅ | ✅ (2) |
 
 (1) No se prueba: desde Android 14, Health Connect viene con el sistema y no se puede desinstalar; en el Xiaomi, desinstalarlo borraría los datos que Mi Fitness guardó ahí.
+(2) Los casos 21 y 22 se agregaron el mismo día, con la versión que trae el estilo nuevo: en el emulador, en modo claro y oscuro; en el Xiaomi, con las tarjetas del reloj con datos reales.
 
 ### 1.4 Verificación de privacidad del APK
 
@@ -273,14 +276,14 @@ Resultado esperado: `READ_HEART_RATE`, `READ_RESTING_HEART_RATE` y `READ_SLEEP` 
 
 ### 2.2 Pruebas Unitarias de la App Android
 
-67 pruebas en `android/app/src/test/`, para la lógica pura del envoltorio Kotlin:
+69 pruebas en `android/app/src/test/`, para la lógica pura del envoltorio Kotlin:
 
 | Carpeta | Qué cubre |
 |---|---|
 | `health/` | Pulso del día sin muestras repetidas, horas de sueño sin sesiones repetidas ni tramos despierto, límites del día en hora local (incluido el cambio de hora de Chile) y los únicos 3 permisos de Health Connect que pide la app |
 | `bridge/` | Mensajes del puente entre la PWA y Android (válidos, otra versión, tipo desconocido, JSON roto, datos inválidos) y el paso de los datos del reloj al registro |
 | `backup/` | Nombre seguro de la copia al restaurar un respaldo (nunca sale de la caché) y el límite de tamaño |
-| `web/` | Qué se abre dentro del WebView (solo la PWA empaquetada) y qué enlaces salen de la app (solo `tel:`, `mailto:` y `https:`) |
+| `web/` | Qué se abre dentro del WebView (solo la PWA empaquetada), qué enlaces salen de la app (solo `tel:`, `mailto:` y `https:`) y que el enlace a la Política sea el mismo que usa la PWA |
 
 Se corren desde `android\` con `.\gradlew.bat testDebugUnitTest`; no necesitan la PWA compilada. Lo que depende del teléfono (el WebView, Health Connect real, "Guardar como" y el selector de archivos) se cubre con la checklist manual (§1.3).
 

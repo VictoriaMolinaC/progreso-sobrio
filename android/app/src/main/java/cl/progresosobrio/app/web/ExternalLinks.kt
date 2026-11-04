@@ -7,6 +7,12 @@ import android.net.Uri
 import android.widget.Toast
 import cl.progresosobrio.app.ui.Textos
 
+/**
+ * Política de privacidad publicada: la misma dirección que LEGAL.privacyUrl en la PWA
+ * (src/lib/constants.ts). Un test revisa que no se desalineen.
+ */
+const val URL_POLITICA_PRIVACIDAD = "https://progresosobrio.cl/privacidad.html"
+
 /** Qué app del teléfono abre un enlace que sale de la PWA. */
 internal enum class TipoDeEnlace { MARCADOR, CORREO, WEB }
 

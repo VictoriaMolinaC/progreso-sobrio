@@ -5,29 +5,22 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
@@ -53,6 +47,7 @@ import cl.progresosobrio.app.R
 import cl.progresosobrio.app.health.DayHealthData
 import cl.progresosobrio.app.health.HealthConnectReader
 import cl.progresosobrio.app.health.sourceLabel
+import cl.progresosobrio.app.ui.theme.EstiloTituloTarjeta
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -147,52 +142,61 @@ fun WatchTestScreen() {
 
     val cargando = estado == Estado.Loading
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            // --- Cabecera ---
-            Text(Textos.TITULO, style = MaterialTheme.typography.headlineSmall)
-            SelectorDeDia(
-                dia = dia,
-                hoy = hoy,
-                habilitado = !cargando,
-                onCambiar = { cambiarDia(it) },
-            )
-            BotonTraer(cargando = cargando, onClick = { traerDatos() })
-            Spacer(Modifier.size(4.dp))
+    // Scaffold transparente: el fondo con bruma lo pone FondoBruma. El color del texto va
+    // explícito: con fondo transparente, Material no sabe cuál usar y deja negro (no se ve en oscuro).
+    FondoBruma {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                // --- Cabecera ---
+                EncabezadoPantalla(Textos.CEJA_RELOJ, Textos.TITULO, Textos.BAJADA_RELOJ)
+                Spacer(Modifier.size(4.dp))
+                SelectorDeDia(
+                    dia = dia,
+                    hoy = hoy,
+                    habilitado = !cargando,
+                    onCambiar = { cambiarDia(it) },
+                )
+                BotonTraer(cargando = cargando, onClick = { traerDatos() })
+                Spacer(Modifier.size(4.dp))
 
-            // --- Contenido según el estado ---
-            when (val e = estado) {
-                Estado.Idle, Estado.Loading -> Unit
-                Estado.HcNotInstalled -> TarjetaMensaje(
-                    texto = Textos.NECESITAS_HC,
-                    boton = Textos.BOTON_INSTALAR_HC,
-                    onBoton = { abrirPlayStore() },
-                )
-                Estado.HcUpdateRequired -> TarjetaMensaje(
-                    texto = Textos.HC_DESACTUALIZADO,
-                    boton = Textos.BOTON_ACTUALIZAR_HC,
-                    onBoton = { abrirPlayStore() },
-                )
-                Estado.PermissionDenied -> TarjetaMensaje(
-                    texto = Textos.SIN_PERMISO,
-                    boton = Textos.BOTON_PEDIR_PERMISOS,
-                    onBoton = { pedirPermisos.launch(reader.permissions) },
-                    nota = Textos.NOTA_PERMISOS,
-                )
-                Estado.NoData -> TarjetaMensaje(texto = Textos.SIN_DATOS_DEL_DIA)
-                is Estado.Error -> TarjetaMensaje(texto = e.mensaje) // sin rojo: no es una alarma
-                is Estado.Loaded -> Resultado(e.data)
+                // --- Contenido según el estado ---
+                when (val e = estado) {
+                    Estado.Idle, Estado.Loading -> Unit
+                    Estado.HcNotInstalled -> TarjetaMensaje(
+                        texto = Textos.NECESITAS_HC,
+                        boton = Textos.BOTON_INSTALAR_HC,
+                        onBoton = { abrirPlayStore() },
+                    )
+                    Estado.HcUpdateRequired -> TarjetaMensaje(
+                        texto = Textos.HC_DESACTUALIZADO,
+                        boton = Textos.BOTON_ACTUALIZAR_HC,
+                        onBoton = { abrirPlayStore() },
+                    )
+                    Estado.PermissionDenied -> TarjetaMensaje(
+                        texto = Textos.SIN_PERMISO,
+                        boton = Textos.BOTON_PEDIR_PERMISOS,
+                        onBoton = { pedirPermisos.launch(reader.permissions) },
+                        nota = Textos.NOTA_PERMISOS,
+                    )
+                    Estado.NoData -> TarjetaMensaje(texto = Textos.SIN_DATOS_DEL_DIA)
+                    is Estado.Error -> TarjetaMensaje(texto = e.mensaje) // sin rojo: no es una alarma
+                    is Estado.Loaded -> Resultado(e.data)
+                }
+
+                // --- Privacidad ---
+                Spacer(Modifier.size(4.dp))
+                AvisoPrivacidad(Textos.PRIVACIDAD_RESUMEN)
             }
-
-            // --- Privacidad ---
-            Spacer(Modifier.size(4.dp))
-            BloquePrivacidad()
         }
     }
 }
@@ -239,19 +243,7 @@ private fun SelectorDeDia(
 /** Acción principal, de ancho completo. Mientras lee dice "Leyendo…" y no se puede tocar. */
 @Composable
 private fun BotonTraer(cargando: Boolean, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        enabled = !cargando,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp),
-        shape = MaterialTheme.shapes.medium,
-        colors = ButtonDefaults.buttonColors(
-            // Deshabilitado con colores legibles (los de Material por defecto son muy tenues).
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        ),
-    ) {
+    BotonPrincipal(onClick = onClick, enabled = !cargando) {
         if (cargando) {
             CircularProgressIndicator(
                 modifier = Modifier.size(18.dp),
@@ -268,21 +260,6 @@ private fun BotonTraer(cargando: Boolean, onClick: () -> Unit) {
 
 // --- Tarjetas ---
 
-/** Tarjeta base: esquinas de 20 dp, levemente elevada. */
-@Composable
-private fun Tarjeta(contenido: @Composable ColumnScope.() -> Unit) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
-    ) {
-        Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            content = contenido,
-        )
-    }
-}
-
 /** Estados sin datos / sin permiso / sin Health Connect / error: mensaje centrado y botón debajo. */
 @Composable
 private fun TarjetaMensaje(
@@ -291,7 +268,7 @@ private fun TarjetaMensaje(
     onBoton: () -> Unit = {},
     nota: String? = null,
 ) {
-    Tarjeta {
+    TarjetaPapel {
         Text(
             texto,
             style = MaterialTheme.typography.bodyLarge,
@@ -299,13 +276,7 @@ private fun TarjetaMensaje(
             modifier = Modifier.fillMaxWidth(),
         )
         if (boton != null) {
-            FilledTonalButton(
-                onClick = onBoton,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier
-                    .heightIn(min = 48.dp)
-                    .align(Alignment.CenterHorizontally),
-            ) { Text(boton) }
+            BotonSecundario(texto = boton, onClick = onBoton)
         }
         if (nota != null) {
             Text(
@@ -327,7 +298,7 @@ private fun Resultado(data: DayHealthData) {
     val fuentes = data.sources.map { sourceLabel(context, it) }.distinct().sorted()
 
     // Pulso del día: mín / máx / promedio en tres columnas.
-    Tarjeta {
+    TarjetaPapel {
         TituloTarjeta(Textos.PULSO_DEL_DIA)
         // Alineadas por abajo: si una etiqueta ocupa dos líneas, los números quedan a la misma altura.
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
@@ -342,7 +313,7 @@ private fun Resultado(data: DayHealthData) {
     }
 
     // Sueño: horas en grande y el pulso durante el sueño debajo.
-    Tarjeta {
+    TarjetaPapel {
         TituloTarjeta(Textos.SUENO)
         val minutos = data.sleepMinutes
         if (minutos != null) ValorGrande(formatearHoras(minutos), Textos.HORAS) else SinDato()
@@ -353,7 +324,7 @@ private fun Resultado(data: DayHealthData) {
     }
 
     // Pulso en reposo: dato distinto, no se mezcla con el del sueño.
-    Tarjeta {
+    TarjetaPapel {
         TituloTarjeta(Textos.PULSO_EN_REPOSO)
         val reposo = data.restingBpm
         if (reposo != null) {
@@ -375,7 +346,7 @@ private fun Resultado(data: DayHealthData) {
 
 @Composable
 private fun TituloTarjeta(texto: String) {
-    Text(texto, style = MaterialTheme.typography.titleMedium)
+    Text(texto, style = EstiloTituloTarjeta)
 }
 
 /** Nombre pequeño arriba y valor grande abajo. Si falta, un guion suave. */
@@ -425,30 +396,6 @@ private fun SinDato() {
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
-}
-
-/** Bloque de privacidad al final: candado y texto legible, no letra chica. */
-@Composable
-private fun BloquePrivacidad() {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Icon(
-                painterResource(R.drawable.ic_lock),
-                contentDescription = null, // decorativo: el texto ya lo dice todo
-                tint = MaterialTheme.colorScheme.primary,
-            )
-            Text(Textos.PRIVACIDAD_RESUMEN, style = MaterialTheme.typography.bodyLarge)
-        }
-    }
 }
 
 // --- Formatos ---

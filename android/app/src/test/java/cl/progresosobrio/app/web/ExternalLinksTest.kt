@@ -2,7 +2,9 @@ package cl.progresosobrio.app.web
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.io.File
 
 /** Qué enlaces de la PWA salen de la app: solo teléfono, correo y web cifrada. */
 class ExternalLinksTest {
@@ -38,5 +40,19 @@ class ExternalLinksTest {
     fun `sin esquema no se abre`() {
         assertNull(tipoDeEnlace(null))
         assertNull(tipoDeEnlace(""))
+    }
+
+    @Test
+    fun `la política de privacidad se abre en el navegador`() {
+        assertEquals(TipoDeEnlace.WEB, tipoDeEnlace(URL_POLITICA_PRIVACIDAD.substringBefore(':')))
+    }
+
+    @Test
+    fun `la política es la misma que enlaza la PWA`() {
+        // Los tests corren desde android/app: la PWA está dos carpetas más arriba.
+        val constantes = File("../../src/lib/constants.ts")
+        assertTrue("No se encontró ${constantes.absolutePath}", constantes.isFile)
+        val urlPwa = Regex("""privacyUrl:\s*'([^']+)'""").find(constantes.readText())?.groupValues?.get(1)
+        assertEquals(urlPwa, URL_POLITICA_PRIVACIDAD)
     }
 }
