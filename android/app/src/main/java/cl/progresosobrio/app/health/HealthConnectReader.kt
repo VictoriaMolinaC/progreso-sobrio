@@ -26,11 +26,7 @@ class HealthConnectReader(private val context: Context) {
     private val client by lazy { HealthConnectClient.getOrCreate(context) }
 
     /** Permisos de lectura que pide la app. */
-    val permissions = setOf(
-        HealthPermission.getReadPermission(HeartRateRecord::class),
-        HealthPermission.getReadPermission(RestingHeartRateRecord::class),
-        HealthPermission.getReadPermission(SleepSessionRecord::class),
-    )
+    val permissions = PERMISOS
 
     /**
      * Estado de Health Connect en el teléfono:
@@ -153,6 +149,16 @@ class HealthConnectReader(private val context: Context) {
 
     companion object {
         const val HEALTH_CONNECT_PACKAGE = "com.google.android.apps.healthdata"
+
+        /**
+         * Solo pulso, pulso en reposo y sueño, nada más. Debe coincidir con el AndroidManifest y
+         * con la Política de privacidad: un test falla si alguien agrega otro.
+         */
+        val PERMISOS: Set<String> = setOf(
+            HealthPermission.getReadPermission(HeartRateRecord::class),
+            HealthPermission.getReadPermission(RestingHeartRateRecord::class),
+            HealthPermission.getReadPermission(SleepSessionRecord::class),
+        )
 
         private val AWAKE_STAGES = setOf(
             SleepSessionRecord.STAGE_TYPE_AWAKE,

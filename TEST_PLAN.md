@@ -2,8 +2,9 @@
 
 **Proyecto:** Progreso Sobrio
 **Repositorio:** [VictoriaMolinaC/progreso-sobrio](https://github.com/VictoriaMolinaC/progreso-sobrio)
-**Versión del documento:** 1.1.0
+**Versión del documento:** 1.2.0
 **Fecha de creación:** Octubre 2026
+**Última actualización:** Noviembre 2026 (app Android)
 **Creadora y mantenedora:** Victoria Molina
 **Contribución QA:** Christian Santibáñez Martínez
 
@@ -150,7 +151,99 @@ Feature: Restricciones de Seguridad en Android y Health Connect
     When presiona la opción "Traer datos del reloj"
     Then el sistema debe mostrar una vista previa obligatoria del pulso y sueño antes de persistir
     And ningún dato de salud debe guardarse automáticamente sin la confirmación explícita del usuario
+
+  Scenario: TC_AND_03 - Instalación limpia sin pedir permisos
+    Given que la app Android se instala por primera vez
+    When el usuario la abre
+    Then debe mostrarse la puerta de edad, luego la aceptación de la Política y los Términos, y el tour
+    And no debe aparecer ningún diálogo de permisos hasta que el usuario toque "Traer datos del reloj"
+
+  Scenario: TC_AND_04 - Negar o revocar los permisos no rompe la app
+    Given que el usuario negó o revocó los permisos de Health Connect
+    When vuelve a tocar "Traer datos del reloj"
+    Then la app debe volver a pedir los permisos
+    And si el usuario los niega, debe verse un mensaje y el resto de la app debe seguir funcionando
+
+  Scenario: TC_AND_05 - Día sin datos del reloj
+    Given que Health Connect no tiene datos del día elegido
+    When el usuario toca "Traer datos del reloj"
+    Then debe mostrarse "No hay datos de este día. Abre Mi Fitness para sincronizar tu pulsera y vuelve a intentar."
+    And la app nunca debe estimar un valor que la pulsera no entregó
+
+  Scenario: TC_AND_06 - Solo los enlaces de teléfono, correo y web segura salen de la app
+    Given que la PWA, dentro de la app Android, abre un enlace
+    When el enlace es tel:, mailto: o https: a otro sitio
+    Then debe abrirse fuera de la app (el marcador sin llamar, el correo o el navegador)
+    And cualquier otro esquema (http:, javascript:, file:, intent:…) debe bloquearse
+    And dentro del WebView solo debe abrirse la PWA empaquetada (https://appassets.androidplatform.net/www/…)
+
+  Scenario: TC_AND_07 - Respaldo de ida y vuelta entre la app y el navegador
+    Given que el usuario exportó un respaldo ps-AAAA-MM-DD.json desde la app Android
+    When lo restaura en la PWA del navegador, o al revés
+    Then los datos restaurados deben ser los mismos
+    And en teléfonos donde Descargas muestra el archivo con 0 B, la app igual debe leerlo completo
+
+  Scenario: TC_AND_08 - Los logs nunca muestran datos de salud
+    Given que la app está en uso con adb logcat abierto
+    When el usuario trae datos del reloj, guarda registros y exporta respaldos
+    Then los logs solo deben mostrar estados ("Puente instalado", "readDay: datos enviados", "saveFile: guardado")
+    And nunca valores de pulso, sueño, ansias ni notas
 ```
+
+### 1.3 Checklist manual de la app Android
+
+Se recorre en el teléfono antes de publicar cada versión del APK, con la versión release (firmada) y, si se puede, también en un emulador con Android 14 o superior, donde los permisos de Health Connect se ven distintos.
+
+**Última pasada: 4 de noviembre de 2026.** APK release firmado y compilado desde `main` (PWA del commit `5c3ec05`), en un Xiaomi con Android 12 (MIUI) y una pulsera Xiaomi sincronizada con Mi Fitness. En el emulador (Android 17), el APK debug, sin pulsera. En los logs: ningún dato de salud y ningún cierre de la app.
+
+| CU | Prueba | Resultado esperado | Xiaomi · Android 12 | Emulador · Android 17 |
+|---|---|---|---|---|
+| 1 | Instalar limpio y abrir | Puerta de edad → Política y Términos → tour. Sin diálogo de permisos | ✅ | ✅ |
+| 2 | Registro → "Traer datos del reloj" (primera vez) | Pantalla de permisos de Health Connect: pulso, pulso en reposo y sueño | ✅ | ✅ |
+| 3 | Aceptar los permisos | Vista previa con los datos del día; "Usar estos datos" rellena el registro | ✅ | — (sin pulsera) |
+| 4 | Negar los permisos | Mensaje; la app sigue funcionando y el botón sigue disponible | ✅ | — |
+| 5 | Health Connect no instalado | "Instalar Health Connect" abre la Play Store | — (1) | — (1) |
+| 6 | Día sin sincronizar | "No hay datos de este día…" | ✅ | ✅ |
+| 7 | Cambiar la fecha a ayer y traer | Datos de ayer (hasta 7 días atrás) | ✅ | — |
+| 8 | Editar lo prellenado antes de guardar | Se guarda lo editado | ✅ | — |
+| 9 | Health Connect → permisos de la app → política | Abre la pantalla de privacidad de la app | ✅ | — |
+| 10 | Revocar los permisos y volver a traer | La app los vuelve a pedir; nada se rompe | ✅ | — |
+| 11 | Exportar en la app → restaurar en el navegador, y al revés | Mismos datos | ✅ | — |
+| 12 | Modo avión en lo anterior | Todo funciona igual | ✅ | — |
+| 13 | Aceptación de la Política y los Términos | "Continuar" se activa solo al marcar la casilla | ✅ | ✅ |
+| 14 | Enlaces a la Política y los Términos | Se abren en el navegador; Atrás vuelve a la app en la misma pantalla | ✅ | — |
+| 15 | 1412 (botón del corazón) | Abre el marcador con el 1412, sin llamar | ✅ | — |
+| 16 | "Ansias" en el registro | Escala con la guía "1 = nada · 5 = muchas"; basta un dato para guardar | ✅ | — |
+| 17 | Ojo tachado | Tapa toda la app. Con "Tapar la app cada vez que salgo de ella", queda tapada al volver y al abrirla | ✅ | ✅ |
+| 18 | Exportar | Aviso "Este archivo va a tener tus datos de salud…"; Cancelar no guarda nada; Aceptar guarda `ps-AAAA-MM-DD.json` y `.csv` | ✅ | — |
+| 19 | Girar el teléfono con el formulario a medias | No se pierde nada | ✅ | — |
+| 20 | Escribir con el teclado abierto | El teclado no tapa el campo activo | ✅ | — |
+
+(1) No se prueba: desde Android 14, Health Connect viene con el sistema y no se puede desinstalar; en el Xiaomi, desinstalarlo borraría los datos que Mi Fitness guardó ahí.
+
+### 1.4 Verificación de privacidad del APK
+
+Antes de publicar un APK, desde la raíz del repositorio en PowerShell:
+
+```powershell
+$bt = "$env:ANDROID_HOME\build-tools\36.0.0"
+$apk = "android\app\build\outputs\apk\release\app-release.apk"
+
+# 1. Permisos: solo los 3 de salud (y el interno de androidx). Nunca INTERNET.
+& "$bt\aapt2.exe" dump permissions $apk
+
+# 2. Firma: la huella SHA-256 debe ser la publicada en el README.
+& "$bt\apksigner.bat" verify --print-certs $apk
+
+# 3. Sin copia a la nube, WebView sin estadísticas ni Safe Browsing, y un solo ícono.
+& "$bt\aapt2.exe" dump xmltree $apk --file AndroidManifest.xml |
+  Select-String "allowBackup|dataExtractionRules|MetricsOptOut|EnableSafeBrowsing|LAUNCHER" -Context 0,1
+
+# 4. Logs mientras se recorre la checklist: solo estados, nunca valores de salud.
+adb logcat -s Bridge WatchTest
+```
+
+Resultado esperado: `READ_HEART_RATE`, `READ_RESTING_HEART_RATE` y `READ_SLEEP` como únicos permisos de salud; la huella del README; `allowBackup=false`, `dataExtractionRules`, `MetricsOptOut=true` y `EnableSafeBrowsing=false`; un solo `LAUNCHER`. Verificado el 4 de noviembre de 2026.
 
 ---
 
@@ -175,6 +268,21 @@ Feature: Restricciones de Seguridad en Android y Health Connect
 - **Tests Unitarios y de Lógica:** Vitest (nativo con Vite, rápido y sin overhead de configuración).
 - **Tests E2E / UI:** Playwright (para simular el comportamiento del usuario en la PWA y validar la persistencia en IndexedDB).
 - **Linter y Calidad Estática:** oxlint y TypeScript (`tsc -b`).
+- **Tests Unitarios de la App Android:** JUnit 4 en la JVM (`testDebugUnitTest`), sin teléfono ni emulador. `org.json` se usa solo en las pruebas y no entra al APK.
+- **Linter de Android:** Android Lint (`lintDebug`).
+
+### 2.2 Pruebas Unitarias de la App Android
+
+67 pruebas en `android/app/src/test/`, para la lógica pura del envoltorio Kotlin:
+
+| Carpeta | Qué cubre |
+|---|---|
+| `health/` | Pulso del día sin muestras repetidas, horas de sueño sin sesiones repetidas ni tramos despierto, límites del día en hora local (incluido el cambio de hora de Chile) y los únicos 3 permisos de Health Connect que pide la app |
+| `bridge/` | Mensajes del puente entre la PWA y Android (válidos, otra versión, tipo desconocido, JSON roto, datos inválidos) y el paso de los datos del reloj al registro |
+| `backup/` | Nombre seguro de la copia al restaurar un respaldo (nunca sale de la caché) y el límite de tamaño |
+| `web/` | Qué se abre dentro del WebView (solo la PWA empaquetada) y qué enlaces salen de la app (solo `tel:`, `mailto:` y `https:`) |
+
+Se corren desde `android\` con `.\gradlew.bat testDebugUnitTest`; no necesitan la PWA compilada. Lo que depende del teléfono (el WebView, Health Connect real, "Guardar como" y el selector de archivos) se cubre con la checklist manual (§1.3).
 
 ---
 
@@ -203,6 +311,12 @@ Automatizar pruebas unitarias que verifiquen que la función de importación rec
 Configurar `playwright.config.ts` apuntando al servidor local (`http://localhost:5173`).
 
 Automatizar el flujo del tour de bienvenida, la aceptación de Política y Términos, la creación de un registro diario y la activación de la pantalla de privacidad ("Ojo Tachado").
+
+### App Android
+
+- **Hecho:** pruebas unitarias de la lógica Kotlin (§2.2) y checklist manual en el teléfono y el emulador (§1.3).
+- **Siguiente:** que GitHub Actions corra en cada PR las pruebas de Android y las de la PWA (§4.1).
+- **En cada versión nueva del APK:** repetir la checklist (§1.3) y la verificación de privacidad (§1.4) antes de publicarla.
 
 ---
 

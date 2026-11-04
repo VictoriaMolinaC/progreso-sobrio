@@ -17,5 +17,8 @@ fun sourceLabel(context: Context, packageName: String): String =
         val pm = context.packageManager
         pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString()
     } catch (e: PackageManager.NameNotFoundException) {
-        nombresConocidos[packageName] ?: packageName
+        nombreConocido(packageName)
     }
+
+/** Respaldo cuando Android no deja ver el nombre: el del mapa de conocidos, o el packageName tal cual. */
+internal fun nombreConocido(packageName: String): String = nombresConocidos[packageName] ?: packageName
