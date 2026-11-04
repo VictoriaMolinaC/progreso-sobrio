@@ -51,6 +51,7 @@ Reglas de color:
 - Encabezado de la app: ☰ a la izquierda, la manchita al centro, y el ojo 👁 y el tema 🌙 a la derecha. El encabezado no dice «Progreso Sobrio».
 - Cada pantalla muestra su nombre como título: una ceja terracota arriba, el nombre en un título liviano y, debajo, un texto corto que explica para qué sirve.
 - La app instalada se llama **«PS»** y no muestra «Progreso Sobrio»: en la PWA (`name`, `short_name` y `<title>`) y en Android (`app_name`, que también es el nombre que muestra Health Connect).
+- El sitio también dice **«PS»** en la pestaña y el historial (`<title>`: «PS», «Política de privacidad · PS», «Términos de uso · PS»). Las vistas previas al compartir el enlace (`og:title`) y la descripción mantienen el nombre completo. Se aceptó que en Google cueste más encontrarlo. Descartados: dejar el título largo con «abstinencia» y el título corto «Progreso Sobrio».
 
 ### Estilo
 
