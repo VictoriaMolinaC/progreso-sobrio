@@ -320,7 +320,7 @@ Automatizar el flujo del tour de bienvenida, la aceptación de Política y Térm
 
 - **Hecho:** pruebas unitarias de la lógica Kotlin (§2.2) y checklist manual en el teléfono y el emulador (§1.3).
 - **Hecho:** GitHub Actions corre en cada PR las pruebas de Android y las de la PWA (§4.1).
-- **En cada versión nueva del APK:** repetir la checklist (§1.3) y la verificación de privacidad (§1.4) antes de publicarla.
+- **En cada versión nueva del APK:** repetir la checklist (§1.3) y la verificación de privacidad (§1.4) antes de publicarla. Los pasos completos para publicar están en [`android/PUBLICAR.md`](android/PUBLICAR.md).
 
 ---
 
