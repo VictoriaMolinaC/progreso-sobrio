@@ -2,7 +2,7 @@
 
 **Proyecto:** Progreso Sobrio
 **Repositorio:** [VictoriaMolinaC/progreso-sobrio](https://github.com/VictoriaMolinaC/progreso-sobrio)
-**Versión del documento:** 1.4.0
+**Versión del documento:** 1.5.0
 **Fecha de creación:** Octubre 2026
 **Última actualización:** Noviembre 2026 (app Android y CI)
 **Creadora y mantenedora:** Victoria Molina
@@ -220,9 +220,10 @@ Se recorre en el teléfono antes de publicar cada versión del APK, con la versi
 | 20 | Escribir con el teclado abierto | El teclado no tapa el campo activo | ✅ | — |
 | 21 | "Datos del reloj" y "Privacidad de la app" (Ajustes → App Android) | El estilo de la PWA (ceja, título liviano, tarjetas de papel, botones píldora); en modo oscuro todo el texto se lee | ✅ | ✅ (2) |
 | 22 | "Privacidad de la app" → "Leer la Política de privacidad" | Abre la Política en el navegador | ✅ | ✅ (2) |
+| 23 | Ícono y nombre en el lanzador, también al actualizar encima de una versión anterior | La manchita sobre crema y el nombre "PS"; los datos y permisos se mantienen | ✅ | ✅ (2) |
 
 (1) No se prueba: desde Android 14, Health Connect viene con el sistema y no se puede desinstalar; en el Xiaomi, desinstalarlo borraría los datos que Mi Fitness guardó ahí.
-(2) Los casos 21 y 22 se agregaron el mismo día, con la versión que trae el estilo nuevo: en el emulador, en modo claro y oscuro; en el Xiaomi, con las tarjetas del reloj con datos reales.
+(2) Los casos 21 a 23 se agregaron el mismo día, con las versiones que traen el estilo nuevo y el ícono: en el emulador, en modo claro y oscuro; en el Xiaomi, con las tarjetas del reloj con datos reales y actualizando encima de la versión anterior.
 
 ### 1.4 Verificación de privacidad del APK
 

@@ -46,10 +46,11 @@ Reglas de color:
 
 ### Marca y encabezado
 
-- Ícono: la **manchita** (salvia con un punto ámbar), en la app y en el sitio. **(pendiente** como ícono instalado y favicon: hoy es la llama.**)** Descartados: el favicon actual del sitio y las letras «ps».
+- Ícono: la **manchita** (salvia con un punto ámbar), en la app y en el sitio. Es el mismo dibujo en todas partes: el encabezado, el favicon (sin fondo, en la PWA y en el sitio) y el ícono instalado (sobre crema, en la PWA y en Android). Descartados: la llama (el ícono anterior) y las letras «ps».
+- Ícono instalado: **fondo crema**, no bruma (el salvia sobre bruma queda en 2,7:1, bajo el 3:1 de los íconos). La manchita ocupa **cerca del 45 %** del ícono: más chica que los dibujos de otras apps, a propósito (descartado: 60 %). Los PNG de la PWA salen de `.github/imagenes/icono*.html`; en Android es un ícono adaptable en `res/drawable/ic_launcher_*.xml`, con versión de un color para los íconos temáticos.
 - Encabezado de la app: ☰ a la izquierda, la manchita al centro, y el ojo 👁 y el tema 🌙 a la derecha. El encabezado no dice «Progreso Sobrio».
 - Cada pantalla muestra su nombre como título: una ceja terracota arriba, el nombre en un título liviano y, debajo, un texto corto que explica para qué sirve.
-- La app instalada se llama **«PS»** y no muestra «Progreso Sobrio». **(pendiente)**
+- La app instalada se llama **«PS»** y no muestra «Progreso Sobrio»: en la PWA (`name`, `short_name` y `<title>`) y en Android (`app_name`, que también es el nombre que muestra Health Connect).
 
 ### Estilo
 
@@ -107,9 +108,9 @@ Orden de trabajo acordado (PWA primero, Android al final):
 4. Inicio, Red de apoyo y Términos.
 5. Registro.
 6. Progreso: historial, calendario, gráficas en salvia y «Qué te ayuda».
-7. **Discreción**: la manchita como ícono instalado y favicon (app y sitio); nombre «PS» (`name`, `short_name` y `<title>`); respaldos `ps-AAAA-MM-DD.json` y `ps-AAAA-MM-DD.csv` **(hecho)**; el `.json` no lleva el nombre adentro, así que los respaldos viejos se siguen importando.
+7. **Discreción**: la manchita como ícono instalado y favicon (app y sitio) **(hecho)**; nombre «PS» (`name`, `short_name` y `<title>`) **(hecho)**; respaldos `ps-AAAA-MM-DD.json` y `ps-AAAA-MM-DD.csv` **(hecho)**; el `.json` no lleva el nombre adentro, así que los respaldos viejos se siguen importando.
 8. **PIN opcional**, sobre la misma pantalla del ojo, sin librerías: hash con WebCrypto (PBKDF2 con sal), espera tras intentos fallidos; si se olvida, se borra y se restaura un respaldo. Mencionarlo en la política sería la v1.1.
-9. **Android 0.2.0**: pantallas nativas «Datos del reloj» y «Privacidad de la app» con el estilo de la PWA **(hecho)**; `app_name` «PS» e ícono del lanzador; enlace a la política en «Privacidad de la app» **(hecho)**; `FLAG_SECURE` opcional; y probar en el APK el aviso de exportar y los enlaces externos **(hecho)**.
+9. **Android 0.2.0**: pantallas nativas «Datos del reloj» y «Privacidad de la app» con el estilo de la PWA **(hecho)**; `app_name` «PS» e ícono del lanzador **(hecho)**; enlace a la política en «Privacidad de la app» **(hecho)**; `FLAG_SECURE` opcional; y probar en el APK el aviso de exportar y los enlaces externos **(hecho)**.
 
 Si algún día se quiere Figtree en la app: agregar `font-src 'self'` a la CSP de `vercel.json` y alojar el archivo en la misma app (nunca desde un CDN).
 

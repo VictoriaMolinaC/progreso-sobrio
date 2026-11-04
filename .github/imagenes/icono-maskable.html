@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ícono maskable de la app</title>
+<!-- Ícono "maskable" de la PWA (maskable-192.png y maskable-512.png): Android lo recorta en
+     círculo, gota o cuadrado. La manchita queda más chica, dentro de la zona segura (el círculo
+     central del 80 %), para que ningún recorte la corte. -->
+<style>
+  /* Medido por la altura: Edge sin ventana no baja de ~500 px de ancho, pero sí respeta el alto. */
+  html, body { margin: 0; height: 100vh; overflow: hidden; background: #faf6f0; }
+  .lienzo { width: 100vh; height: 100vh; display: grid; place-items: center; }
+  svg { width: 58vh; height: 58vh; }
+</style>
+</head>
+<body>
+<div class="lienzo">
+<svg viewBox="0 0 48 48" aria-hidden="true">
+  <path d="M25.5 5.5c9.6.4 17.3 7.6 17 17.6-.3 10.6-8.9 19.6-19.6 19.4C12.6 42.3 5.3 34.6 5.6 24.8 5.9 13.4 14.6 5 25.5 5.5Z" fill="#5b9279"/>
+  <circle cx="31" cy="18.5" r="5" fill="#e6a756"/>
+</svg>
+</div>
+</body>
+</html>
