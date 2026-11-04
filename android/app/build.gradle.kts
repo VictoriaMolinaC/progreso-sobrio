@@ -25,8 +25,10 @@ android {
         applicationId = "cl.progresosobrio.app"
         minSdk = 28
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        // Cada versión publicada sube versionCode en 1: si no, Android no la instala encima
+        // de la anterior. Pasos completos en android/PUBLICAR.md.
+        versionCode = 2
+        versionName = "0.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
