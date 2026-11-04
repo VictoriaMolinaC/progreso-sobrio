@@ -49,15 +49,19 @@ object ImportCopy {
         File(context.cacheDir, CARPETA).deleteRecursively()
     }
 
-    // false si el archivo supera MAX_BYTES.
-    private fun copiarConLimite(entrada: InputStream, salida: OutputStream): Boolean {
+    // false si el archivo supera [maxBytes]. El parámetro existe para que los tests usen un límite chico.
+    internal fun copiarConLimite(
+        entrada: InputStream,
+        salida: OutputStream,
+        maxBytes: Long = MAX_BYTES,
+    ): Boolean {
         val buffer = ByteArray(8 * 1024)
         var total = 0L
         while (true) {
             val leidos = entrada.read(buffer)
             if (leidos < 0) return true
             total += leidos
-            if (total > MAX_BYTES) return false
+            if (total > maxBytes) return false
             salida.write(buffer, 0, leidos)
         }
     }

@@ -70,8 +70,14 @@ object PwaWebView {
         }
     }
 
-    private fun esDeLaPwa(url: Uri): Boolean =
-        url.scheme == "https" && url.host == HOST && url.path?.startsWith(PWA_PATH) == true
+    private fun esDeLaPwa(url: Uri): Boolean = esDireccionDeLaPwa(url.scheme, url.host, url.path)
+
+    /**
+     * true solo para https://appassets.androidplatform.net/www/…: lo único que se abre dentro del
+     * WebView. Lógica pura, separada de Uri para que la cubran los tests.
+     */
+    internal fun esDireccionDeLaPwa(scheme: String?, host: String?, path: String?): Boolean =
+        scheme == "https" && host == HOST && path?.startsWith(PWA_PATH) == true
 
     private fun noEncontrado() = WebResourceResponse(
         "text/plain", "utf-8", 404, "Not Found", emptyMap(), ByteArrayInputStream(ByteArray(0))
