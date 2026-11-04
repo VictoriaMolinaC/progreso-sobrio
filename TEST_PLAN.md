@@ -2,9 +2,9 @@
 
 **Proyecto:** Progreso Sobrio
 **Repositorio:** [VictoriaMolinaC/progreso-sobrio](https://github.com/VictoriaMolinaC/progreso-sobrio)
-**Versión del documento:** 1.2.0
+**Versión del documento:** 1.3.0
 **Fecha de creación:** Octubre 2026
-**Última actualización:** Noviembre 2026 (app Android)
+**Última actualización:** Noviembre 2026 (app Android y CI)
 **Creadora y mantenedora:** Victoria Molina
 **Contribución QA:** Christian Santibáñez Martínez
 
@@ -315,7 +315,7 @@ Automatizar el flujo del tour de bienvenida, la aceptación de Política y Térm
 ### App Android
 
 - **Hecho:** pruebas unitarias de la lógica Kotlin (§2.2) y checklist manual en el teléfono y el emulador (§1.3).
-- **Siguiente:** que GitHub Actions corra en cada PR las pruebas de Android y las de la PWA (§4.1).
+- **Hecho:** GitHub Actions corre en cada PR las pruebas de Android y las de la PWA (§4.1).
 - **En cada versión nueva del APK:** repetir la checklist (§1.3) y la verificación de privacidad (§1.4) antes de publicarla.
 
 ---
@@ -324,50 +324,20 @@ Automatizar el flujo del tour de bienvenida, la aceptación de Política y Térm
 
 ### 4.1 Pipeline de GitHub Actions
 
-```yaml
-# .github/workflows/ci.yml
-name: Progreso Sobrio CI
+El pipeline vive en [`.github/workflows/ci.yml`](.github/workflows/ci.yml) y corre en cada PR hacia `main` y en cada cambio en `main`. Tiene dos trabajos independientes:
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+| Trabajo | Qué corre |
+|---|---|
+| **Android (pruebas y lint)** | Java 25, `./gradlew testDebugUnitTest` y `./gradlew lintDebug`. No necesita la PWA compilada ni un teléfono. |
+| **PWA (lint, pruebas y build)** | Node 24 y pnpm 12, `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm test` y `pnpm build` (que incluye `tsc -b`). |
 
-jobs:
-  qa-pipeline:
-    name: Lint, Type Check & Unit Tests
-    runs-on: ubuntu-latest
+Reglas de seguridad del pipeline:
 
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v4
-
-      - name: Instalar pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 12
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.x'
-          cache: 'pnpm'
-
-      - name: Instalar dependencias
-        run: pnpm install --frozen-lockfile
-
-      - name: Ejecutar Linter (oxlint)
-        run: pnpm lint
-
-      - name: Verificar tipos TypeScript
-        run: pnpm exec tsc -b
-
-      - name: Ejecutar tests unitarios con Vitest
-        run: pnpm test
-```
+- **Solo lectura:** `permissions: contents: read`, y el código se descarga sin guardar credenciales (`persist-credentials: false`).
+- **Sin secretos:** no usa ninguno. La llave de firma del APK nunca está en GitHub, y el pipeline no compila ni publica APK.
+- **Acciones fijadas por commit:** cada acción apunta a un commit exacto (con su versión en un comentario), elegida con al menos dos semanas desde su publicación.
+- **Gradle verificado:** `setup-gradle` revisa que `gradle-wrapper.jar` sea el oficial antes de ejecutarlo, y usa la caché `basic` de GitHub Actions.
+- **PRs de forks:** GitHub pide aprobar la ejecución en PRs de personas nuevas. Antes de tocar «Approve and run», revisa qué cambia el PR, sobre todo en `.github/`, `android/gradle/` y `package.json`.
 
 ### 4.2 Gobernanza y Privacidad en el Repositorio
 
